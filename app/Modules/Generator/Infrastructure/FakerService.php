@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Generator\Infrastructure;
 
-use App\Models\ContextEnum;
+use App\Enums\ContextEnum;
 use App\Models\Data\Field;
 use App\Models\Data\Input;
 use App\Models\Data\Stub;

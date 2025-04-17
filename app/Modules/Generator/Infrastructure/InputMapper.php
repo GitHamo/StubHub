@@ -34,7 +34,6 @@ readonly class InputMapper
                 throw new InvalidArgumentException('Item data must decode to an associated array.');
             }
 
-
             if (!array_key_exists(self::INPUT_KEY, $itemData)) {
                 throw new InvalidArgumentException(
                     sprintf(

@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 class FileStorageRepositoryTest extends TestCase
 {
+    private const string SECRET_KEY = 'secret';
+
     private FileStorageRepository $repository;
     private HamReader|MockObject $reader;
     private HamWriter|MockObject $writer;
@@ -28,17 +30,19 @@ class FileStorageRepositoryTest extends TestCase
             $this->reader = $this->createMock(HamReader::class),
             $this->writer = $this->createMock(HamWriter::class),
             $this->parser = $this->createMock(JsonParser::class),
+            self::SECRET_KEY,
         );
     }
 
     public function testUsesComponentsToGetOutputByUuid(): void
     {
         $uuid = 'foo';
+        $hashed = hash_hmac('sha256', $uuid, self::SECRET_KEY);
         $json = '[{"key":"foobar","value":"baz"}]';
         $content = [['key' => 'foobar', 'value' => 'baz']];
         $expected = new Stub([new Field('foobar', 'baz')]);
 
-        $this->reader->expects(static::once())->method('get')->with(static::identicalTo($uuid))->willReturn($json);
+        $this->reader->expects(static::once())->method('get')->with(static::identicalTo($hashed))->willReturn($json);
         $this->parser->expects(static::once())->method('parse')->with(static::identicalTo($json))->willReturn($content);
 
         $actual = $this->repository->get($uuid);
@@ -49,9 +53,10 @@ class FileStorageRepositoryTest extends TestCase
     public function testUsesComponentsToSaveOutput(): void
     {
         $uuid = 'foo';
+        $hashed = hash_hmac('sha256', $uuid, self::SECRET_KEY);
         $content = 'bar';
         $arguments = [
-            $uuid,
+            $hashed,
             $content,
         ];
         $output = $this->createConfiguredMock(Stub::class, [
