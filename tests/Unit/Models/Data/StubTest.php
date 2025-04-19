@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Data;
 
-use App\Models\Data\Field;
+use App\Models\Data\StubField;
 use App\Models\Data\Stub;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -14,9 +14,9 @@ class StubTest extends TestCase
     public function testConvertsToArrayReturnsCorrectStructure(): void
     {
         $fields = [
-            new Field('name', 'John'),
-            new Field('age', 30),
-            new Field('is_active', true),
+            new StubField('name', 'John'),
+            new StubField('age', 30),
+            new StubField('is_active', true),
         ];
 
         $output = new Stub($fields);
@@ -33,8 +33,8 @@ class StubTest extends TestCase
     public function testConvertsToJsonReturnsCorrectJson(): void
     {
         $fields = [
-            new Field('name', 'John'),
-            new Field('score', 99.5),
+            new StubField('name', 'John'),
+            new StubField('score', 99.5),
         ];
 
         $output = new Stub($fields);
@@ -50,12 +50,12 @@ class StubTest extends TestCase
     public function testSupportsNestedOutputObjects(): void
     {
         $innerFields = [
-            new Field('phone', '123-456-7890'),
-            new Field('price', 49.99),
+            new StubField('phone', '123-456-7890'),
+            new StubField('price', 49.99),
         ];
 
         $outerFields = [
-            new Field('user', new Stub($innerFields))
+            new StubField('user', new Stub($innerFields))
         ];
 
         $output = new Stub($outerFields);
@@ -130,7 +130,7 @@ class StubTest extends TestCase
         // Test that the Output is created successfully when a valid array is passed
         $array = [['key' => 'foobar', 'value' => 'baz']]; // Valid array with fields
 
-        $expected = new Stub([new Field('foobar', 'baz')]);
+        $expected = new Stub([new StubField('foobar', 'baz')]);
 
         $actual = Stub::fromArray($array);
 
@@ -145,7 +145,7 @@ class StubTest extends TestCase
         ];
 
         $expected = new Stub([
-            new Field('parent', new Stub([new Field('child', 'nested')])),
+            new StubField('parent', new Stub([new StubField('child', 'nested')])),
         ]);
 
         $actual = Stub::fromArray($array);

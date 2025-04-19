@@ -6,7 +6,7 @@ namespace App\Models\Data;
 
 use App\Enums\ContextEnum;
 
-readonly class Input
+readonly class StubInput
 {
     public function __construct(
         public string $key,

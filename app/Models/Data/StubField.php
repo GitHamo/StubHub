@@ -8,7 +8,7 @@ namespace App\Models\Data;
  *
  * @phpstan-type OutputValue null|string|int|float|bool|\App\Models\Data\Stub
  */
-readonly class Field
+readonly class StubField
 {
     public const string FIELD_KEY = "key";
     public const string FIELD_VALUE = "value";

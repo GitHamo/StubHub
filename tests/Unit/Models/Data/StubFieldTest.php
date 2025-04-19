@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Data;
 
-use App\Models\Data\Field;
+use App\Models\Data\StubField;
 use App\Models\Data\Stub;
 use PHPUnit\Framework\TestCase;
 
-class FieldTest extends TestCase
+class StubFieldTest extends TestCase
 {
     public function testConvertSimpleValueToArray(): void
     {
-        $field = new Field('name', 'Alice');
+        $field = new StubField('name', 'Alice');
 
         $expected = [
             'key' => 'name',
@@ -24,7 +24,7 @@ class FieldTest extends TestCase
 
     public function testConvertNumericValueToArray(): void
     {
-        $field = new Field('score', 100);
+        $field = new StubField('score', 100);
 
         $expected = [
             'key' => 'score',
@@ -36,7 +36,7 @@ class FieldTest extends TestCase
 
     public function testConvertBooleanValueToArray(): void
     {
-        $field = new Field('active', true);
+        $field = new StubField('active', true);
 
         $expected = [
             'key' => 'active',
@@ -48,7 +48,7 @@ class FieldTest extends TestCase
 
     public function testConvertNullValueToArray(): void
     {
-        $field = new Field('missing', null);
+        $field = new StubField('missing', null);
 
         $expected = [
             'key' => 'missing',
@@ -60,7 +60,7 @@ class FieldTest extends TestCase
 
     public function testConvertArrayValueToArray(): void
     {
-        $field = new Field('tags', ['php', 'testing']);
+        $field = new StubField('tags', ['php', 'testing']);
 
         $expected = [
             'key' => 'tags',
@@ -73,11 +73,11 @@ class FieldTest extends TestCase
     public function testConvertNestedOutputToArray(): void
     {
         $nested = new Stub([
-            new Field('city', 'Berlin'),
-            new Field('country', 'Germany'),
+            new StubField('city', 'Berlin'),
+            new StubField('country', 'Germany'),
         ]);
 
-        $field = new Field('location', $nested);
+        $field = new StubField('location', $nested);
 
         $expected = [
             'key' => 'location',

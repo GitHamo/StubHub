@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models\Data;
 
-use App\Models\Data\Field;
+use App\Models\Data\StubField;
 use InvalidArgumentException;
 
 readonly class Stub
 {
     private const string ERROR_MESSAGE_MISSING_MANDATORY_FIELD = 'Missing mandatory field: "%s"';
     /**
-     * @param Field[] $fields
+     * @param StubField[] $fields
      */
     public function __construct(
         private array $fields,
@@ -20,7 +20,7 @@ readonly class Stub
 
     public function toArray(): array
     {
-        return array_map(fn (Field $field) => $field->toArray(), $this->fields);
+        return array_map(fn (StubField $field) => $field->toArray(), $this->fields);
     }
 
     public function toJson(): string
@@ -40,10 +40,10 @@ readonly class Stub
      * @param array<string, mixed> $item
      * @throws \InvalidArgumentException
      */
-    private static function createField(array $item): Field
+    private static function createField(array $item): StubField
     {
-        $fieldKeyName = Field::FIELD_KEY;
-        $fieldValueName = Field::FIELD_VALUE;
+        $fieldKeyName = StubField::FIELD_KEY;
+        $fieldValueName = StubField::FIELD_VALUE;
 
         if (!array_key_exists($fieldKeyName, $item)) {
             throw new InvalidArgumentException(
@@ -70,7 +70,7 @@ readonly class Stub
             $value = static::createOutput($value);
         }
 
-        return new Field($key, $value);
+        return new StubField($key, $value);
     }
 
     /**
