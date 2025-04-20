@@ -81,8 +81,8 @@ readonly class Stub
         if (!is_array($rawData) || !array_is_list($rawData)) {
             throw new InvalidArgumentException('Array must decode to a list of fields.');
         }
-        
-        $fields = array_map(function (array $item): Field {
+
+        $fields = array_map(function (array $item): StubField {
             if (array_is_list($item)) {
                 throw new InvalidArgumentException('Field array must decode to an associative array.');
             }
