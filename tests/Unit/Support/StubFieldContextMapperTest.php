@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Modules\Stubs\Infrastructure;
+namespace Tests\Unit\Support;
 
-use App\Modules\Stubs\Infrastructure\StubFieldContextMapper;
 use App\Enums\StubFieldContext;
+use App\Support\StubFieldContextMapper;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
