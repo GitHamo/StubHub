@@ -100,6 +100,6 @@ class HamFileSystemTest extends FileSystemTestCase
 
     private function createFileSystemInstance(string $dirPath): void
     {
-        new class ($dirPath) extends HamFileSystem { };
+        (new class ($dirPath) extends HamFileSystem { });
     }
 }
