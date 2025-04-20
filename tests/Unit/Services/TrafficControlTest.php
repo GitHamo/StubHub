@@ -1,0 +1,65 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Unit\Services;
+
+use App\Exceptions\EndpointNotFoundException;
+use App\Modules\Endpoints\Domain\Endpoint;
+use App\Modules\Endpoints\Domain\EndpointRepository;
+use App\Modules\StubStorage\StorageRepository;
+use App\Services\TrafficControl;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
+
+class TrafficControlTest extends TestCase
+{
+    private TrafficControl $service;
+    private EndpointRepository&MockObject $endpointRepository;
+    private StorageRepository&MockObject $storageRepository;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->service = new TrafficControl(
+            $this->endpointRepository = $this->createMock(EndpointRepository::class),
+            $this->storageRepository = $this->createMock(StorageRepository::class),
+        );
+    }
+
+    public function testServesRequest(): void
+    {
+        $id = 'foo';
+        $endpointMock = $this->createConfiguredMock(Endpoint::class, [
+            'path' => $path = 'bar',
+        ]);
+
+        $expected = 'baz';
+
+        $this->endpointRepository->expects(static::once())
+            ->method('findById')
+            ->with(static::identicalTo($id))
+            ->willReturn($endpointMock);
+        $this->storageRepository->expects(static::once())
+            ->method('fetchById')
+            ->with(static::identicalTo($path))
+            ->willReturn($expected);
+
+        $actual = $this->service->request($id);
+
+        static::assertSame($expected, $actual);
+    }
+
+    public function testThrowsExceptionInCaseOfNonExistingEndpoint(): void
+    {
+        $this->endpointRepository->expects(static::once())
+            ->method('findById')
+            ->willReturn(null);
+
+        static::expectException(EndpointNotFoundException::class);
+        static::expectExceptionMessage('Endpoint not found');
+
+        $this->service->request('foo');
+    }
+}
