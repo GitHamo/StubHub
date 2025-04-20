@@ -18,7 +18,6 @@ readonly class FileStorageRepository implements StorageRepository
         private JsonParser $parser,
         private string $secretKey,
     ) {
-
     }
 
     public function fetchById(string $fileId): string
@@ -36,12 +35,6 @@ readonly class FileStorageRepository implements StorageRepository
 
         return $stubName;
     }
-
-
-
-
-
-    
 
     public function get(string $uuid): Stub
     {

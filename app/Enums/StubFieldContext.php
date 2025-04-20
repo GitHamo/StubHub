@@ -6,11 +6,12 @@ namespace App\Enums;
 
 use InvalidArgumentException;
 
-enum SubFieldContextEnum: string
+enum StubFieldContext: string
 {
     case ADDRESS = 'address';
     case AM_PM = 'am_pm';
     case BOOLEAN = 'bool';
+    case CC_DETAILS = 'cc_details';
     case CITY = 'city';
     case COLOR_HEX = 'color';
     case COUNTRY = 'country';
@@ -25,11 +26,14 @@ enum SubFieldContextEnum: string
     case FLOAT = 'float';
     case FULL_NAME = 'full_name';
     case HTML = 'html';
+    case IBAN = 'iban';
     case INTEGR = 'number';
     case IPV4 = 'ipv4';
     case IPV6 = 'ipv6';
     case LANGUAGE_CODE = 'language_code';
     case LAST_NAME = 'last_name';
+    case LATITUDE = 'latitude';
+    case LONGITUDE = 'longitude';
     case LOCALE = 'locale';
     case MIME_TYPE = 'mime_type';
     case PASSWORD = 'password';
@@ -43,6 +47,7 @@ enum SubFieldContextEnum: string
     case SLUG = 'slug';
     case STATE = 'state';
     case STREET_ADDRESS = 'street_address';
+    case SWIFTCODE = 'swiftcode';
     case TIME = 'time';
     case TIMEZONE = 'timezone';
     case TLD = 'tld';
