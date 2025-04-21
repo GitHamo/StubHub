@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Modules\Endpoints\Infrastructure\Persistence\Eloquent;
 
+use App\Models\User;
+use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit as HitModel;
 use Database\Factories\EndpointFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Endpoint extends Model
 {
@@ -47,5 +51,22 @@ class Endpoint extends Model
     protected static function newFactory()
     {
         return EndpointFactory::new();
+    }
+
+    /**
+     * Get the user that owns the endpoint.
+     * @return BelongsTo<User, Endpoint>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany<HitModel, Endpoint>
+     */
+    public function hits(): HasMany
+    {
+        return $this->hasMany(HitModel::class);
     }
 }

@@ -12,6 +12,23 @@ use App\Modules\Endpoints\Domain\EndpointRepository;
 class EndpointEloquentRepository implements EndpointRepository
 {
     #[\Override]
+    public function findByUserId(int $userId, int $limit): array
+    {
+        $models = EndpointModel::select('endpoints.*')
+            ->where('user_id', $userId)
+            ->leftJoin('endpoint_hits', 'endpoint_hits.endpoint_id', '=', 'endpoints.id')
+            ->selectRaw('count(distinct endpoint_hits.signature) as unique_hits')
+            ->withCount('hits as total_hits')
+            ->groupBy('endpoints.id')
+            ->orderByDesc('endpoints.created_at')
+            ->limit($limit)
+            ->get()
+            ->all();
+
+        return array_map(fn (EndpointModel $model): EndpointEntity => $this->mapToEntity($model), $models);
+    }
+
+    #[\Override]
     public function findById(string $id): ?EndpointEntity
     {
         $model = EndpointModel::where('id', $id)->first();
@@ -36,7 +53,6 @@ class EndpointEloquentRepository implements EndpointRepository
         return $this->mapToEntity($model);
     }
 
-
     private function mapToEntity(EndpointModel $model): EndpointEntity
     {
         return new EndpointEntity(
@@ -44,6 +60,8 @@ class EndpointEloquentRepository implements EndpointRepository
             $model->user_id,
             $model->path,
             $model->name,
+            $model->unique_hits ?? 0,
+            $model->total_hits ?? 0,
             $model->created_at,
         );
     }

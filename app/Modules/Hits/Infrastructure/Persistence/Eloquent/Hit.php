@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Hits\Infrastructure\Persistence\Eloquent;
 
+use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
 use Database\Factories\HitFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Hit extends Model
 {
@@ -30,7 +32,7 @@ class Hit extends Model
         'created_at',
     ];
     protected $casts = [
-        'created_at' => 'datetime',
+        'created_at' => 'immutable_datetime',
     ];
 
     public static function boot()
@@ -47,5 +49,13 @@ class Hit extends Model
     protected static function newFactory()
     {
         return HitFactory::new();
+    }
+
+    /**
+     * Get the endpoint that owns the hit.
+     */
+    public function endpoint(): BelongsTo
+    {
+        return $this->belongsTo(Endpoint::class);
     }
 }

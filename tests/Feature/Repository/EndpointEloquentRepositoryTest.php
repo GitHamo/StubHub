@@ -27,6 +27,58 @@ class EndpointEloquentRepositoryTest extends TestCase
         $this->user = User::factory()->create();
     }
 
+    public function testItFindsEndpointsByUserIdWithHitCounts(): void
+    {
+        $otherUser = User::factory()->create();
+    
+        // Create endpoints for both users
+        $endpoint1 = EndpointModel::factory()->create(['user_id' => $this->user->id]);
+        $endpoint2 = EndpointModel::factory()->create(['user_id' => $this->user->id]);
+        $otherEndpoint = EndpointModel::factory()->create(['user_id' => $otherUser->id]);
+    
+        // Add hits to endpoint1 (3 hits, 2 unique signatures)
+        $endpoint1->hits()->createMany([
+            ['signature' => 'abc'],
+            ['signature' => 'abc'],
+            ['signature' => 'xyz'],
+        ]);
+    
+        // Add hits to endpoint2 (2 hits, 2 unique)
+        $endpoint2->hits()->createMany([
+            ['signature' => '111'],
+            ['signature' => '222'],
+        ]);
+    
+        // Add hits to otherEndpoint (should be ignored)
+        $otherEndpoint->hits()->createMany([
+            ['signature' => 'aaa'],
+            ['signature' => 'bbb'],
+        ]);
+    
+        $results = $this->repository->findByUserId($this->user->id, 10);
+    
+        static::assertCount(2, $results);
+    
+        // First endpoint should match either endpoint1 or endpoint2
+        $ids = array_map(fn ($e) => $e->id(), $results);
+    
+        static::assertContains($endpoint1->id, $ids);
+        static::assertContains($endpoint2->id, $ids);
+    
+        // Validate unique/total hits for each
+        foreach ($results as $endpoint) {
+            if ($endpoint->id() === $endpoint1->id) {
+                static::assertSame(2, $endpoint->uniqueHits()); // abc, xyz
+                static::assertSame(3, $endpoint->totalHits());
+            }
+    
+            if ($endpoint->id() === $endpoint2->id) {
+                static::assertSame(2, $endpoint->uniqueHits()); // 111, 222
+                static::assertSame(2, $endpoint->totalHits());
+            }
+        }
+    }
+
     public function testItCreatesAnEndpoint(): void
     {
         $dto = new EndpointDto(
