@@ -11,6 +11,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $endpoint_id
+ * @property string $signature
+ * @property DateTimeImmutable $created_at
+ */
 class Hit extends Model
 {
     /** @use HasFactory<\Database\Factories\HitFactory> */
@@ -36,6 +42,7 @@ class Hit extends Model
         'created_at' => 'immutable_datetime',
     ];
 
+    #[\Override]
     public static function boot(): void
     {
         parent::boot();
@@ -53,7 +60,8 @@ class Hit extends Model
     }
 
     /**
-     * Get the endpoint that owns the hit.
+     * Get the endpoint that owns the hit
+     * @return BelongsTo<Endpoint>
      */
     public function endpoint(): BelongsTo
     {

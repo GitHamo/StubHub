@@ -14,6 +14,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property string $id
+ * @property int $user_id
+ * @property string $path
+ * @property string $name
+ * @property \DateTimeImmutable $created_at
+ * @property ?int $unique_hits
+ * @property ?int $total_hits
+ */
 class Endpoint extends Model
 {
     use HasUuids;
@@ -56,7 +65,8 @@ class Endpoint extends Model
 
     /**
      * Get the user that owns the endpoint.
-     * @return BelongsTo<User, Endpoint>
+     *
+     * @return BelongsTo<User>
      */
     public function user(): BelongsTo
     {
@@ -64,7 +74,7 @@ class Endpoint extends Model
     }
 
     /**
-     * @return HasMany<HitModel, Endpoint>
+     * @return HasMany<HitModel>
      */
     public function hits(): HasMany
     {
