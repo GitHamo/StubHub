@@ -1,0 +1,16 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+parameters:
+    level: 9
+    paths:
+        - app
+        - tests
+    ignoreErrors:
+        - message: "#Constant App\\\\Support\\\\StubFieldContextMapper::CASE_LABEL_.* is unused#"
+          path: %currentWorkingDirectory%/app/Support/StubFieldContextMapper.php
+        - message: "#Constant App\\\\Support\\\\StubFieldContextMapper::CASE_METHOD_.* is unused#"
+          path: %currentWorkingDirectory%/app/Support/StubFieldContextMapper.php
+        - message: "#Constant App\\\\Support\\\\StubFieldContextMapper::CASE_INPUT_.* is unused#"
+          path: %currentWorkingDirectory%/app/Support/StubFieldContextMapper.php
+        - message: "#Constant App\\\\Support\\\\StubFieldContextMapper::CASE_TYPE_.* is unused#"
+          path: %currentWorkingDirectory%/app/Support/StubFieldContextMapper.php
