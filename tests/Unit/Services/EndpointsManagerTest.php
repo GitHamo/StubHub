@@ -86,7 +86,7 @@ final class EndpointsManagerTest extends TestCase
         $this->endpointRepository
             ->expects(self::once())
             ->method('findByUserId')
-            ->with(static::equalTo($userId))
+            ->with(static::equalTo($userId), static::equalTo(20))
             ->willReturn($expected);
         
         $actual = $this->manager->getEndpointList($userId);
