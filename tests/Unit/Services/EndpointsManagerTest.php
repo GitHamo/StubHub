@@ -47,7 +47,6 @@ final class EndpointsManagerTest extends TestCase
         ];
         $path = 'foobarbaz';
 
-
         $stubMock = $this->createMock(Stub::class);
         $endpointDto = new EndpointDto($uuid, $userId, $path, $name);
         $expected = $this->createMock(Endpoint::class);
@@ -73,5 +72,26 @@ final class EndpointsManagerTest extends TestCase
         $actual = $this->manager->createEndpoint($uuid, $userId, $name, $inputs);
 
         static::assertSame($expected, $actual);
+    }
+
+    public function testUsesComponentsToGetEndpointListWithLimit(): void
+    {
+        $userId = 123;
+        $expected = [
+            $this->createMock(Endpoint::class),
+            $this->createMock(Endpoint::class),
+            $this->createMock(Endpoint::class),
+        ];
+
+        $this->endpointRepository
+            ->expects(self::once())
+            ->method('findByUserId')
+            ->with(static::equalTo($userId))
+            ->willReturn($expected);
+        
+        $actual = $this->manager->getEndpointList($userId);
+
+        static::assertSame($expected, $actual);
+        static::assertCount(3, $actual);
     }
 }
