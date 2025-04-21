@@ -29,7 +29,7 @@ class HitFactory extends Factory
         return [
             'id' => fake()->unique()->randomNumber(),
             'endpoint_id' => Endpoint::factory(),
-            'signature' => fake()->unique()->asciify('********************'),
+            'signature' => fake()->unique()->md5(),
         ];
     }
 }
