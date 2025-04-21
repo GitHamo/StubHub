@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Endpoints\Infrastructure\Persistence\Eloquent;
 
 use App\Models\User;
+use App\Modules\Endpoints\Domain\Endpoint as EndpointEntity;
 use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit as HitModel;
 use Database\Factories\EndpointFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -48,7 +49,7 @@ class Endpoint extends Model
     /**
      * Create a new factory instance for the model.
      */
-    protected static function newFactory()
+    protected static function newFactory(): EndpointFactory
     {
         return EndpointFactory::new();
     }
@@ -70,9 +71,9 @@ class Endpoint extends Model
         return $this->hasMany(HitModel::class);
     }
 
-    public function toEntity(): \App\Modules\Endpoints\Domain\Endpoint
+    public function toEntity(): EndpointEntity
     {
-        return new \App\Modules\Endpoints\Domain\Endpoint(
+        return new EndpointEntity(
             $this->id,
             $this->user_id,
             $this->path,

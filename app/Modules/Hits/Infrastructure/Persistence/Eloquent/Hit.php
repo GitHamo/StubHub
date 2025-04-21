@@ -6,6 +6,7 @@ namespace App\Modules\Hits\Infrastructure\Persistence\Eloquent;
 
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
 use Database\Factories\HitFactory;
+use DateTimeImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,18 +36,18 @@ class Hit extends Model
         'created_at' => 'immutable_datetime',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
         // Laravel to auto-manage only `created_at`
-        static::creating(fn (Model $model): \Illuminate\Support\Carbon => $model->created_at ??= now());
+        static::creating(fn (Model $model): DateTimeImmutable => $model->created_at ??= now());
     }
 
     /**
      * Create a new factory instance for the model.
      */
-    protected static function newFactory()
+    protected static function newFactory(): HitFactory
     {
         return HitFactory::new();
     }

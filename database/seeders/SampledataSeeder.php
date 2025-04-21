@@ -37,8 +37,6 @@ class SampledataSeeder extends Seeder
             // create user
 
             $user = User::factory()->create([
-                'name' => 'User ' . $i,
-                'email' => 'user' . $i . '@example.com',
                 'password' => Hash::make('password'),
             ]);
 
@@ -59,7 +57,7 @@ class SampledataSeeder extends Seeder
             }
     
             foreach ($paths as $path) {
-                $stubName = hash_hmac('sha256', $path, Config::get('app.secret_key'));
+                $stubName = hash_hmac('sha256', $path, Config::get('app.key'));
                 $stubPath = storage_path("app/private/stubs/$stubName." . self::STUB_EXTENSION);
                 $stubContent = [
                     "message" => "This is stub file $path.",
