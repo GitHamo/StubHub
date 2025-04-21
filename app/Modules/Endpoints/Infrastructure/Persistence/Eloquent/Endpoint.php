@@ -69,4 +69,17 @@ class Endpoint extends Model
     {
         return $this->hasMany(HitModel::class);
     }
+
+    public function toEntity(): \App\Modules\Endpoints\Domain\Endpoint
+    {
+        return new \App\Modules\Endpoints\Domain\Endpoint(
+            $this->id,
+            $this->user_id,
+            $this->path,
+            $this->name,
+            $this->unique_hits ?? 0,
+            $this->total_hits ?? 0,
+            $this->created_at,
+        );
+    }
 }
