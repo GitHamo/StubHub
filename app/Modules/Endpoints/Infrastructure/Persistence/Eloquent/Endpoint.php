@@ -37,6 +37,9 @@ class Endpoint extends Model
         'path',
         'name',
     ];
+    protected $casts = [
+        'created_at' => 'immutable_datetime',
+    ];
 
     /**
      * Create a new factory instance for the model.

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Endpoints\Domain;
 
+use DateTimeImmutable;
+
 class Endpoint
 {
     public function __construct(
@@ -11,6 +13,7 @@ class Endpoint
         private readonly int $userId,
         private readonly string $path,
         private readonly string $name,
+        private readonly DateTimeImmutable $createdAt,
     ) {
     }
 
@@ -32,5 +35,10 @@ class Endpoint
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function createdAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 }

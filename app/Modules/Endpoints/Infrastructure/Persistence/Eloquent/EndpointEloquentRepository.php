@@ -44,6 +44,7 @@ class EndpointEloquentRepository implements EndpointRepository
             $model->user_id,
             $model->path,
             $model->name,
+            $model->created_at,
         );
     }
 }

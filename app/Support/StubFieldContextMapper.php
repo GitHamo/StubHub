@@ -32,6 +32,7 @@ final readonly class StubFieldContextMapper
 
                     return [
                         'label' => $label,
+                        'value' => $case->value,
                         'input' => $input,
                     ];
                 }, $cases),
