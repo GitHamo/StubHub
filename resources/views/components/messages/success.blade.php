@@ -7,6 +7,6 @@
         <span class="sr-only">Info</span>
     </div>
     <div>
-        <p class="alert {{ $alertClass }}">{{ $message }}</p>
+        <p class="alert {{ $alertClass }}">{!! $message !!}</p>
     </div>
 </div>

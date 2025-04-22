@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\Stubs\Infrastructure;
 
+use App\Models\Data\Inputs\Input as StubInput;
 use App\Modules\Stubs\Infrastructure\FakerService;
 use App\Modules\Stubs\Infrastructure\StubGenerateService;
-use App\Models\Data\StubInput;
 use App\Models\Data\Stub;
 use App\Modules\Stubs\Infrastructure\InputMapper;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -39,9 +39,10 @@ class StubGenerateServiceTest extends TestCase
         ];
         $expected = $this->createMock(Stub::class);
 
-        $this->mapper->expects(static::exactly(count($inputs)))
-            ->method('map')
-            ->willReturn(...$inputs);
+        $this->mapper->expects(static::once())
+            ->method('mapInputs')
+            ->with(static::identicalTo($rawInputs))
+            ->willReturn($inputs);
         $this->faker->expects(static::once())
             ->method('generate')
             ->with(

@@ -60,8 +60,7 @@ final class EndpointsManagerTest extends TestCase
         $this->storageRepository
             ->expects(self::once())
             ->method('create')
-            ->with(static::identicalTo($uuid), static::identicalTo($stubMock))
-            ->willReturn($path);
+            ->with(static::identicalTo($path), static::identicalTo($stubMock));
 
         $this->endpointRepository
             ->expects(self::once())

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\Stubs\Infrastructure;
 
 use App\Enums\StubFieldContext;
-use App\Models\Data\StubInput;
+use App\Models\Data\Inputs\Nested;
+use App\Models\Data\Inputs\Single;
 use App\Modules\Stubs\Infrastructure\InputMapper;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class InputMapperTest extends TestCase
@@ -17,46 +19,199 @@ class InputMapperTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->mapper = new InputMapper();
     }
 
-    public function testParseReturnsCorrectInputObject(): void
+    public function testThrowsExceptionInCaseOfMissingInputKey(): void
     {
-        $data = ['key' => 'field1', 'context' => 'currency_code'];
+        static::expectException(InvalidArgumentException::class);
+        static::expectExceptionMessage('Missing mandatory input field: "key"');
 
-        $expected = new StubInput('field1', StubFieldContext::CURRENCY_CODE);
-        $actual = $this->mapper->map($data);
+        $input = [
+            [
+                'context' => StubFieldContext::cases()[0]->value,
+            ],
+        ];
+
+        $this->mapper->mapInputs($input);
+    }
+
+    public function testThrowsExceptionIfInputNestedIsNotArray(): void
+    {
+        static::expectException(InvalidArgumentException::class);
+        static::expectExceptionMessage('Input nested data must be an array');
+
+        $input = [
+            [
+                'key' => 'foo',
+                'nested' => 'not-an-array',
+            ],
+        ];
+
+        $this->mapper->mapInputs($input);
+    }
+
+    #[DataProvider('inputOutputDataProvider')]
+    public function testMapInputs(array $input, array $expected): void
+    {
+        $actual = $this->mapper->mapInputs($input);
 
         static::assertEquals($expected, $actual);
     }
 
-    public function testParseThrowsExceptionWhenInputIsList(): void
+    public static function inputOutputDataProvider(): array
     {
-        $listInput = ['field1', 'currency_code'];
+        [
+            $contextOne,
+            $contextTwo,
+            $contextThree,
+            $contextFour,
+            $contextFive,
+        ] = fake()->randomElements(StubFieldContext::cases(), 5);
 
-        static::expectException(InvalidArgumentException::class);
-        static::expectExceptionMessage('Input data must decode to an associated array.');
+        return [
+            'simple_object' => [
+                [
+                    [
+                        'key' => 'foo',
+                        'context' => $contextOne->value,
+                    ],
+                ],
+                [
+                    new Single('foo', $contextOne),
+                ],
+            ],
+            'array_simple_object' => [
+                [
+                    [
+                        'key' => 'field1',
+                        'context' => $contextTwo->value,
+                    ],
+                    [
+                        'key' => 'field2',
+                        'context' => $contextThree->value,
+                    ],
+                ],
+                [
+                    // stub
+                    new Single('field1', $contextTwo),
+                    new Single('field2', $contextThree),
+                ],
+            ],
+            'mixed_nested_simple_object' => [
+                [
+                    [
+                        'key' => 'foo',
+                        'nested' => [
+                            [
+                                'key' => 'foo-field',
+                                'context' => $contextFour->value,
+                            ],
+                        ],
+                    ],
+                    [
+                        'key' => 'bar',
+                        'context' => $contextFive->value,
+                    ],
+                ],
+                [
+                    new Nested('foo', [
+                        new Single('foo-field', $contextFour),
+                    ]),
+                    new Single('bar', $contextFive),
+                ],
+            ],
 
-        $this->mapper->map($listInput);
+            ...self::multiDimensionalDataProvider(),
+        ];
     }
 
-    public function testParseThrowsExceptionWhenKeyMissing(): void
+    private static function multiDimensionalDataProvider(): array
     {
-        $data = ['type' => 'currency_code']; // missing 'key'
+        [
+            $contextOne,
+            $contextTwo,
+            $contextThree,
+            $contextFour,
+            $contextFive,
+            $contextSix,
+        ] = fake()->randomElements(StubFieldContext::cases(), 6);
 
-        static::expectException(InvalidArgumentException::class);
-        static::expectExceptionMessage('Missing mandatory input field: "key"');
+        $foo = [
+            'key' => 'foo',
+            'nested' => [
+                [
+                    'key' => 'foo-field1',
+                    'context' => $contextOne->value,
+                ],
+                [
+                    'key' => 'foo-field2',
+                    'nested' => [
+                        [
+                            'key' => 'foo-field3',
+                            'context' => $contextTwo->value,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $bar = [
+            'key' => 'bar',
+            'nested' => [
+                [
+                    'key' => 'bar-field1',
+                    'context' => $contextThree->value,
+                ],
+                [
+                    'key' => 'bar-field2',
+                    'nested' => [
+                        [
+                            'key' => 'bar-field3',
+                            'context' => $contextFour->value,
+                        ],
+                        [
+                            'key' => 'bar-field4',
+                            'nested' => [
+                                [
+                                    'key' => 'bar-field5',
+                                    'context' => $contextFive->value,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        $baz = [
+            'key' => 'baz',
+            'context' => $contextSix->value,
+        ];
 
-        $this->mapper->map($data);
-    }
+        $output = [
+            // fooOutput
+            new Nested('foo', [
+                new Single('foo-field1', $contextOne),
+                new Nested('foo-field2', [
+                    new Single('foo-field3', $contextTwo),
+                    ])
+            ]),
+            // barOutput
+            new Nested('bar', [
+                new Single('bar-field1', $contextThree),
+                new Nested('bar-field2', [
+                    new Single('bar-field3', $contextFour),
+                    new Nested('bar-field4', [
+                        new Single('bar-field5', $contextFive),
+                    ]),
+                ]),
+            ]),
+            // bazOutput
+            new Single('baz', $contextSix),
+        ];
 
-    public function testParseThrowsExceptionWhenContextMissing(): void
-    {
-        $data = ['key' => 'field1']; // missing 'context'
+        $input = [$foo, $bar, $baz];
 
-        static::expectException(InvalidArgumentException::class);
-        static::expectExceptionMessage('Missing mandatory input field: "context"');
-
-        $this->mapper->map($data);
+        return ['multidimensions' => [$input, $output]];
     }
 }

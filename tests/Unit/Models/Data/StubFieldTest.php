@@ -15,8 +15,7 @@ class StubFieldTest extends TestCase
         $field = new StubField('name', 'Alice');
 
         $expected = [
-            'key' => 'name',
-            'value' => 'Alice',
+            'name' => 'Alice',
         ];
 
         static::assertSame($expected, $field->toArray());
@@ -27,8 +26,7 @@ class StubFieldTest extends TestCase
         $field = new StubField('score', 100);
 
         $expected = [
-            'key' => 'score',
-            'value' => 100,
+            'score' => 100,
         ];
 
         static::assertSame($expected, $field->toArray());
@@ -39,8 +37,7 @@ class StubFieldTest extends TestCase
         $field = new StubField('active', true);
 
         $expected = [
-            'key' => 'active',
-            'value' => true,
+            'active' => true,
         ];
 
         static::assertSame($expected, $field->toArray());
@@ -51,8 +48,7 @@ class StubFieldTest extends TestCase
         $field = new StubField('missing', null);
 
         $expected = [
-            'key' => 'missing',
-            'value' => null,
+            'missing' => null,
         ];
 
         static::assertSame($expected, $field->toArray());
@@ -63,8 +59,7 @@ class StubFieldTest extends TestCase
         $field = new StubField('tags', ['php', 'testing']);
 
         $expected = [
-            'key' => 'tags',
-            'value' => ['php', 'testing'],
+            'tags' => ['php', 'testing'],
         ];
 
         static::assertSame($expected, $field->toArray());
@@ -80,10 +75,9 @@ class StubFieldTest extends TestCase
         $field = new StubField('location', $nested);
 
         $expected = [
-            'key' => 'location',
-            'value' => [
-                ['key' => 'city', 'value' => 'Berlin'],
-                ['key' => 'country', 'value' => 'Germany'],
+            'location' => [
+                'city' => 'Berlin',
+                'country' => 'Germany',
             ],
         ];
 

@@ -10,6 +10,8 @@ use InvalidArgumentException;
 readonly class Stub
 {
     private const string ERROR_MESSAGE_MISSING_MANDATORY_FIELD = 'Missing mandatory field: "%s"';
+    public const string FIELD_KEY = "key";
+    public const string FIELD_VALUE = "value";
     /**
      * @param StubField[] $fields
      */
@@ -20,7 +22,11 @@ readonly class Stub
 
     public function toArray(): array
     {
-        return array_map(fn (StubField $field) => $field->toArray(), $this->fields);
+        return array_reduce(
+            $this->fields,
+            fn(array $carry, StubField $field): array => array_merge($carry, $field->toArray()),
+            []
+        );
     }
 
     public function toJson(): string
@@ -42,8 +48,8 @@ readonly class Stub
      */
     private static function createField(array $item): StubField
     {
-        $fieldKeyName = StubField::FIELD_KEY;
-        $fieldValueName = StubField::FIELD_VALUE;
+        $fieldKeyName = self::FIELD_KEY;
+        $fieldValueName = self::FIELD_VALUE;
 
         if (!array_key_exists($fieldKeyName, $item)) {
             throw new InvalidArgumentException(

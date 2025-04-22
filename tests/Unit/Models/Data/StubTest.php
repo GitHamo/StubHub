@@ -22,9 +22,9 @@ class StubTest extends TestCase
         $output = new Stub($fields);
 
         $expected = [
-            ['key' => 'name', 'value' => 'John'],
-            ['key' => 'age', 'value' => 30],
-            ['key' => 'is_active', 'value' => true],
+            'name' => 'John',
+            'age' => 30,
+            'is_active' => true,
         ];
 
         static::assertSame($expected, $output->toArray());
@@ -40,8 +40,8 @@ class StubTest extends TestCase
         $output = new Stub($fields);
 
         $expectedJson = json_encode([
-            ['key' => 'name', 'value' => 'John'],
-            ['key' => 'score', 'value' => 99.5],
+            'name' => 'John',
+            'score' => 99.5,
         ]);
 
         static::assertSame($expectedJson, $output->toJson());
@@ -61,12 +61,9 @@ class StubTest extends TestCase
         $output = new Stub($outerFields);
 
         $expected = [
-            [
-                'key' => 'user',
-                'value' => [
-                    ['key' => 'phone', 'value' => '123-456-7890'],
-                    ['key' => 'price', 'value' => 49.99],
-                ],
+            'user' => [
+                'phone' => '123-456-7890',
+                'price' => 49.99,
             ],
         ];
 

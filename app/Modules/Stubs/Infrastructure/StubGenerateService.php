@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Stubs\Infrastructure;
 
-use App\Models\Data\StubInput;
 use App\Modules\Stubs\StubGenerator;
 use App\Models\Data\Stub;
 
@@ -19,7 +18,7 @@ readonly class StubGenerateService implements StubGenerator
     #[\Override]
     public function generate(array $rawInputs): Stub
     {
-        $inputs = array_map(fn (array $itemData): StubInput => $this->inputMapper->map($itemData), $rawInputs);
+        $inputs = $this->inputMapper->mapInputs($rawInputs);
 
         return $this->faker->generate(...$inputs);
     }

@@ -10,9 +10,6 @@ namespace App\Models\Data;
  */
 readonly class StubField
 {
-    public const string FIELD_KEY = "key";
-    public const string FIELD_VALUE = "value";
-
     /**
      * @param OutputValue|array<array-key, OutputValue> $value
      */
@@ -25,8 +22,36 @@ readonly class StubField
     public function toArray(): array
     {
         return [
-            self::FIELD_KEY => $this->key,
-            self::FIELD_VALUE => $this->value instanceof Stub ? $this->value->toArray() : $this->value,
+            $this->key => $this->value instanceof Stub ? $this->value->toArray() : $this->value,
         ];
     }
+
+
+    private function flattenFields(array $fields): array
+    {
+        $results = [];
+        
+        foreach($fields as $field){
+            if($field->value instanceof Stub){
+
+
+
+
+
+
+                foreach($field->value->fields as $subField){
+                    $results[$subField->key] = $this->flattenFields($subField->value->fields);
+                }
+                continue;
+            }
+
+            $results[$field->key] = $field->value;
+        }
+
+        return $results;
+    }
+
+
+
+
 }
