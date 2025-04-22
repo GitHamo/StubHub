@@ -26,29 +26,29 @@ readonly class FileStorageRepository implements StorageRepository
     }
 
     #[\Override]
-    public function create(string $uuid, Stub $stub): string
+    public function create(string $path, Stub $stub): string
     {
         $content = $stub->toJson();
-        $stubName = $this->hash($uuid);
+        $stubName = $this->hash($path);
 
         $this->writer->create($stubName, $content);
 
         return $stubName;
     }
 
-    public function get(string $uuid): Stub
+    public function get(string $path): Stub
     {
-        $stubName = $this->hash($uuid);
+        $stubName = $this->hash($path);
         $json = $this->reader->get($stubName);
         $data = $this->parser->parse($json);
 
         return Stub::fromArray($data);
     }
 
-    public function save(string $uuid, Stub $output): void
+    public function save(string $path, Stub $output): void
     {
         $content = $output->toJson();
-        $stubName = $this->hash($uuid);
+        $stubName = $this->hash($path);
 
         $this->writer->create($stubName, $content);
     }

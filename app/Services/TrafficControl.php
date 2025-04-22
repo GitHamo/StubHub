@@ -21,8 +21,10 @@ final readonly class TrafficControl
     {
         $endpointId = $endpoint->id();
 
+        $content = $this->storageRepository->fetchById($endpoint->path());
+
         $this->hitRepository->create(new HitDto($endpointId, $signature));
 
-        return $this->storageRepository->fetchById($endpoint->path());
+        return $content;
     }
 }

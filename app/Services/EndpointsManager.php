@@ -24,12 +24,13 @@ final readonly class EndpointsManager
     /**
      * @param array<array-key, array<string, mixed>> $inputsData
      */
-    public function createEndpoint(string $uuid, int $userId, string $name, array $inputsData): Endpoint
+    public function createEndpoint(string $uuid, int $userId, string $name, string $path, array $inputsData): Endpoint
     {
         $stub = $this->stubGenerator->generate($inputsData);
-        $path = $this->storageRepository->create($uuid, $stub);
+        
+        $this->storageRepository->create($path, $stub);
 
-        return $this->endpointRepository->create(new EndpointDto($uuid, $userId, $path, $name));
+        return $this->endpointRepository->create(new EndpointDto($uuid, $userId, $name, $path));
     }
 
     /**

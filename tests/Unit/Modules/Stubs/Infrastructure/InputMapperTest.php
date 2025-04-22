@@ -22,7 +22,7 @@ class InputMapperTest extends TestCase
 
     public function testParseReturnsCorrectInputObject(): void
     {
-        $data = ['key' => 'field1', 'type' => 'currency_code'];
+        $data = ['key' => 'field1', 'context' => 'currency_code'];
 
         $expected = new StubInput('field1', StubFieldContext::CURRENCY_CODE);
         $actual = $this->mapper->map($data);
@@ -50,12 +50,12 @@ class InputMapperTest extends TestCase
         $this->mapper->map($data);
     }
 
-    public function testParseThrowsExceptionWhenTypeMissing(): void
+    public function testParseThrowsExceptionWhenContextMissing(): void
     {
-        $data = ['key' => 'field1']; // missing 'type'
+        $data = ['key' => 'field1']; // missing 'context'
 
         static::expectException(InvalidArgumentException::class);
-        static::expectExceptionMessage('Missing mandatory input field: "type"');
+        static::expectExceptionMessage('Missing mandatory input field: "context"');
 
         $this->mapper->map($data);
     }

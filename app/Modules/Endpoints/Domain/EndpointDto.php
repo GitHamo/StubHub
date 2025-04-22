@@ -9,8 +9,8 @@ readonly class EndpointDto
     public function __construct(
         public string $id,
         public int $userId,
-        public string $path,
         public string $name,
+        public string $path,
     ) {
     }
 }

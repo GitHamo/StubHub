@@ -36,8 +36,8 @@ class FileStorageRepositoryTest extends TestCase
 
     public function testUsesComponentsToGetOutputByUuid(): void
     {
-        $uuid = 'foo';
-        $hashed = hash_hmac('sha256', $uuid, self::SECRET_KEY);
+        $path = 'foo';
+        $hashed = hash_hmac('sha256', $path, self::SECRET_KEY);
         $json = '[{"key":"foobar","value":"baz"}]';
         $content = [['key' => 'foobar', 'value' => 'baz']];
         $expected = new Stub([new StubField('foobar', 'baz')]);
@@ -45,15 +45,15 @@ class FileStorageRepositoryTest extends TestCase
         $this->reader->expects(static::once())->method('get')->with(static::identicalTo($hashed))->willReturn($json);
         $this->parser->expects(static::once())->method('parse')->with(static::identicalTo($json))->willReturn($content);
 
-        $actual = $this->repository->get($uuid);
+        $actual = $this->repository->get($path);
 
         static::assertEquals($expected, $actual);
     }
 
     public function testUsesComponentsToSaveOutput(): void
     {
-        $uuid = 'foo';
-        $hashed = hash_hmac('sha256', $uuid, self::SECRET_KEY);
+        $path = 'foo';
+        $hashed = hash_hmac('sha256', $path, self::SECRET_KEY);
         $content = 'bar';
         $arguments = [
             $hashed,
@@ -65,6 +65,6 @@ class FileStorageRepositoryTest extends TestCase
 
         $this->writer->expects(static::once())->method('create')->with(...$arguments);
 
-        $this->repository->save($uuid, $output);
+        $this->repository->save($path, $output);
     }
 }

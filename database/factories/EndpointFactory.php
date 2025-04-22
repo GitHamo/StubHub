@@ -29,8 +29,8 @@ class EndpointFactory extends Factory
         return [
             'id' => fake()->unique()->uuid(),
             'user_id' =>  User::factory(),
-            'path' => bin2hex(random_bytes(20)),
             'name' => fake()->company(),
+            'path' => bin2hex(random_bytes(20)),
         ];
     }
 }

@@ -12,7 +12,7 @@ readonly class InputMapper
 {
     private const string ERROR_MESSAGE_MISSING_MANDATORY_FIELD = 'Missing mandatory input field: "%s"';
     private const string INPUT_KEY = "key";
-    private const string INPUT_CONTEXT = "type";
+    private const string INPUT_CONTEXT = "context";
 
     public function map(array $rawInput): StubInput
     {

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('endpoints', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->unsignedBigInteger('user_id');
-            $table->string('path');
             $table->string('name');
+            $table->string('path');
             $table->timestamps();
         });
 

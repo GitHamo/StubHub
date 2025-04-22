@@ -9,6 +9,7 @@ use App\Modules\Hits\Domain\HitDto as EndpointHitDto;
 use App\Modules\Hits\Domain\HitRepository;
 use App\Modules\StubStorage\StorageRepository;
 use App\Services\TrafficControl;
+use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
@@ -49,5 +50,18 @@ class TrafficControlTest extends TestCase
         $actual = $this->service->serve($endpointMock, $signature);
 
         static::assertSame($expected, $actual);
+    }
+
+    public function testDoesNotCollectHitWhenErrorWithStorage(): void
+    {
+        static::expectException(Exception::class);
+
+        $this->storageRepository->expects(static::once())
+            ->method('fetchById')
+            ->willThrowException(new Exception());
+        $this->hitRepository->expects(static::never())
+            ->method('create');
+
+        $this->service->serve($this->createMock(Endpoint::class), 'foo');
     }
 }

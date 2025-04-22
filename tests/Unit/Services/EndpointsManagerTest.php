@@ -41,14 +41,14 @@ final class EndpointsManagerTest extends TestCase
         $uuid = 'foo';
         $userId = 123;
         $name = 'Test Endpoint';
+        $path = 'foobarbaz';
         $inputs = [
             ['bar'],
             ['baz'],
         ];
-        $path = 'foobarbaz';
 
         $stubMock = $this->createMock(Stub::class);
-        $endpointDto = new EndpointDto($uuid, $userId, $path, $name);
+        $endpointDto = new EndpointDto($uuid, $userId, $name, $path);
         $expected = $this->createMock(Endpoint::class);
 
         $this->stubGenerator
@@ -69,7 +69,7 @@ final class EndpointsManagerTest extends TestCase
             ->with(static::equalTo($endpointDto))
             ->willReturn($expected);
 
-        $actual = $this->manager->createEndpoint($uuid, $userId, $name, $inputs);
+        $actual = $this->manager->createEndpoint($uuid, $userId, $name, $path, $inputs);
 
         static::assertSame($expected, $actual);
     }

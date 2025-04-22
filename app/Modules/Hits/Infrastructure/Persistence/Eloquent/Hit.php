@@ -48,7 +48,7 @@ class Hit extends Model
         parent::boot();
 
         // Laravel to auto-manage only `created_at`
-        static::creating(fn (Model $model): DateTimeImmutable => $model->created_at ??= now());
+        static::creating(fn (Model $model): DateTimeImmutable => ($model->created_at ??= now())->toDateTimeImmutable());
     }
 
     /**
