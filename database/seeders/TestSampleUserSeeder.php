@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
 use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit;
+use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContent;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -17,7 +18,7 @@ class TestSampleUserSeeder extends Seeder
     private const string TEST_USER_EMAIL = 'test@example.com';
     private const string TEST_USER_PASSWORD = 'password';
     private const int ENDPOINTS_COUNT = 5;
-    private const string STUB_EXTENSION = "ham";
+    // private const string STUB_EXTENSION = "ham";
     private const int SIGNATURES_COUNT = 10;
     private const int HITS_COUNT_MIN = 0;
     private const int HITS_COUNT_MAX = 100;
@@ -54,14 +55,14 @@ class TestSampleUserSeeder extends Seeder
 
         foreach ($paths as $path) {
             $stubName = hash_hmac('sha256', $path, Config::get('app.key'));
-            $stubPath = storage_path("app/private/stubs/$stubName." . self::STUB_EXTENSION);
             $stubContent = [
                 "message" => "This is stub file $path.",
                 "created_at" => now(),
             ];
-            if (!File::exists($stubPath)) {
-                File::put($stubPath, json_encode($stubContent, JSON_PRETTY_PRINT));
-            }
+            StubContent::create([
+                'name' => $stubName,
+                'content' => json_encode($stubContent, JSON_PRETTY_PRINT),
+            ]);
         }
 
         $this->command->line('Seeding test user endpoint hits.');

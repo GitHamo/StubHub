@@ -7,17 +7,18 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
 use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit;
-use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContent;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
-class SampledataSeeder extends Seeder
+class SampledataWithHamSeeder extends Seeder
 {
     private const int USERS_COUNT = 10;
     private const int ENDPOINTS_PER_USER_COUNT_MIN = 1;
     private const int ENDPOINTS_PER_USER_COUNT_MAX = 3;
+    private const string STUB_EXTENSION = "ham";
     private const int SIGNATURES_COUNT = 10;
     private const int HITS_COUNT_MIN = 1;
     private const int HITS_COUNT_MAX = 100;
@@ -26,7 +27,7 @@ class SampledataSeeder extends Seeder
      */
     public function run(): void
     {
-        if (App::isProduction()) {
+        if (!App::environment('local')) {
             $this->command->info('SampledataSeeder skipped: not in local environment.');
             return;
         }
@@ -45,18 +46,26 @@ class SampledataSeeder extends Seeder
             $endpointIds = $endpoints->pluck('id')->toArray();
             $paths = $endpoints->pluck('path')->toArray();
 
-            // create stub contents
+            // create stub files
+
+            $stubPath = storage_path('app/private/stubs');
+
+            if (!File::exists($stubPath)) {
+                File::makeDirectory($stubPath, 0755, true);
+
+                $this->command->info("Created directory: $stubPath");
+            }
 
             foreach ($paths as $path) {
                 $stubName = hash_hmac('sha256', $path, Config::get('app.key'));
+                $stubPath = storage_path("app/private/stubs/$stubName." . self::STUB_EXTENSION);
                 $stubContent = [
                     "message" => "This is stub file $path.",
                     "created_at" => now(),
                 ];
-                StubContent::create([
-                    'name' => $stubName,
-                    'content' => json_encode($stubContent, JSON_PRETTY_PRINT),
-                ]);
+                if (!File::exists($stubPath)) {
+                    File::put($stubPath, json_encode($stubContent, JSON_PRETTY_PRINT));
+                }
             }
 
             // create hits

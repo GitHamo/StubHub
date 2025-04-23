@@ -13,7 +13,9 @@ use App\Modules\Hits\Domain\HitRepository;
 use App\Modules\Hits\Infrastructure\Persistence\Eloquent\HitEloquentRepository;
 use App\Modules\StubStorage\Infrastructure\Data\HamReader;
 use App\Modules\StubStorage\Infrastructure\Data\HamWriter;
+use App\Modules\StubStorage\Infrastructure\EloquentStorageRepository;
 use App\Modules\StubStorage\Infrastructure\FileStorageRepository;
+use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContentEloquentRepository;
 use App\Modules\StubStorage\StorageRepository;
 use App\Support\JsonParser;
 use Illuminate\Contracts\Foundation\Application;
@@ -35,7 +37,7 @@ class ModulesServiceProvider extends ServiceProvider
         $this->app->bind(EndpointRepository::class, EndpointEloquentRepository::class);
         $this->app->bind(HitRepository::class, HitEloquentRepository::class);
         $this->app->bind(StubGenerator::class, StubGenerateService::class);
-        $this->app->bind(StorageRepository::class, FileStorageRepository::class);
+        $this->app->bind(StorageRepository::class, EloquentStorageRepository::class);
         /**
          * class dependencies
          */
@@ -58,22 +60,34 @@ class ModulesServiceProvider extends ServiceProvider
                 $stubsPath
             );
         });
-    
+
+        $this->app->bind(EloquentStorageRepository::class, function (Application $application): EloquentStorageRepository {
+            return new EloquentStorageRepository(
+                $application->make(StubContentEloquentRepository::class),
+                $application->make(JsonParser::class),
+                $this->getAppSecretKey(),
+            );
+        });
+
         $this->app->bind(FileStorageRepository::class, function (Application $application): FileStorageRepository {
-
-            $secretKey = Config::get('app.key');
-            $decodedKey = base64_decode(explode(':', $secretKey)[1] ?? $secretKey);
-
-            if (empty($decodedKey)) {
-                throw new RuntimeException('APP_KEY is missing for encryption');
-            }
-
             return new FileStorageRepository(
                 $application->make(HamReader::class),
                 $application->make(HamWriter::class),
                 $application->make(JsonParser::class),
-                $secretKey,
+                $this->getAppSecretKey(),
             );
         });
+    }
+
+    private function getAppSecretKey(): string
+    {
+        $secretKey = Config::get('app.key');
+        $decodedKey = base64_decode(explode(':', $secretKey)[1] ?? $secretKey);
+
+        if (empty($decodedKey)) {
+            throw new RuntimeException('APP_KEY is missing for encryption');
+        }
+
+        return $decodedKey;
     }
 }
