@@ -19,7 +19,14 @@ class EndpointEloquentRepository implements EndpointRepository
             ->leftJoin('endpoint_hits', 'endpoint_hits.endpoint_id', '=', 'endpoints.id')
             ->selectRaw('count(distinct endpoint_hits.signature) as unique_hits')
             ->withCount('hits as total_hits')
-            ->groupBy('endpoints.id')
+            ->groupBy(
+                'endpoints.id',
+                'endpoints.user_id',
+                'endpoints.path',
+                'endpoints.name',
+                'endpoints.created_at',
+                'endpoints.updated_at',
+            )
             ->orderByDesc('endpoints.created_at')
             ->limit($limit)
             ->get()
