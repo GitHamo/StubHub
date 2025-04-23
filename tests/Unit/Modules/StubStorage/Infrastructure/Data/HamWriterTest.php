@@ -60,4 +60,16 @@ class HamWriterTest extends FileSystemTestCase
 
         $writer->create('forbidden', 'Nope');
     }
+
+    public function testDeletesFileSuccessfully(): void
+    {
+        $filename = 'test';
+        $path = $this->getBasePath() . "/{$filename}.ham";
+
+        file_put_contents($path, 'Existing content');
+
+        $this->writer->delete($filename);
+
+        static::assertFileDoesNotExist($path);
+    }
 }

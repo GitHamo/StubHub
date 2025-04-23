@@ -87,10 +87,27 @@ final class EndpointsManagerTest extends TestCase
             ->method('findByUserId')
             ->with(static::equalTo($userId), static::equalTo(20))
             ->willReturn($expected);
-        
+
         $actual = $this->manager->getEndpointList($userId);
 
         static::assertSame($expected, $actual);
         static::assertCount(3, $actual);
+    }
+
+    public function testUsesComponentsToDeleteEndpoint(): void
+    {
+        $id = 'foo';
+        $path = 'bar';
+
+        $this->endpointRepository
+            ->expects(self::once())
+            ->method('deleteById')
+            ->with(static::identicalTo($id));
+        $this->storageRepository
+            ->expects(self::once())
+            ->method('delete')
+            ->with(static::identicalTo($path));
+
+        $this->manager->deleteEndpoint($id, $path);
     }
 }

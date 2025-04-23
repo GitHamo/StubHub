@@ -53,6 +53,12 @@ class EndpointEloquentRepository implements EndpointRepository
         return $this->mapToEntity($model);
     }
 
+    #[\Override]
+    public function deleteById(string $id): void
+    {
+        EndpointModel::where('id', $id)->delete();
+    }
+
     private function mapToEntity(EndpointModel $model): EndpointEntity
     {
         return new EndpointEntity(

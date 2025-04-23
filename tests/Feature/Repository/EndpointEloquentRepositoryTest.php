@@ -122,4 +122,13 @@ class EndpointEloquentRepositoryTest extends TestCase
 
         static::assertNull($entity);
     }
+
+    public function testItDeletesEndpointById(): void
+    {
+        $model = EndpointModel::factory()->create();
+
+        $this->repository->deleteById($model->id);
+
+        static::assertDatabaseMissing('endpoints', ['id' => $model->id]);
+    }
 }

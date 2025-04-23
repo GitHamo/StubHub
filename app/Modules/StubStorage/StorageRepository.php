@@ -10,10 +10,9 @@ interface StorageRepository
 {
     public function fetchById(string $fileId): string;
 
-
     public function create(string $path, Stub $stub): string;
 
     public function get(string $path): Stub;
 
-    public function save(string $path, Stub $output): void;
+    public function delete(string $path): void;
 }

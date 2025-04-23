@@ -16,4 +16,6 @@ interface EndpointRepository
     public function findById(string $id): ?Endpoint;
 
     public function create(EndpointDto $endpointDto): Endpoint;
+
+    public function deleteById(string $id): void;
 }

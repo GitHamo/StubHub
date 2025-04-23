@@ -20,6 +20,7 @@ readonly class FileStorageRepository implements StorageRepository
     ) {
     }
 
+    #[\Override]
     public function fetchById(string $fileId): string
     {
         return $this->reader->get($this->hash($fileId));
@@ -36,6 +37,7 @@ readonly class FileStorageRepository implements StorageRepository
         return $stubName;
     }
 
+    #[\Override]
     public function get(string $path): Stub
     {
         $stubName = $this->hash($path);
@@ -45,12 +47,10 @@ readonly class FileStorageRepository implements StorageRepository
         return Stub::fromArray($data);
     }
 
-    public function save(string $path, Stub $output): void
+    #[\Override]
+    public function delete(string $path): void
     {
-        $content = $output->toJson();
-        $stubName = $this->hash($path);
-
-        $this->writer->create($stubName, $content);
+        $this->writer->delete($this->hash($path));
     }
 
     private function hash(string $value): string

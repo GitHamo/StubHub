@@ -23,4 +23,9 @@ class HamWriter extends HamFileSystem
 
         return $filePath;
     }
+
+    public function delete(string $filename): void
+    {
+        @unlink($this->getFilePath($filename));
+    }
 }

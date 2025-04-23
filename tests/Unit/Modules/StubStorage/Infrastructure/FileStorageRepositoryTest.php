@@ -50,7 +50,7 @@ class FileStorageRepositoryTest extends TestCase
         static::assertEquals($expected, $actual);
     }
 
-    public function testUsesComponentsToSaveOutput(): void
+    public function testUsesComponentsToCreateOutput(): void
     {
         $path = 'foo';
         $hashed = hash_hmac('sha256', $path, self::SECRET_KEY);
@@ -65,6 +65,16 @@ class FileStorageRepositoryTest extends TestCase
 
         $this->writer->expects(static::once())->method('create')->with(...$arguments);
 
-        $this->repository->save($path, $output);
+        $this->repository->create($path, $output);
+    }
+
+    public function testUsesComponentsToDeleteOutput(): void
+    {
+        $path = 'foo';
+        $hashed = hash_hmac('sha256', $path, self::SECRET_KEY);
+
+        $this->writer->expects(static::once())->method('delete')->with(static::identicalTo($hashed));
+
+        $this->repository->delete($path);
     }
 }
