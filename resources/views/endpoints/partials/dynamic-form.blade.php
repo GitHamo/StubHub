@@ -450,7 +450,7 @@
         const groups = document.querySelectorAll('#groups-root > .form-group');
         if (groups.length === 0) {
             e.preventDefault();
-            alert('Please add at least one form group before submitting.');
+            alert('Please add at least one endpoint field before submitting.');
         }
     });
 });
