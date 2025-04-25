@@ -20,6 +20,9 @@ class JsonParserTest extends TestCase
         $this->parser = new JsonParser();
     }
 
+    /**
+     * @param list<array<int|string, array<string, int|string>|bool|int|string|null>|string> $expected
+     */
     #[DataProvider('validJsonDataProvider')]
     public function testParseValidJson(string $json, array $expected): void
     {
@@ -51,7 +54,7 @@ class JsonParserTest extends TestCase
     }
 
     /**
-     * @return array<string, array<string, mixed>>
+     * @return array<string, list<array<int|string, array<string, int|string>|bool|int|string|null>|string>>
      */
     public static function validJsonDataProvider(): array
     {

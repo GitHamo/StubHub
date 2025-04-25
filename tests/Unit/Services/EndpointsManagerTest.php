@@ -43,8 +43,8 @@ final class EndpointsManagerTest extends TestCase
         $name = 'Test Endpoint';
         $path = 'foobarbaz';
         $inputs = [
-            ['bar'],
-            ['baz'],
+            ['foo' => 'bar'],
+            ['foo' => 'baz'],
         ];
 
         $stubMock = $this->createMock(Stub::class);

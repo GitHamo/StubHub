@@ -16,8 +16,8 @@ class StubGenerateServiceTest extends TestCase
 {
     private StubGenerateService $service;
 
-    private InputMapper|MockObject $mapper;
-    private FakerService|MockObject $faker;
+    private InputMapper&MockObject $mapper;
+    private FakerService&MockObject $faker;
 
 
     protected function setUp(): void
@@ -32,7 +32,7 @@ class StubGenerateServiceTest extends TestCase
 
     public function testUsesComponentsToGenerateOutput(): void
     {
-        $rawInputs = [['foo'], ['bar']];
+        $rawInputs = [['foo' => 'bar'], [ 'foo' => 'baz' ]];
         $inputs = [
             $inputOne = $this->createMock(StubInput::class),
             $inputTwo = $this->createMock(StubInput::class),

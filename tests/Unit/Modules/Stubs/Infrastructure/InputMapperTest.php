@@ -52,6 +52,10 @@ class InputMapperTest extends TestCase
         $this->mapper->mapInputs($input);
     }
 
+    /**
+     * @param list<array<string|list<array<string, string>>>> $input
+     * @param array<Single|Nested> $expected
+     */
     #[DataProvider('inputOutputDataProvider')]
     public function testMapInputs(array $input, array $expected): void
     {
@@ -60,6 +64,9 @@ class InputMapperTest extends TestCase
         static::assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array<string, array{0: list<array<string, mixed>>, 1: list<Single|Nested>}>
+     */
     public static function inputOutputDataProvider(): array
     {
         [
@@ -127,6 +134,9 @@ class InputMapperTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<string, array{0: list<array<string, mixed>>, 1: list<Single|Nested>}>
+     */
     private static function multiDimensionalDataProvider(): array
     {
         [

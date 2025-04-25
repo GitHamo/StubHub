@@ -12,7 +12,7 @@ class HamReaderTest extends FileSystemTestCase
 {
     private const string TEST_FILE_NAME = 'testFile';
 
-    private $reader;
+    private HamReader $reader;
 
     protected function setUp(): void
     {

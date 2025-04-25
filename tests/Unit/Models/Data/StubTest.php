@@ -86,6 +86,7 @@ class StubTest extends TestCase
         static::expectException(InvalidArgumentException::class);
         static::expectExceptionMessage('Array must decode to a list of fields.');
 
+        // @phpstan-ignore-next-line
         Stub::fromArray($array);
     }
 
@@ -97,6 +98,7 @@ class StubTest extends TestCase
         static::expectException(InvalidArgumentException::class);
         static::expectExceptionMessage('Field array must decode to an associative array.');
 
+        // @phpstan-ignore-next-line
         Stub::fromArray($array);
     }
 

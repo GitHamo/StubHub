@@ -18,9 +18,9 @@ class FileStorageRepositoryTest extends TestCase
     private const string SECRET_KEY = 'secret';
 
     private FileStorageRepository $repository;
-    private HamReader|MockObject $reader;
-    private HamWriter|MockObject $writer;
-    private JsonParser|MockObject $parser;
+    private HamReader&MockObject $reader;
+    private HamWriter&MockObject $writer;
+    private JsonParser&MockObject $parser;
 
     protected function setUp(): void
     {

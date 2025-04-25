@@ -98,8 +98,10 @@ class HamFileSystemTest extends FileSystemTestCase
         $this->createFileSystemInstance($nonExistentDir);
     }
 
+    /** @phpstan-ignore void.pure */
     private function createFileSystemInstance(string $dirPath): void
     {
+        /** @phpstan-ignore-next-line */
         (new class ($dirPath) extends HamFileSystem { });
     }
 }

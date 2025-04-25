@@ -41,7 +41,9 @@ final class StubFieldContextMapperTest extends TestCase
 
         foreach ($map as $values) {
             static::assertCount(2, $values, "Each flatMap entry must contain 2 values [method, type]");
+            // @phpstan-ignore-next-line
             static::assertIsString($values[0]);
+            // @phpstan-ignore-next-line
             static::assertIsString($values[1]);
         }
     }
@@ -55,12 +57,15 @@ final class StubFieldContextMapperTest extends TestCase
         foreach ($map as $categoryData) {
             static::assertArrayHasKey('label', $categoryData);
             static::assertArrayHasKey('inputs', $categoryData);
+            // @phpstan-ignore-next-line
             static::assertIsArray($categoryData['inputs']);
 
             foreach ($categoryData['inputs'] as $input) {
                 static::assertArrayHasKey('label', $input);
                 static::assertArrayHasKey('input', $input);
+                //@phpstan-ignore-next-line
                 static::assertIsString($input['label']);
+                //@phpstan-ignore-next-line
                 static::assertIsString($input['input']);
             }
         }
@@ -69,20 +74,27 @@ final class StubFieldContextMapperTest extends TestCase
     #[DataProvider('validMetadataTypesDataProvider')]
     public function testShouldReturnMetadataMapWithCorrectKeys(string $type1, string $type2): void
     {
+        /** @var array<string, array{string, string}> $map */
         $map = (new \ReflectionClass(StubFieldContextMapper::class))
             ->getMethod('metadataMap')
             ->invoke(null, $type1, $type2);
 
+        // @phpstan-ignore-next-line
         static::assertIsArray($map);
 
         foreach (StubFieldContext::cases() as $case) {
             static::assertArrayHasKey($case->value, $map);
             static::assertCount(2, $map[$case->value]);
+            // @phpstan-ignore-next-line
             static::assertIsString($map[$case->value][0]);
+            // @phpstan-ignore-next-line
             static::assertIsString($map[$case->value][1]);
         }
     }
 
+    /**
+     * @return string[][]
+     */
     public static function validMetadataTypesDataProvider(): array
     {
         return [
