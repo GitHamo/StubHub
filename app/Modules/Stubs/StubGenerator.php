@@ -9,7 +9,7 @@ use App\Models\Data\Stub;
 interface StubGenerator
 {
     /**
-     * @param array<array-key, array<string, mixed>> $rawInputs
+     * @param list<array<string, mixed>> $rawInputs
      */
     public function generate(array $rawInputs): Stub;
 }

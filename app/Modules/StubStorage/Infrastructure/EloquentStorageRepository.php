@@ -40,6 +40,7 @@ readonly class EloquentStorageRepository implements StorageRepository
     {
         $stubName = $this->hash($path);
         $json = $this->repository->find($stubName)->content();
+        /** @var list<array<string, mixed>> */
         $data = $this->parser->parse($json);
 
         return Stub::fromArray($data);

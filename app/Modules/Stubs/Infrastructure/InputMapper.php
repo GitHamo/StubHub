@@ -18,74 +18,64 @@ readonly class InputMapper
     private const string INPUT_NESTED = "nested";
 
     /**
-     * @param array<mixed> $rawInputData
+     * @param list<array<string, mixed>> $rawInputData
      * @throws \InvalidArgumentException
      * @return Input[]
      */
     public function mapInputs(array $rawInputData): array
     {
-        if (!array_is_list($rawInputData)) {
-            throw new InvalidArgumentException('Input data must decode to listed array.');
-        }
-
-        $inputs = [];
-
-        foreach ($rawInputData as $rawInput) {
-
-            if (array_key_exists(self::INPUT_NESTED, $rawInput)) {
-
-                $nested = $rawInput[self::INPUT_NESTED];
-
-                if (!is_array($nested) || !array_is_list($nested)) {
-                    throw new InvalidArgumentException('Input nested data must be an array');
-                }
-
-                $key = $this->findOrFail(self::INPUT_KEY, $rawInput);
-
-                $inputs[] = $this->mapNestedInput($key, $nested);
-
-                continue;
-            }
-
-            $inputs[] = $this->mapSingleInput($rawInput);
-        }
-
-        return $inputs;
+        return array_map([$this, 'mapInput'], $rawInputData);
     }
 
-    private function mapNestedInput(string $key, array $nested): Nested
+    /**
+     * @param array<string, mixed> $rawInput
+     * @return Nested|Single
+     */
+    private function mapInput(array $rawInput): Input
     {
-        if (!array_is_list($nested)) {
-            throw new InvalidArgumentException('Input nested data must be a listed array');
-        }
+        if (array_key_exists(self::INPUT_NESTED, $rawInput)) {
 
-        $nestedInputs = [];
+            $nested = $rawInput[self::INPUT_NESTED];
 
-        foreach ($nested as $nestedRawInput) {
-            if (array_key_exists(self::INPUT_NESTED, $nestedRawInput)) {
-                if (!is_array($nestedRawInput[self::INPUT_NESTED])) {
-                    throw new InvalidArgumentException('Input nested data must be an array');
-                }
-                $nestedInputKey = $this->findOrFail(self::INPUT_KEY, $nestedRawInput);
-
-                $nestedInputs[] = $this->mapNestedInput($nestedInputKey, $nestedRawInput[self::INPUT_NESTED]);
-                continue;
+            if (!is_array($nested) || !array_is_list($nested)) {
+                throw new InvalidArgumentException('Input nested data must be an array');
             }
 
-            $nestedInputs[] = $this->mapSingleInput($nestedRawInput);
+            /** @var string */
+            $key = $this->findOrFail(self::INPUT_KEY, $rawInput);
+
+            return $this->mapNestedInput($key, $nested);
         }
+
+        return $this->mapSingleInput($rawInput);
+    }
+
+    /**
+     * @param list<array<string, mixed>> $nested
+     */
+    private function mapNestedInput(string $key, array $nested): Nested
+    {
+        $nestedInputs = array_map([$this, 'mapInput'], $nested);
 
         return new Nested($key, $nestedInputs);
     }
 
+    /**
+     * @param array<string, mixed> $rawInput
+     */
     private function mapSingleInput(array $rawInput): Single
     {
+        /** @var string */
         $key = $this->findOrFail(self::INPUT_KEY, $rawInput);
+        /** @var string */
         $context = $this->findOrFail(self::INPUT_CONTEXT, $rawInput);
 
         return new Single($key, StubFieldContext::fromName($context));
     }
 
+    /**
+     * @param array<string, mixed> $haystack
+     */
     private function findOrFail(string $key, array $haystack): mixed
     {
         if (!array_key_exists($key, $haystack)) {

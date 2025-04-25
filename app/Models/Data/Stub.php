@@ -20,26 +20,42 @@ readonly class Stub
     ) {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return array_reduce(
             $this->fields,
-            fn(array $carry, StubField $field): array => array_merge($carry, $field->toArray()),
+            fn (array $carry, StubField $field): array => array_merge($carry, $field->toArray()),
             []
         );
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function toJson(): string
     {
-        return json_encode($this->toArray());
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
     }
 
     /**
-     * @param array<array-key, array<string, mixed>> $rawData
+     * @param list<array<string, mixed>> $rawData
      */
     public static function fromArray(array $rawData): self
     {
-        return static::createOutput($rawData);
+        return self::createOutput($rawData);
+    }
+
+    /**
+     * @param list<array<string, mixed>> $rawData
+     */
+    private static function createOutput(array $rawData): Stub
+    {
+        $fields = array_map(fn (array $item): StubField =>  self::createField($item), $rawData);
+
+        return new self($fields);
     }
 
     /**
@@ -69,33 +85,17 @@ readonly class Stub
             );
         }
 
+        /** @var string */
         $key = $item[$fieldKeyName];
+        /**
+         * @var list<array<string, mixed>>|array<string, mixed>
+         */
         $value = $item[$fieldValueName];
 
-        if (is_array($value) && array_is_list($value)) {
-            $value = static::createOutput($value);
+        if (array_is_list($value)) {
+            $value = self::createOutput($value);
         }
 
         return new StubField($key, $value);
-    }
-
-    /**
-     * @param array<array-key, array<string, mixed>> $rawData
-     */
-    private static function createOutput(array $rawData): Stub
-    {
-        if (!is_array($rawData) || !array_is_list($rawData)) {
-            throw new InvalidArgumentException('Array must decode to a list of fields.');
-        }
-
-        $fields = array_map(function (array $item): StubField {
-            if (array_is_list($item)) {
-                throw new InvalidArgumentException('Field array must decode to an associative array.');
-            }
-
-            return static::createField($item);
-        }, $rawData);
-
-        return new self($fields);
     }
 }

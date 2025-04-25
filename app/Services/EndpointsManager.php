@@ -22,7 +22,7 @@ final readonly class EndpointsManager
     }
 
     /**
-     * @param array<array-key, array<string, mixed>> $inputsData
+     * @param list<array<string, mixed>> $inputsData
      */
     public function createEndpoint(string $uuid, int $userId, string $name, string $path, array $inputsData): Endpoint
     {

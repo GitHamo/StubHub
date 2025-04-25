@@ -33,7 +33,12 @@ class CreateEndpointRequest extends FormRequest
             'inputs.*.nested' => ['nullable', 'array', function ($attribute, $value, $fail) {
                 // Validate nested elements recursively
                 foreach ($value as $nestedKey => $nestedValue) {
+
                     $nestedKey = "{$attribute}.{$nestedKey}.nested";
+
+                    if (!is_array($nestedValue) || array_is_list($nestedValue)) {
+                        return $fail('Nested must be an associative array.');
+                    }
 
                     // Check for presence of either context or nested at each level
                     if (!array_key_exists('context', $nestedValue) && !array_key_exists('nested', $nestedValue)) {
@@ -44,6 +49,8 @@ class CreateEndpointRequest extends FormRequest
                     if (!isset($nestedValue['key']) || !is_string($nestedValue['key'])) {
                         return $fail('The key must be a string at each level.');
                     }
+
+                    /** @var array<string, array<string, mixed>> $nestedValue */
 
                     // Recursive validation
                     $this->validateNestedLevel($nestedValue);
@@ -61,15 +68,22 @@ class CreateEndpointRequest extends FormRequest
             'inputs.*.key.regex' => 'The key must not contain spaces, or special characters and can include underscores or dashes.',
         ];
     }
-    
-    // Recursive function to handle deep nested levels
+
+    /**
+     * Recursive function to handle deep nested levels
+     *
+     * @param array<string, array<string, mixed>> $nestedValue
+     */
     protected function validateNestedLevel(array $nestedValue): void
     {
         foreach ($nestedValue as $value) {
+            /** @var array{ context?: string, nested?: array<string, array<string, mixed>>} $value */
+
             // Validate context and nested at deeper levels
             if (isset($value['context'])) {
                 // If context is present, ensure no nested is present at the same level
                 if (isset($value['nested'])) {
+                    /** @phpstan-ignore-next-line */
                     throw new ValidationException("Context and nested cannot exist at the same level.");
                 }
             } elseif (isset($value['nested'])) {

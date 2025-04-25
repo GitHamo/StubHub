@@ -65,7 +65,7 @@ class EndpointController extends Controller
         $userId = $user->id;
         /** @var string */
         $name = $request->validated('name');
-        /** @var array<array-key, array<string, mixed>> */
+        /** @var list<array<string, mixed>> */
         $inputs = $request->validated('inputs', []);
         $path = bin2hex(random_bytes(self::PATH_LENGTH));
 

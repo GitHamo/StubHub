@@ -42,6 +42,7 @@ readonly class FileStorageRepository implements StorageRepository
     {
         $stubName = $this->hash($path);
         $json = $this->reader->get($stubName);
+        /** @var list<array<string, mixed>> */
         $data = $this->parser->parse($json);
 
         return Stub::fromArray($data);
