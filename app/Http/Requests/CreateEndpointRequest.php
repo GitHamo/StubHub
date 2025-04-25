@@ -52,6 +52,9 @@ class CreateEndpointRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [
@@ -60,9 +63,9 @@ class CreateEndpointRequest extends FormRequest
     }
     
     // Recursive function to handle deep nested levels
-    protected function validateNestedLevel($nestedValue)
+    protected function validateNestedLevel(array $nestedValue): void
     {
-        foreach ($nestedValue as $key => $value) {
+        foreach ($nestedValue as $value) {
             // Validate context and nested at deeper levels
             if (isset($value['context'])) {
                 // If context is present, ensure no nested is present at the same level

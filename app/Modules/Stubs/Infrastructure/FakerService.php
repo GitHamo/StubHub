@@ -15,6 +15,9 @@ use InvalidArgumentException;
 
 readonly class FakerService
 {
+    /**
+     * @var string[][]
+     */
     private array $contextsMap;
 
     public function __construct(private Generator $generator)

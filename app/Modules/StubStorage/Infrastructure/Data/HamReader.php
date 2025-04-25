@@ -23,7 +23,13 @@ class HamReader extends HamFileSystem
             throw new FileNotReadableException("File is not readable: {$filename}");
         }
 
-        // Read the file and return its contents
-        return file_get_contents($filePath);
+        // Read the file
+        $content = file_get_contents($filePath);
+
+        if(false === $content) {
+            throw new FileNotFoundException("File not found: {$filename}");
+        }
+
+        return $content;
     }
 }

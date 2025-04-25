@@ -17,7 +17,14 @@ final readonly class StubFieldContextMapper
     }
 
     /**
-     * @return array<string, array<string, string, array<string, array<string, string>>>>>
+     * @return array<string, array{
+     *     label: string,
+     *     inputs: list<array{
+     *         label: string,
+     *         value: string,
+     *         input: string
+     *     }>
+     * }>
      */
     public static function categoryMap(): array
     {
@@ -52,12 +59,13 @@ final readonly class StubFieldContextMapper
         $constants = array_map(fn (string $key): string => 'CASE_' . strtoupper($key), $constants);
 
         foreach (StubFieldContext::cases() as $case) {
+            /** @phpstan-ignore-next-line */
             $map[$case->value] = array_map(fn (string $key): string => constant(self::class . '::' . $key . '_' . $case->name), $constants);
         }
 
         return $map;
     }
-    
+
     /**
      * TECHDOX
      *
@@ -96,7 +104,7 @@ final readonly class StubFieldContextMapper
     private const string CASE_LABEL_LANGUAGE_CODE = 'Language Code';
     private const string CASE_LABEL_LAST_NAME = 'Last Name';
     private const string CASE_LABEL_LATITUDE = 'Latitude';
-    private const string CASE_LABEL_LONGITUDE= 'Longitude';
+    private const string CASE_LABEL_LONGITUDE = 'Longitude';
     private const string CASE_LABEL_LOCALE = 'Locale';
     private const string CASE_LABEL_MIME_TYPE = 'MIME Type';
     private const string CASE_LABEL_PASSWORD = 'Password';

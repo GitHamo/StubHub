@@ -11,12 +11,12 @@ readonly class JsonParser
 {
     /**
      * @throws JsonParseException
-     * @return array<string, mixed>
+     * @return mixed[]
      */
     public function parse(string $json): array
     {
         try {
-            $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+            $decoded = (array) json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             throw new JsonParseException($e->getMessage(), previous: $e);
         }

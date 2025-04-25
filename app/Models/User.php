@@ -12,12 +12,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
+ * @property int $id
  * @property UserRole $role
  * @property SubscriptionType $subscription_type
  * @property bool $is_active
  * @property string $name
  * @property string $email
- * @property \DateTime $email_verified_at
+ * @property ?\DateTime $email_verified_at
  */
 class User extends Authenticatable
 {

@@ -49,7 +49,7 @@ readonly class EncryptionHelper
     public function decrypt(string $encryptedData): string
     {
         // Decode the base64-encoded string and extract the IV and encrypted value
-        $decoded = base64_decode($encryptedData);
+        $decoded = base64_decode($encryptedData, true);
 
         if ($decoded === false) {
             throw new EncryptionException('Invalid base64 encoding.');

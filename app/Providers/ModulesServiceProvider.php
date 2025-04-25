@@ -81,7 +81,10 @@ class ModulesServiceProvider extends ServiceProvider
 
     private function getAppSecretKey(): string
     {
-        $secretKey = Config::get('app.key');
+        /**
+         * @var string
+         */
+        $secretKey = Config::get('app.key', '');
         $decodedKey = base64_decode(explode(':', $secretKey)[1] ?? $secretKey);
 
         if (empty($decodedKey)) {

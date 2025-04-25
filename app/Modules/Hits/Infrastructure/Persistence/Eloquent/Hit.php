@@ -31,7 +31,7 @@ class Hit extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'endpoint_id',
@@ -48,6 +48,7 @@ class Hit extends Model
         parent::boot();
 
         // Laravel to auto-manage only `created_at`
+        /** @phpstan-ignore-next-line */
         static::creating(fn (Model $model): DateTimeImmutable => ($model->created_at ??= now())->toDateTimeImmutable());
     }
 
@@ -61,7 +62,7 @@ class Hit extends Model
 
     /**
      * Get the endpoint that owns the hit
-     * @return BelongsTo<Endpoint>
+     * @return BelongsTo<Endpoint, $this>
      */
     public function endpoint(): BelongsTo
     {

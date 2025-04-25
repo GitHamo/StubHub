@@ -31,7 +31,11 @@ class EndpointController extends Controller
 
     public function index(Request $request): View
     {
-        $endpoints = $this->endpointsManager->getEndpointList($request->user()->id);
+        /**
+         * @var \App\Models\User
+         */
+        $user = $request->user();
+        $endpoints = $this->endpointsManager->getEndpointList($user->id);
 
         return view('dashboard', compact('endpoints'));
     }
@@ -54,8 +58,14 @@ class EndpointController extends Controller
     public function store(CreateEndpointRequest $request): RedirectResponse
     {
         $uuid = Str::uuid()->toString();
-        $userId = $request->user()->id;
+        /**
+         * @var \App\Models\User
+         */
+        $user = $request->user();
+        $userId = $user->id;
+        /** @var string */
         $name = $request->validated('name');
+        /** @var array<array-key, array<string, mixed>> */
         $inputs = $request->validated('inputs', []);
         $path = bin2hex(random_bytes(self::PATH_LENGTH));
 
@@ -70,7 +80,7 @@ class EndpointController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function delete(Request $request, EloquentEndpoint $endpoint): RedirectResponse
+    public function delete(EloquentEndpoint $endpoint): RedirectResponse
     {
         $this->authorize('delete', $endpoint);
 

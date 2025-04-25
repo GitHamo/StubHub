@@ -43,7 +43,7 @@ class Endpoint extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'id',
@@ -66,7 +66,7 @@ class Endpoint extends Model
     /**
      * Get the user that owns the endpoint.
      *
-     * @return BelongsTo<User>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -74,7 +74,7 @@ class Endpoint extends Model
     }
 
     /**
-     * @return HasMany<HitModel>
+     * @return HasMany<HitModel, $this>
      */
     public function hits(): HasMany
     {

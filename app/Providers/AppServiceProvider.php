@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         // helps identify n+1 query issues during development
         Model::preventLazyLoading(!app()->isProduction());
 
-        if (app()->isProduction() && true === env('FORCE_HTTPS', false)) {
+        if (app()->isProduction() && true === config('app.force_https', false)) {
             URL::forceScheme('https');
         }
     }

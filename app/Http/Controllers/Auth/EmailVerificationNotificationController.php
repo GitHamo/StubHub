@@ -13,11 +13,14 @@ class EmailVerificationNotificationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
+        /** @var \Illuminate\Contracts\Auth\MustVerifyEmail */
+        $user = $request->user();
+
+        if ($user->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false));
         }
 
-        $request->user()->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
 
         return back()->with('status', 'verification-link-sent');
     }
