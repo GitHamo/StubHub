@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\SubscriptionType;
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,6 +26,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'role' => fake()->randomElement(UserRole::class),
+            'subscription_type' => fake()->randomElement(SubscriptionType::class),
+            'is_active' => fake()->boolean(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\SubscriptionType;
+use App\Enums\UserRole;
 use App\Models\User;
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
 use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit;
@@ -18,7 +20,6 @@ class TestSampleUserSeeder extends Seeder
     private const string TEST_USER_EMAIL = 'test@example.com';
     private const string TEST_USER_PASSWORD = 'password';
     private const int ENDPOINTS_COUNT = 5;
-    // private const string STUB_EXTENSION = "ham";
     private const int SIGNATURES_COUNT = 10;
     private const int HITS_COUNT_MIN = 0;
     private const int HITS_COUNT_MAX = 100;
@@ -31,6 +32,8 @@ class TestSampleUserSeeder extends Seeder
         $this->command->line('Seeding test sample user.');
 
         $user = User::factory()->create([
+            'role_id' => UserRole::SUPER->value,
+            'subscription_type' => SubscriptionType::UNLIMITED->value,
             'name' => 'Test User',
             'email' => self::TEST_USER_EMAIL,
             'password' => Hash::make(self::TEST_USER_PASSWORD),
