@@ -37,7 +37,7 @@ class EndpointController extends Controller
         $user = $request->user();
         $endpoints = $this->endpointsManager->getEndpointList($user->id);
 
-        return view('dashboard', compact('endpoints'));
+        return view('dashboard', ['endpoints' => $endpoints]);
     }
 
     public function show(Request $request, EloquentEndpoint $endpoint): Response
@@ -52,7 +52,7 @@ class EndpointController extends Controller
     {
         $categories = StubFieldContextMapper::categoryMap();
 
-        return view('endpoints.create', compact('categories'));
+        return view('endpoints.create', ['categories' => $categories]);
     }
 
     public function store(CreateEndpointRequest $request): RedirectResponse

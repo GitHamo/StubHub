@@ -29,6 +29,7 @@ class ModulesServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
+    #[\Override]
     public function register(): void
     {
         /**
@@ -41,42 +42,32 @@ class ModulesServiceProvider extends ServiceProvider
         /**
          * class dependencies
          */
-        $this->app->bind(FakerService::class, function (): FakerService {
-            return new FakerService(
-                \Faker\Factory::create()
-            );
-        });
+        $this->app->bind(FakerService::class, fn(): FakerService => new FakerService(
+            \Faker\Factory::create()
+        ));
 
         $stubsPath = Storage::disk('local')->path('stubs');
 
-        $this->app->bind(HamReader::class, function () use ($stubsPath): HamReader {
-            return new HamReader(
-                $stubsPath
-            );
-        });
+        $this->app->bind(HamReader::class, fn(): HamReader => new HamReader(
+            $stubsPath
+        ));
 
-        $this->app->bind(HamWriter::class, function () use ($stubsPath): HamWriter {
-            return new HamWriter(
-                $stubsPath
-            );
-        });
+        $this->app->bind(HamWriter::class, fn(): HamWriter => new HamWriter(
+            $stubsPath
+        ));
 
-        $this->app->bind(EloquentStorageRepository::class, function (Application $application): EloquentStorageRepository {
-            return new EloquentStorageRepository(
-                $application->make(StubContentEloquentRepository::class),
-                $application->make(JsonParser::class),
-                $this->getAppSecretKey(),
-            );
-        });
+        $this->app->bind(EloquentStorageRepository::class, fn(Application $application): EloquentStorageRepository => new EloquentStorageRepository(
+            $application->make(StubContentEloquentRepository::class),
+            $application->make(JsonParser::class),
+            $this->getAppSecretKey(),
+        ));
 
-        $this->app->bind(FileStorageRepository::class, function (Application $application): FileStorageRepository {
-            return new FileStorageRepository(
-                $application->make(HamReader::class),
-                $application->make(HamWriter::class),
-                $application->make(JsonParser::class),
-                $this->getAppSecretKey(),
-            );
-        });
+        $this->app->bind(FileStorageRepository::class, fn(Application $application): FileStorageRepository => new FileStorageRepository(
+            $application->make(HamReader::class),
+            $application->make(HamWriter::class),
+            $application->make(JsonParser::class),
+            $this->getAppSecretKey(),
+        ));
     }
 
     private function getAppSecretKey(): string
