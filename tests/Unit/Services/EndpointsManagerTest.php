@@ -75,6 +75,7 @@ final class EndpointsManagerTest extends TestCase
 
     public function testUsesComponentsToGetEndpointListWithLimit(): void
     {
+        $limit = mt_rand();
         $userId = 123;
         $expected = [
             $this->createMock(Endpoint::class),
@@ -85,10 +86,10 @@ final class EndpointsManagerTest extends TestCase
         $this->endpointRepository
             ->expects(self::once())
             ->method('findByUserId')
-            ->with(static::equalTo($userId), static::equalTo(20))
+            ->with(static::equalTo($userId), static::equalTo($limit))
             ->willReturn($expected);
 
-        $actual = $this->manager->getEndpointList($userId);
+        $actual = $this->manager->getEndpointList($userId, $limit);
 
         static::assertSame($expected, $actual);
         static::assertCount(3, $actual);

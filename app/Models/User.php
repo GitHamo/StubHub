@@ -6,7 +6,9 @@ namespace App\Models;
 
 use App\Enums\SubscriptionType;
 use App\Enums\UserRole;
+use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -23,7 +25,9 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -63,5 +67,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * @return HasMany<Endpoint, $this>
+     */
+    public function endpoints(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Endpoint::class);
     }
 }

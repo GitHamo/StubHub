@@ -13,7 +13,7 @@
     <!-- Right side: Button and Stats -->
     <div class="flex items-center space-x-4">
       <!-- Stats -->
-      <span class="text-gray-500 text-sm">({{ count($endpoints) }} of 20)</span>
+      <span class="text-gray-500 text-sm">({{ count($endpoints) }} of {{ $maxTotalEndpointCount }})</span>
       <!-- Button -->
       <a href="{{ route('endpoints.create') }}" class="bg-gradient-to-t from-green-500 to-green-700 text-white text-xs py-1 px-3 uppercase font-semibold rounded border-2 border-transparent hover:border-green-800">
           Create

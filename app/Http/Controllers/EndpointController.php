@@ -35,9 +35,15 @@ class EndpointController extends Controller
          * @var \App\Models\User
          */
         $user = $request->user();
-        $endpoints = $this->endpointsManager->getEndpointList($user->id);
+        $limit = $user->subscription_type->constraints()->maxEndpointsTotal();
+        $endpoints = $this->endpointsManager->getEndpointList($user->id, $limit);
 
-        return view('dashboard', ['endpoints' => $endpoints]);
+        $data = [
+            'endpoints' => $endpoints,
+            'maxTotalEndpointCount' => $limit,
+        ];
+
+        return view('dashboard', $data);
     }
 
     public function show(Request $request, EloquentEndpoint $endpoint): Response
@@ -63,6 +69,9 @@ class EndpointController extends Controller
          */
         $user = $request->user();
         $userId = $user->id;
+
+        $this->authorize('createEndpoint', $user);
+     
         /** @var string */
         $name = $request->validated('name');
         /** @var list<array<string, mixed>> */

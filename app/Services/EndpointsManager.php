@@ -12,8 +12,6 @@ use App\Modules\StubStorage\StorageRepository;
 
 final readonly class EndpointsManager
 {
-    private const int LIMIT = 20;
-
     public function __construct(
         private StubGenerator $stubGenerator,
         private EndpointRepository $endpointRepository,
@@ -36,9 +34,9 @@ final readonly class EndpointsManager
     /**
      * @return Endpoint[]
      */
-    public function getEndpointList(int $userId): array
+    public function getEndpointList(int $userId, int $limit): array
     {
-        return $this->endpointRepository->findByUserId($userId, self::LIMIT);
+        return $this->endpointRepository->findByUserId($userId, $limit);
     }
 
     public function deleteEndpoint(string $uuid, string $path): void
