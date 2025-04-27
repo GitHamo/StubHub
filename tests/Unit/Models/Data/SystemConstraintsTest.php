@@ -16,12 +16,14 @@ class SystemConstraintsTest extends TestCase
         SubscriptionType $subscriptionType,
         int $maxEndpointsTotal,
         int $maxStubSize,
+        int $maxObjectRepeat,
     ): void {
         $constraints = SystemConstraints::fromSubscription($subscriptionType);
 
         static::assertInstanceOf(SystemConstraints::class, $constraints);
         static::assertSame($maxEndpointsTotal, $constraints->maxEndpointsTotal());
         static::assertSame($maxStubSize, $constraints->maxStubSize());
+        static::assertSame($maxObjectRepeat, $constraints->maxObjectRepeat());
     }
 
     /**
@@ -30,8 +32,18 @@ class SystemConstraintsTest extends TestCase
     public static function subscriptionTypeDataProvider(): array
     {
         return [
-            SubscriptionType::FREE->value => [SubscriptionType::FREE, 5, 2048],
-            SubscriptionType::UNLIMITED->value => [SubscriptionType::UNLIMITED, 100, 40960],
+            SubscriptionType::FREE->value => [
+                SubscriptionType::FREE,
+                5,
+                2048,
+                10,
+            ],
+            SubscriptionType::UNLIMITED->value => [
+                SubscriptionType::UNLIMITED,
+                100,
+                40960,
+                50,
+            ],
         ];
     }
 }
