@@ -15,7 +15,7 @@ class EndpointPolicy
         //
     }
 
-    public function delete(User $user, Endpoint $model): bool
+    public function deleteEndpoint(User $user, Endpoint $model): bool
     {
         return $model->user_id === $user->id;
     }

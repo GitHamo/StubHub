@@ -91,7 +91,7 @@ class EndpointController extends Controller
 
     public function delete(EloquentEndpoint $endpoint): RedirectResponse
     {
-        $this->authorize('delete', $endpoint);
+        $this->authorize('deleteEndpoint', $endpoint);
 
         $this->endpointsManager->deleteEndpoint($endpoint->id, $endpoint->path);
 
