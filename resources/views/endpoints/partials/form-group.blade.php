@@ -31,6 +31,19 @@
                 value="{{ $input['key'] ?? '' }}"
             >
         </div>
+    
+        {{-- Repeat input - Only show if has nested groups --}}
+        <div class="repeat-container mb-4" style="{{ isset($input['nested']) && count($input['nested']) > 0 ? '' : 'display:none;' }}">
+            <label class="block text-gray-700 mb-1">Repeat</label>
+            <input 
+                type="number" 
+                name="{{ $fieldPrefix ?? "inputs[$index]" }}[repeat]" 
+                class="repeat-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value="{{ $input['repeat'] ?? 0 }}"
+                min="0"
+                {{ isset($input['nested']) && count($input['nested']) > 0 ? '' : 'disabled' }}
+            >
+        </div>
         
         {{-- Category select - Only show if no nested groups --}}
         <div class="category-container" style="{{ isset($input['nested']) && count($input['nested']) > 0 ? 'display:none;' : '' }}">

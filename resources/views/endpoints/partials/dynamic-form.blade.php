@@ -128,6 +128,12 @@
                 populateContextOptions(categorySelect, inputData.context);
             }
             
+            // Set repeat value if provided
+            if (inputData.repeat) {
+                const repeatInput = groupElement.querySelector('.repeat-input');
+                if (repeatInput) repeatInput.value = inputData.repeat;
+            }
+            
             // Handle nested groups
             if (inputData.nested && inputData.nested.length > 0) {
                 const nestedContainer = groupElement.querySelector('.nested-groups-container');
@@ -135,8 +141,9 @@
                     addGroup(nestedContainer, level + 1, nestedInput, fieldPrefix);
                 });
                 
-                // Hide category and context for groups with nested elements
+                // Show repeat input and hide category and context for groups with nested elements
                 groupElement.dataset.hasNested = 'true';
+                showRepeatInput(groupElement);
                 hideContextAndCategory(groupElement);
             }
         }
@@ -144,11 +151,12 @@
         // Initialize the new group
         initializeGroup(groupElement);
         
-        // If this is a nested group, hide category and context in the parent
+        // If this is a nested group, show repeat input and hide category and context in the parent
         if (level > 0) {
             const parentGroup = container.closest('.form-group');
             if (parentGroup) {
                 parentGroup.dataset.hasNested = 'true';
+                showRepeatInput(parentGroup);
                 hideContextAndCategory(parentGroup);
             }
         }
@@ -186,6 +194,24 @@
         if (contextSelect) contextSelect.disabled = false;
     }
     
+    // Show repeat input field for a group
+    function showRepeatInput(group) {
+        const repeatContainer = group.querySelector('.repeat-container');
+        const repeatInput = group.querySelector('.repeat-input');
+        
+        if (repeatContainer) repeatContainer.style.display = '';
+        if (repeatInput) repeatInput.disabled = false;
+    }
+    
+    // Hide repeat input field for a group
+    function hideRepeatInput(group) {
+        const repeatContainer = group.querySelector('.repeat-container');
+        const repeatInput = group.querySelector('.repeat-input');
+        
+        if (repeatContainer) repeatContainer.style.display = 'none';
+        if (repeatInput) repeatInput.disabled = true;
+    }
+    
     // Initialize group event listeners
     function initializeGroup(group) {
         const level = parseInt(group.dataset.level);
@@ -199,8 +225,9 @@
             const fieldPrefix = group.dataset.fieldPrefix;
             addGroup(nestedContainer, level + 1, null, fieldPrefix);
             
-            // Hide category and context fields since we now have nested groups
+            // Show repeat input and hide category/context fields since we now have nested groups
             group.dataset.hasNested = 'true';
+            showRepeatInput(group);
             hideContextAndCategory(group);
             
             updateFormStructure();
@@ -216,6 +243,7 @@
                 const parentGroup = parentContainer.closest('.form-group');
                 if (parentGroup && parentContainer.children.length === 0) {
                     parentGroup.dataset.hasNested = 'false';
+                    hideRepeatInput(parentGroup);
                     showContextAndCategory(parentGroup);
                 }
             }
@@ -364,6 +392,11 @@
                 contextSelect.name = `${fieldPrefix}[context]`;
             }
             
+            const repeatInput = group.querySelector('.repeat-input');
+            if (repeatInput) {
+                repeatInput.name = `${fieldPrefix}[repeat]`;
+            }
+            
             // Update nested groups recursively
             const nestedContainer = group.querySelector('.nested-groups-container');
             if (nestedContainer) {
@@ -380,6 +413,7 @@
         const nestedContainer = group.querySelector('.nested-groups-container');
         if (nestedContainer && nestedContainer.children.length > 0) {
             group.dataset.hasNested = 'true';
+            showRepeatInput(group);
             hideContextAndCategory(group);
         }
     });

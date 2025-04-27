@@ -28,6 +28,19 @@
                 <label class="block text-gray-700 mb-1">Key</label>
                 <input type="text" name="__PREFIX__[key]" class="key-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
+
+            {{-- Repeat input - Only show if has nested groups --}}
+            <div class="repeat-container mb-4" style="display:none;">
+                <label class="block text-gray-700 mb-1">Repeat</label>
+                <input 
+                    type="number" 
+                    name="__PREFIX__[repeat]" 
+                    class="repeat-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value="0"
+                    min="0"
+                    disabled
+                >
+            </div>
             
             {{-- Category select --}}
             <div class="category-container">
