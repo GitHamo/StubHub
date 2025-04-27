@@ -27,9 +27,24 @@ readonly class Stub
     {
         return array_reduce(
             $this->fields,
-            fn (array $carry, StubField $field): array => array_merge($carry, $field->toArray()),
+            function (array $carry, StubField $field): array {
+                $carry[$field->key] = $this->serializeValue($field->value);
+
+                return $carry;
+            },
             []
         );
+    }
+
+    private function serializeValue(mixed $value): mixed
+    {
+        return match(true) {
+            $value instanceof Stub => $value->toArray(),
+            $value instanceof StubField => $this->serializeValue($value->value),
+            is_array($value) && array_is_list($value) => array_map([$this, 'serializeValue'], $value),
+            is_object($value) && method_exists($value, 'toArray') => $value->toArray(),
+            default => $value,
+        };
     }
 
     /**
@@ -92,7 +107,7 @@ readonly class Stub
          */
         $value = $item[$fieldValueName];
 
-        if (array_is_list($value)) {
+        if (is_array($value) && array_is_list($value)) {
             $value = self::createOutput($value);
         }
 

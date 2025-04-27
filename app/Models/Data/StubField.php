@@ -11,14 +11,4 @@ readonly class StubField
         public mixed $value,
     ) {
     }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function toArray(): array
-    {
-        return [
-            $this->key => $this->value instanceof Stub ? $this->value->toArray() : $this->value,
-        ];
-    }
 }

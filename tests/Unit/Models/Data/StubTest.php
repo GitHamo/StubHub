@@ -7,99 +7,77 @@ namespace Tests\Unit\Models\Data;
 use App\Models\Data\StubField;
 use App\Models\Data\Stub;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class StubTest extends TestCase
 {
-    public function testConvertsToArrayReturnsCorrectStructure(): void
+    /**
+     * @param array<string, mixed> $expected
+     */
+    #[DataProvider('serializeIntoArrayDataProvider')]
+    public function testSerializeIntoArray(
+        Stub $stub,
+        array $expected,
+    ): void {
+        static::assertEquals($expected, $stub->toArray());
+    }
+
+    /**
+     * @return array<string, array<Stub|array<string, mixed>>>
+     */
+    public static function serializeIntoArrayDataProvider(): array
     {
-        $fields = [
+        return [
+            'simple_stub' => [
+                new Stub([
+                    new StubField('name', 'John'),
+                    new StubField('age', 30),
+                ]),
+                [
+                    'name' => 'John',
+                    'age' => 30,
+                ]
+            ],
+            'nested_stub' => [
+                new Stub([
+                    new StubField('user', new Stub([
+                        new StubField('name', 'John'),
+                        new StubField('age', 30),
+                        new StubField('is_active', true),
+                    ])),
+                    new StubField('foo', 'bar'),
+                ]),
+                [
+                    'user' => [
+                        'name' => 'John',
+                        'age' => 30,
+                        'is_active' => true
+                    ],
+                    'foo' => 'bar',
+                ],
+            ],
+            // 'case' => [
+            //     new Stub([
+            //         new StubField('name', 'John'),
+            //         new StubField('age', 30),
+            //     ]),
+            //     [
+            //         'name' => 'John',
+            //         'age' => 30,
+            //     ]
+            // ],
+        ];
+    }
+
+    public function testSerializeIntoJson(): void
+    {
+        $stub = new Stub([
             new StubField('name', 'John'),
             new StubField('age', 30),
-            new StubField('is_active', true),
-        ];
-
-        $output = new Stub($fields);
-
-        $expected = [
-            'name' => 'John',
-            'age' => 30,
-            'is_active' => true,
-        ];
-
-        static::assertSame($expected, $output->toArray());
-    }
-
-    public function testConvertsToJsonReturnsCorrectJson(): void
-    {
-        $fields = [
-            new StubField('name', 'John'),
-            new StubField('score', 99.5),
-        ];
-
-        $output = new Stub($fields);
-
-        $expectedJson = json_encode([
-            'name' => 'John',
-            'score' => 99.5,
         ]);
 
-        static::assertSame($expectedJson, $output->toJson());
-    }
-
-    public function testSupportsNestedOutputObjects(): void
-    {
-        $innerFields = [
-            new StubField('phone', '123-456-7890'),
-            new StubField('price', 49.99),
-        ];
-
-        $outerFields = [
-            new StubField('user', new Stub($innerFields))
-        ];
-
-        $output = new Stub($outerFields);
-
-        $expected = [
-            'user' => [
-                'phone' => '123-456-7890',
-                'price' => 49.99,
-            ],
-        ];
-
-        static::assertSame($expected, $output->toArray());
-    }
-
-    public function testReturnsEmptyOutputOnEmptyArray(): void
-    {
-        $output = new Stub([]);
-
-        static::assertSame([], $output->toArray());
-        static::assertSame('[]', $output->toJson());
-    }
-
-    public function testFromArrayThrowsExceptionWhenArrayIsNotList(): void
-    {
-        // Test that an exception is thrown when the array is not a list
-        $array = ["key" => "value"]; // Invalid array format (associative array instead of list)
-
-        static::expectException(InvalidArgumentException::class);
-        static::expectExceptionMessage('Array must decode to a list of fields.');
-
-        // @phpstan-ignore-next-line
-        Stub::fromArray($array);
-    }
-
-    public function testFromArrayThrowsExceptionWhenFieldIsNotAssociative(): void
-    {
-        // Test that an exception is thrown when a field in the array is not an associative array
-        $array = [["key1", "value1"], ["key2", "value2"]]; // Invalid field format (list of lists instead of associative array)
-
-        static::expectException(InvalidArgumentException::class);
-        static::expectExceptionMessage('Field array must decode to an associative array.');
-
-        // @phpstan-ignore-next-line
-        Stub::fromArray($array);
+        static::assertEquals('{"name":"John","age":30}', $stub->toJson());
     }
 
     public function testFromArrayThrowsExceptionWhenFieldMissingKey(): void

@@ -16,6 +16,7 @@ readonly class InputMapper
     private const string INPUT_KEY = "key";
     private const string INPUT_CONTEXT = "context";
     private const string INPUT_NESTED = "nested";
+    private const string INPUT_REPEAT = "repeat";
 
     /**
      * @param list<array<string, mixed>> $rawInputData
@@ -37,14 +38,17 @@ readonly class InputMapper
 
             $nested = $rawInput[self::INPUT_NESTED];
 
-            if (!is_array($nested) || !array_is_list($nested)) {
+            /** @var string */
+            $key = $this->findOrFail(self::INPUT_KEY, $rawInput);
+            
+            $repeat = (int) $this->find(self::INPUT_REPEAT, $rawInput);
+
+            $isNotIterable = !is_array($nested) || !array_is_list($nested);
+            if ($isNotIterable) {
                 throw new InvalidArgumentException('Input nested data must be an array');
             }
 
-            /** @var string */
-            $key = $this->findOrFail(self::INPUT_KEY, $rawInput);
-
-            return $this->mapNestedInput($key, $nested);
+            return $this->mapNestedInput($key, $nested, $repeat);
         }
 
         return $this->mapSingleInput($rawInput);
@@ -53,11 +57,11 @@ readonly class InputMapper
     /**
      * @param list<array<string, mixed>> $nested
      */
-    private function mapNestedInput(string $key, array $nested): Nested
+    private function mapNestedInput(string $key, array $nested, int $repeat): Nested
     {
         $nestedInputs = array_map([$this, 'mapInput'], $nested);
 
-        return new Nested($key, $nestedInputs);
+        return new Nested($key, $nestedInputs, $repeat);
     }
 
     /**
@@ -78,15 +82,29 @@ readonly class InputMapper
      */
     private function findOrFail(string $key, array $haystack): mixed
     {
-        if (!array_key_exists($key, $haystack)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    self::ERROR_MESSAGE_MISSING_MANDATORY_FIELD,
-                    $key,
-                )
-            );
+        $value = $this->find($key, $haystack);
+
+        if($value !== null) {
+            return $value;
         }
 
-        return $haystack[$key];
+        throw new InvalidArgumentException(
+            sprintf(
+                self::ERROR_MESSAGE_MISSING_MANDATORY_FIELD,
+                $key,
+            )
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $haystack
+     */
+    private function find(string $key, array $haystack): mixed
+    {
+        if (array_key_exists($key, $haystack)) {
+            return $haystack[$key];
+        }
+
+        return null;
     }
 }

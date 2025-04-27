@@ -89,6 +89,25 @@ class InputMapperTest extends TestCase
                     new Single('foo', $contextOne),
                 ],
             ],
+            'nested_simple_object_repeated' => [
+                [
+                    [
+                        'key' => 'foo',
+                        'nested' => [
+                            [
+                                'key' => 'bar',
+                                'context' => $contextOne->value,
+                            ],
+                        ],
+                        'repeat' => 3,
+                    ],
+                ],
+                [
+                    new Nested('foo', [
+                        new Single('bar', $contextOne),
+                    ], 3),
+                ],
+            ],
             'array_simple_object' => [
                 [
                     [
@@ -125,7 +144,7 @@ class InputMapperTest extends TestCase
                 [
                     new Nested('foo', [
                         new Single('foo-field', $contextFour),
-                    ]),
+                    ], 0),
                     new Single('bar', $contextFive),
                 ],
             ],
@@ -204,8 +223,8 @@ class InputMapperTest extends TestCase
                 new Single('foo-field1', $contextOne),
                 new Nested('foo-field2', [
                     new Single('foo-field3', $contextTwo),
-                    ])
-            ]),
+                    ], 0)
+            ], 0),
             // barOutput
             new Nested('bar', [
                 new Single('bar-field1', $contextThree),
@@ -213,9 +232,9 @@ class InputMapperTest extends TestCase
                     new Single('bar-field3', $contextFour),
                     new Nested('bar-field4', [
                         new Single('bar-field5', $contextFive),
-                    ]),
-                ]),
-            ]),
+                    ], 0),
+                ], 0),
+            ], 0),
             // bazOutput
             new Single('baz', $contextSix),
         ];

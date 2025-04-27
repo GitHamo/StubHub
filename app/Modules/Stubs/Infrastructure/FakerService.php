@@ -27,34 +27,31 @@ readonly class FakerService
 
     public function generate(Input ...$inputs): Stub
     {
-        $fields = array_map(fn (Input $input): StubField => $this->generateStubField($input), $inputs);
+        return $this->parseInputs(...$inputs);
+    }
+
+    /**
+     * @param Input[] $inputs
+     */
+    private function parseInputs(Input ...$inputs): Stub
+    {
+        $fields = array_map(fn (Input $input): StubField => $this->parseInput($input), $inputs);
 
         return new Stub($fields);
     }
 
-
-    private function generateNestedField(Nested $nested): StubField
+    private function parseInput(Input $input): StubField
     {
-        $fields = [];
+        $value = match(true) {
+            $input instanceof Nested => $this->parseNestedInput($input),
+            $input instanceof Single => $this->parseSingleInput($input),
+            default => throw new InvalidArgumentException('Invalid input type'),
+        };
 
-        foreach ($nested->inputs as $nestedInput) {
-            if ($nestedInput instanceof Nested) {
-                $fields[] = $this->generateStubField($nestedInput);
-                continue;
-            }
-
-            if ($nestedInput instanceof Single) {
-                $fields[] = $this->generateSingleField($nestedInput);
-                continue;
-            }
-
-            throw new InvalidArgumentException('Invalid input type');
-        }
-
-        return new StubField($nested->key, new Stub($fields));
+        return new StubField($input->key, $value);
     }
 
-    private function generateSingleField(Single $input): StubField
+    private function parseSingleInput(Single $input): StubField
     {
         $method = $this->contextsMap[$input->context->value][0];
         $value = $this->generator->$method();
@@ -62,12 +59,31 @@ readonly class FakerService
         return new StubField($input->key, $value);
     }
 
-    private function generateStubField(Input $input): StubField
+    private function parseNestedInput(Nested $input): StubField
     {
-        return match(true) {
-            $input instanceof Nested => $this->generateNestedField($input),
-            $input instanceof Single => $this->generateSingleField($input),
-            default => throw new InvalidArgumentException('Invalid input type'),
-        };
+        $value = $input->repeat
+            ? $this->parseNestedInputsAsArray($input)
+            : $this->parseNestedInputsAsObject($input);
+
+        return new StubField($input->key, $value);
+    }
+
+    private function parseNestedInputsAsArray(Nested $nested): StubField
+    {
+        $repeat = $nested->repeat;
+
+        $values = array_map(
+            fn () => $this->parseNestedInputsAsObject($nested),
+            range(1, $repeat)
+        );
+
+        return new StubField($nested->key, $values);
+    }
+
+    private function parseNestedInputsAsObject(Nested $nested): StubField
+    {
+        $fields = array_map(fn (Input $nestedInput): StubField => $this->parseInput($nestedInput), $nested->inputs);
+
+        return new StubField($nested->key, new Stub($fields));
     }
 }
