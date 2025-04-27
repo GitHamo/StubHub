@@ -6,23 +6,32 @@ namespace Tests\Unit\Models\Data;
 
 use App\Enums\SubscriptionType;
 use App\Models\Data\SystemConstraints;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class SystemConstraintsTest extends TestCase
 {
-    public function testCreatesInstanceFromFreeSubscription(): void
-    {
-        $constraints = SystemConstraints::fromSubscription(SubscriptionType::FREE);
+    #[DataProvider('subscriptionTypeDataProvider')]
+    public function testCreatesInstanceFromSubscriptionType(
+        SubscriptionType $subscriptionType,
+        int $maxEndpointsTotal,
+        int $maxStubSize,
+    ): void {
+        $constraints = SystemConstraints::fromSubscription($subscriptionType);
 
         static::assertInstanceOf(SystemConstraints::class, $constraints);
-        static::assertSame(5, $constraints->maxEndpointsTotal());
+        static::assertSame($maxEndpointsTotal, $constraints->maxEndpointsTotal());
+        static::assertSame($maxStubSize, $constraints->maxStubSize());
     }
 
-    public function testCreatesInstanceFromUnlimitedSubscription(): void
+    /**
+     * @return array<int|SubscriptionType>[]
+     */
+    public static function subscriptionTypeDataProvider(): array
     {
-        $constraints = SystemConstraints::fromSubscription(SubscriptionType::UNLIMITED);
-
-        static::assertInstanceOf(SystemConstraints::class, $constraints);
-        static::assertSame(100, $constraints->maxEndpointsTotal());
+        return [
+            SubscriptionType::FREE->value => [SubscriptionType::FREE, 5, 2048],
+            SubscriptionType::UNLIMITED->value => [SubscriptionType::UNLIMITED, 100, 40960],
+        ];
     }
 }
