@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Modules\Stubs\Infrastructure;
+namespace Tests\Unit\Modules\StubGenerate\Infrastructure;
 
 use App\Enums\StubFieldContext;
 use App\Models\Data\Inputs\Single;
 use App\Models\Data\Stub;
 use App\Models\Data\StubField;
-use App\Modules\Stubs\Infrastructure\FakerStubMapper;
+use App\Modules\StubGenerate\Infrastructure\FakerStubMapper;
 use Faker\Generator;
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;

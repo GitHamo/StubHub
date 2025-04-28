@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Modules\Stubs\StubGenerator;
-use App\Modules\Stubs\Infrastructure\FakerService;
-use App\Modules\Stubs\Infrastructure\StubGenerateService;
 use App\Modules\Endpoints\Domain\EndpointRepository;
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\EndpointEloquentRepository;
 use App\Modules\Hits\Domain\HitRepository;
 use App\Modules\Hits\Infrastructure\Persistence\Eloquent\HitEloquentRepository;
+use App\Modules\StubGenerate\Infrastructure\FakerStubMapper;
+use App\Modules\StubGenerate\Infrastructure\StubGenerateService;
+use App\Modules\StubGenerate\StubGenerator;
 use App\Modules\StubStorage\Infrastructure\EloquentStorageRepository;
 use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContentEloquentRepository;
 use App\Modules\StubStorage\StorageRepository;
 use App\Support\JsonParser;
+use App\Support\StubFieldContextMapper;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -38,8 +39,9 @@ class ModulesServiceProvider extends ServiceProvider
         /**
          * class dependencies
          */
-        $this->app->bind(FakerService::class, fn(): FakerService => new FakerService(
-            \Faker\Factory::create()
+        $this->app->bind(FakerStubMapper::class, fn(): FakerStubMapper => new FakerStubMapper(
+            \Faker\Factory::create(),
+            StubFieldContextMapper::flatMap(),
         ));
 
         $this->app->bind(EloquentStorageRepository::class, fn(Application $application): EloquentStorageRepository => new EloquentStorageRepository(

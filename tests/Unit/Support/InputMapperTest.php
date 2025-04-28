@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Modules\Stubs\Infrastructure;
+namespace Tests\Unit\Support;
 
 use App\Enums\StubFieldContext;
 use App\Models\Data\Inputs\Nested;
 use App\Models\Data\Inputs\Single;
-use App\Modules\Stubs\Infrastructure\InputMapper;
+use App\Support\InputMapper;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

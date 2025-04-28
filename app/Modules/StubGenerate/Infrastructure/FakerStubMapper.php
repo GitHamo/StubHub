@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Stubs\Infrastructure;
+namespace App\Modules\StubGenerate\Infrastructure;
 
 use App\Enums\StubFieldContext;
 use Faker\Generator;

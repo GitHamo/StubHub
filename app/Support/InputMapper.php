@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Stubs\Infrastructure;
+namespace App\Support;
 
 use App\Enums\StubFieldContext;
 use App\Models\Data\Inputs\Input;
