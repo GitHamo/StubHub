@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Data\Inputs;
 
-readonly class Nested extends Input
+class Nested extends Input
 {
     /**
      * @param Input[] $inputs

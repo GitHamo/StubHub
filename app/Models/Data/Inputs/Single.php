@@ -6,7 +6,7 @@ namespace App\Models\Data\Inputs;
 
 use App\Enums\StubFieldContext;
 
-readonly class Single extends Input
+class Single extends Input
 {
     public function __construct(string $key, public StubFieldContext $context)
     {
