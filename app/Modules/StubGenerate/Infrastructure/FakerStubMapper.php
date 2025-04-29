@@ -27,8 +27,8 @@ class FakerStubMapper extends StubMapper
 
         $method = $this->contextsMap[$context->value][0];
 
-        if (!is_string($method) || !method_exists($this->generator, $method)) {
-            throw new InvalidArgumentException(sprintf('Invalid or non-existent method for context: %s', $context->value));
+        if (!is_string($method)) {
+            throw new InvalidArgumentException(sprintf('Invalid method type (not string) for context: %s', $context->value));
         }
 
         return $this->generator->$method();

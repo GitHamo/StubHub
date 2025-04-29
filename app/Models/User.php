@@ -69,6 +69,26 @@ class User extends Authenticatable
         ];
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getRole(): UserRole
+    {
+        return $this->role;
+    }
+
+    public function getSubscriptionType(): SubscriptionType
+    {
+        return $this->subscription_type;
+    }
+
+    public function getEndpointsCount(): int
+    {
+        return $this->endpoints()->count();
+    }
+
     /**
      * @return HasMany<Endpoint, $this>
      */

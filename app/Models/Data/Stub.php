@@ -52,7 +52,7 @@ readonly class Stub
      */
     public function toJson(): string
     {
-        return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR|JSON_NUMERIC_CHECK|JSON_UNESCAPED_UNICODE);
     }
 
     /**

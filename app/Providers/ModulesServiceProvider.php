@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Modules\Constraints\Domain\ConstraintsCheck;
+use App\Modules\Constraints\Infrastructure\ConstraintsCheckService;
 use App\Modules\Endpoints\Domain\EndpointRepository;
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\EndpointEloquentRepository;
 use App\Modules\Hits\Domain\HitRepository;
@@ -32,6 +34,7 @@ class ModulesServiceProvider extends ServiceProvider
         /**
          * Bindings
          */
+        $this->app->bind(ConstraintsCheck::class, ConstraintsCheckService::class);
         $this->app->bind(EndpointRepository::class, EndpointEloquentRepository::class);
         $this->app->bind(HitRepository::class, HitEloquentRepository::class);
         $this->app->bind(StubGenerator::class, StubGenerateService::class);

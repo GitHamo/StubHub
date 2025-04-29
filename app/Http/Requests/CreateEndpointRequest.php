@@ -30,7 +30,7 @@ class CreateEndpointRequest extends FormRequest
             'inputs.*' => ['array'],
             'inputs.*.key' => ['required', 'string', 'regex:/^[A-Za-z0-9\-_]+$/'],
             'inputs.*.context' => ['required_without:inputs.*.nested', 'string'],
-            'inputs.*.repeat' => ['optional', 'integer', 'min:0'],
+            'inputs.*.repeat' => ['integer', 'min:0'],
             'inputs.*.nested' => ['nullable', 'array', function ($attribute, $value, $fail) {
                 // Validate nested elements recursively
                 foreach ($value as $nestedKey => $nestedValue) {
