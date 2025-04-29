@@ -62,23 +62,7 @@ class FakerStubMapperTest extends TestCase
         $mapper->parseInputs($input);
     }
 
-    public function testThrowsExceptionForInvalidMethodType(): void
-    {
-        $context = $this->getRandomContext();
-        $contextsMap = [
-            $context->value => [123], // invalid method type (not string)
-        ];
-
-        static::expectException(InvalidArgumentException::class);
-        static::expectExceptionMessage("Invalid method type (not string) for context: {$context->value}");
-
-        $input = new Single('foo', $context);
-        $mapper = new FakerStubMapper($this->faker, $contextsMap);
-
-        $mapper->parseInputs($input);
-    }
-
-    private function getRandomContext(): StubFieldContext|array
+    private function getRandomContext(): StubFieldContext
     {
         return StubFieldContext::cases()[array_rand(StubFieldContext::cases())];
     }

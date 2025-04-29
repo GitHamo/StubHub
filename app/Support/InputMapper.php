@@ -41,7 +41,8 @@ readonly class InputMapper
             /** @var string */
             $key = $this->findOrFail(self::INPUT_KEY, $rawInput);
             
-            $repeat = (int) $this->find(self::INPUT_REPEAT, $rawInput);
+            /** @var int */
+            $repeat = $this->find(self::INPUT_REPEAT, $rawInput);
 
             $isNotIterable = !is_array($nested) || !array_is_list($nested);
             if ($isNotIterable) {

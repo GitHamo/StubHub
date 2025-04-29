@@ -107,7 +107,7 @@ readonly class Stub
          */
         $value = $item[$fieldValueName];
 
-        if (is_array($value) && array_is_list($value)) {
+        if (array_is_list($value)) {
             $value = self::createOutput($value);
         }
 

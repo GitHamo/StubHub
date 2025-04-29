@@ -11,7 +11,7 @@ use InvalidArgumentException;
 class FakerStubMapper extends StubMapper
 {
     /**
-     * @param string[][] $contextsMap
+     * @param array<string, array<string>> $contextsMap
      */
     public function __construct(
         private Generator $generator,
@@ -26,10 +26,6 @@ class FakerStubMapper extends StubMapper
         }
 
         $method = $this->contextsMap[$context->value][0];
-
-        if (!is_string($method)) {
-            throw new InvalidArgumentException(sprintf('Invalid method type (not string) for context: %s', $context->value));
-        }
 
         return $this->generator->$method();
     }

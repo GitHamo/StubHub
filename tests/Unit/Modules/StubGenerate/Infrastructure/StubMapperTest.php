@@ -32,7 +32,7 @@ class StubMapperTest extends TestCase
 
     public function testCreatesStubFromSingleInput(): void
     {
-        $context = $this->getRandomContext();
+        [$context] = $this->getRandomContexts(1);
         $input = new Single($key = 'foo', $context);
 
         $expected = new Stub([
@@ -46,7 +46,7 @@ class StubMapperTest extends TestCase
 
     public function testCreatesStubFromNestedInputWithoutRepeat(): void
     {
-        [$contextOne, $contextTwo] = $this->getRandomContext(2);
+        [$contextOne, $contextTwo] = $this->getRandomContexts(2);
 
         $input = new Nested($key = 'foo', [
             new Single('bar', $contextOne),
@@ -67,7 +67,7 @@ class StubMapperTest extends TestCase
 
     public function testCreatesStubFromNestedInputWithtRepeat(): void
     {
-        [$contextOne, $contextTwo] = $this->getRandomContext(2);
+        [$contextOne, $contextTwo] = $this->getRandomContexts(2);
 
         $input = new Nested($key = 'foo', [
             new Single('bar', $contextOne),
@@ -105,12 +105,10 @@ class StubMapperTest extends TestCase
     }
 
     /**
-     * @return \App\Enums\StubFieldContext|\App\Enums\StubFieldContext[]
+     * @return \App\Enums\StubFieldContext[]
      */
-    private function getRandomContext(int $count = 1): StubFieldContext|array
+    private function getRandomContexts(int $count = 1): array
     {
-        return $count > 1
-            ? fake()->randomElements(StubFieldContext::cases(), $count)
-            : fake()->randomElement(StubFieldContext::cases());
+        return fake()->randomElements(StubFieldContext::cases(), $count);
     }
 }

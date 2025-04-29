@@ -44,7 +44,7 @@ final readonly class EndpointsManager
 
         $this->storageRepository->create($path, $stub);
 
-        $dto = new EndpointDto($uuid, $user->id, $name, $path, json_encode($inputs));
+        $dto = new EndpointDto($uuid, $user->id, $name, $path, json_encode($inputs, JSON_THROW_ON_ERROR));
 
         return $this->endpointRepository->create($dto);
     }

@@ -16,9 +16,6 @@ abstract class StubMapper
 {
     abstract protected function parseContext(StubFieldContext $context): mixed;
 
-    /**
-     * @param Input[] $inputs
-     */
     public function parseInputs(Input ...$inputs): Stub
     {
         $fields = array_map(fn (Input $input): StubField => $this->parseInput($input), $inputs);
