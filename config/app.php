@@ -123,4 +123,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | HTTP/HTTPS Mode
+    |--------------------------------------------------------------------------
+    |
+    | checked in \App\Provider\AppServiceProvider::boot() to force https on production
+    |
+    */
+    /**
+     * checked in \App\Provider\AppServiceProvider::boot() to force https on production
+     */
+    'force_https' => env('FORCE_HTTPS', false),
 ];
