@@ -13,7 +13,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedInteger('role')->default(UserRole::STANDARD->value)->after('id');
+            $table->string('role')->default(UserRole::STANDARD->value)->after('id');
             $table->string('subscription_type')->default(SubscriptionType::FREE->value)->after('role');
             $table->boolean('is_active')->default(true)->after('subscription_type');
         });
