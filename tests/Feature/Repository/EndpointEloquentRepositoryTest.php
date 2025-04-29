@@ -85,7 +85,8 @@ class EndpointEloquentRepositoryTest extends TestCase
             id: Str::uuid()->toString(),
             userId: $this->user->id,
             path: '/api/test',
-            name: 'Test Endpoint'
+            name: 'Test Endpoint',
+            inputs: '[{"foo": "bar"}]',
         );
 
         $entity = $this->repository->create($dto);

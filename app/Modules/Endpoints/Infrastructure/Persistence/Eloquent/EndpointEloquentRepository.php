@@ -24,6 +24,7 @@ class EndpointEloquentRepository implements EndpointRepository
                 'endpoints.user_id',
                 'endpoints.path',
                 'endpoints.name',
+                'endpoints.inputs',
                 'endpoints.created_at',
                 'endpoints.updated_at',
             )
@@ -55,6 +56,7 @@ class EndpointEloquentRepository implements EndpointRepository
             'user_id' => $endpointDto->userId,
             'path' => $endpointDto->path,
             'name' => $endpointDto->name,
+            'inputs' => $endpointDto->inputs,
         ]);
 
         return $this->mapToEntity($model);

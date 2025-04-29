@@ -11,6 +11,7 @@ readonly class EndpointDto
         public int $userId,
         public string $name,
         public string $path,
+        public string $inputs,
     ) {
     }
 }

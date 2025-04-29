@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $user_id
  * @property string $path
  * @property string $name
+ * @property string $inputs
  * @property \DateTimeImmutable $created_at
  * @property ?int $unique_hits
  * @property ?int $total_hits
@@ -50,6 +51,7 @@ class Endpoint extends Model
         'user_id',
         'path',
         'name',
+        'inputs',
     ];
     protected $casts = [
         'created_at' => 'immutable_datetime',

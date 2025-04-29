@@ -31,6 +31,7 @@ class EndpointFactory extends Factory
             'user_id' =>  User::factory(),
             'name' => fake()->company(),
             'path' => bin2hex(random_bytes(20)),
+            'inputs' => json_encode([fake()->word(), fake()->word()]),
         ];
     }
 }
