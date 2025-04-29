@@ -1,61 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# StubHub - JSON Stub Generator for REST API Testing
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+StubHub is a Laravel application designed to streamline the process of generating JSON stubs for REST API testing. This tool provides robust features, including flexible stub generation, sample data seeding, and customizable constraints, making it ideal for developers and testers working with RESTful APIs.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **JSON Stub Generation**: Quickly create JSON stubs with various data types, including personal information, addresses, payment details, and more.
+- **Sample Data Seeder**: Populate your application with realistic test data for endpoints, users, and more.
+- **Custom Policies and Constraints**: Manage API stub sizes, endpoint limits, and user roles with built-in policies.
+- **Category-Based Data Mapping**: Generate stubs based on predefined categories like Internet, Payment, Address, and Personal Info.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/GitHamo/StubHub.git
+   cd StubHub
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. Install dependencies:
+   ```bash
+   composer install
+   npm install
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. Set up your environment:
+   - Copy `.env.example` to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Configure your database and other environment variables in `.env`.
 
-## Laravel Sponsors
+4. Run migrations and seeders:
+   ```bash
+   php artisan migrate --seed
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+5. Start the development server:
+   ```bash
+   php artisan serve
+   ```
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Usage
+
+1. Access the application at `http://localhost:8000`.
+2. Use the provided endpoints and interface to create, manage, and test JSON stubs.
+3. Customize your stubs by modifying `StubFieldContextMapper` and other related classes.
+
+---
+
+## Development Insights
+
+### Core Business Logic
+
+- **StubFieldContextMapper**: Centralized mapping of data categories, input types, and case methods for stub generation.
+  - Categories include:
+    - **Personal Info**: Full name, email, phone numbers, etc.
+    - **Address**: City, country, postal code, etc.
+    - **Internet**: URLs, IP addresses, MIME types, etc.
+    - **Payment**: Credit card details, IBANs, etc.
+  - Input types such as text, numbers, and booleans are defined for flexibility.
+
+- **Policies**:
+  - `UserPolicy` enforces user roles and constraints for creating and deleting endpoints.
+  - `EndpointPolicy` manages endpoint ownership and deletion rights.
+
+- **Seeders**:
+  - `DatabaseSeeder` initializes the database with default admin and user roles.
+  - `SampledataSeeder` and `SampledataWithHamSeeder` populate realistic test data for local environments.
+
+---
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+We welcome contributions! Please follow these steps:
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit your changes and submit a pull request.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the [MIT License](LICENSE).
