@@ -52,6 +52,27 @@ class InputMapperTest extends TestCase
         $this->mapper->mapInputs($input);
     }
 
+    public function testThrowsExceptionIfInputRepeatIsNotScalar(): void
+    {
+        static::expectException(InvalidArgumentException::class);
+        static::expectExceptionMessage('Repeat must be a scalar or null');
+
+        $input = [
+            [
+                'key' => 'foo',
+                'nested' => [
+                    [
+                        'key' => 'bar',
+                        'context' => StubFieldContext::cases()[0],
+                    ],
+                ],
+                'repeat' => new \stdClass(),
+            ],
+        ];
+
+        $this->mapper->mapInputs($input);
+    }
+
     /**
      * @param list<array<string|list<array<string, string>>>> $input
      * @param array<Single|Nested> $expected

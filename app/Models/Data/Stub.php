@@ -52,7 +52,7 @@ readonly class Stub
      */
     public function toJson(): string
     {
-        return json_encode($this->toArray(), JSON_THROW_ON_ERROR|JSON_NUMERIC_CHECK|JSON_UNESCAPED_UNICODE);
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR | JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -103,11 +103,11 @@ readonly class Stub
         /** @var string */
         $key = $item[$fieldKeyName];
         /**
-         * @var list<array<string, mixed>>|array<string, mixed>
+         * @var list<array<string, mixed>>|array<string, mixed>|mixed
          */
         $value = $item[$fieldValueName];
 
-        if (array_is_list($value)) {
+        if (is_array($value) && array_is_list($value)) {
             $value = self::createOutput($value);
         }
 

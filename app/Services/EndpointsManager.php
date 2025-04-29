@@ -32,6 +32,7 @@ final readonly class EndpointsManager
     public function createEndpoint(string $uuid, User $user, string $name, array $inputsData): Endpoint
     {
         $inputs = $this->inputMapper->mapInputs($inputsData);
+
         $this->constraintsCheck->ensureUserCanCreateEndpoint($user);
 
         $this->constraintsCheck->ensureInputRepeatWithinLimit($user, ...$inputs);

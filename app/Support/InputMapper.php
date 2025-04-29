@@ -40,9 +40,13 @@ readonly class InputMapper
 
             /** @var string */
             $key = $this->findOrFail(self::INPUT_KEY, $rawInput);
-            
-            /** @var int */
             $repeat = $this->find(self::INPUT_REPEAT, $rawInput);
+
+            if (!is_scalar($repeat) && $repeat !== null) {
+                throw new InvalidArgumentException('Repeat must be a scalar or null');
+            }
+
+            $repeat = intval($repeat);
 
             $isNotIterable = !is_array($nested) || !array_is_list($nested);
             if ($isNotIterable) {
