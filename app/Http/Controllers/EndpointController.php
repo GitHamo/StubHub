@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 class EndpointController extends Controller
 {
     use AuthorizesRequests;
-    private const int PATH_LENGTH = 20;
 
     public function __construct(
         private readonly EndpointsManager $endpointsManager,
@@ -68,17 +67,13 @@ class EndpointController extends Controller
          * @var \App\Models\User
          */
         $user = $request->user();
-        $userId = $user->id;
-
-        $this->authorize('createEndpoint', $user);
      
         /** @var string */
         $name = $request->validated('name');
         /** @var list<array<string, mixed>> */
         $inputs = $request->validated('inputs', []);
-        $path = bin2hex(random_bytes(self::PATH_LENGTH));
 
-        $this->endpointsManager->createEndpoint($uuid, $userId, $name, $path, $inputs);
+        $this->endpointsManager->createEndpoint($uuid, $user, $name, $inputs);
 
         $endpointUrl = route('traffic.serve', ['endpoint' => $uuid]);
 

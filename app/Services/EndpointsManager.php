@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Modules\Stubs\StubGenerator;
+use App\Models\User;
+use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Endpoints\Domain\EndpointDto;
 use App\Modules\Endpoints\Domain\Endpoint;
 use App\Modules\Endpoints\Domain\EndpointRepository;
+use App\Modules\StubGenerate\StubGenerator;
 use App\Modules\StubStorage\StorageRepository;
+use App\Support\InputMapper;
 
 final readonly class EndpointsManager
 {
+    private const int PATH_LENGTH = 20;
+
     public function __construct(
+        private InputMapper $inputMapper,
+        private ConstraintsCheck $constraintsCheck,
         private StubGenerator $stubGenerator,
         private EndpointRepository $endpointRepository,
         private StorageRepository $storageRepository,
@@ -22,13 +29,24 @@ final readonly class EndpointsManager
     /**
      * @param list<array<string, mixed>> $inputsData
      */
-    public function createEndpoint(string $uuid, int $userId, string $name, string $path, array $inputsData): Endpoint
+    public function createEndpoint(string $uuid, User $user, string $name, array $inputsData): Endpoint
     {
-        $stub = $this->stubGenerator->generate($inputsData);
+        $inputs = $this->inputMapper->mapInputs($inputsData);
+        $this->constraintsCheck->ensureUserCanCreateEndpoint($user);
+
+        $this->constraintsCheck->ensureInputRepeatWithinLimit($user, ...$inputs);
+
+        $stub = $this->stubGenerator->generate(...$inputs);
+
+        $this->constraintsCheck->ensureStubSizeWithinLimits($user, $stub);
+
+        $path = $this->generatePath();
 
         $this->storageRepository->create($path, $stub);
 
-        return $this->endpointRepository->create(new EndpointDto($uuid, $userId, $name, $path));
+        $dto = new EndpointDto($uuid, $user->id, $name, $path, json_encode($inputs));
+
+        return $this->endpointRepository->create($dto);
     }
 
     /**
@@ -43,5 +61,10 @@ final readonly class EndpointsManager
     {
         $this->endpointRepository->deleteById($uuid);
         $this->storageRepository->delete($path);
+    }
+
+    private function generatePath(): string
+    {
+        return bin2hex(random_bytes(self::PATH_LENGTH));
     }
 }
