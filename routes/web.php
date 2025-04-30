@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/subscriptions', function () {
+    return view('subscriptions');
+});
 
 Route::get('/dashboard', [EndpointController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -22,9 +25,9 @@ Route::middleware('throttle:30,1')->group([function () {
 }]);
 
 Route::middleware('auth')->group(function () {
-        Route::get('/endpoints/create', [EndpointController::class, 'create'])->name('endpoints.create');
+    Route::get('/endpoints/create', [EndpointController::class, 'create'])->name('endpoints.create');
     Route::post('/endpoints', [EndpointController::class, 'store'])->name('endpoints.store');
-    
+
     Route::delete('/endpoints/{endpoint}', [EndpointController::class, 'delete'])->name('endpoints.destroy');
 });
 
