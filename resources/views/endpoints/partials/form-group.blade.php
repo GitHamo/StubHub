@@ -1,4 +1,4 @@
-<div class="form-group bg-gray-50 p-4 rounded-lg border border-gray-200 relative" data-level="{{ $level }}" data-field-prefix="{{ $fieldPrefix ?? "inputs[$index]" }}" data-has-nested="{{ isset($input['nested']) && count($input['nested']) > 0 ? 'true' : 'false' }}">
+<div class="form-group bg-gray-50 p-4 rounded-lg border border-gray-200 cursor-grab active:cursor-grabbing relative" data-level="{{ $level }}" data-field-prefix="{{ $fieldPrefix ?? "inputs[$index]" }}" data-has-nested="{{ isset($input['nested']) && count($input['nested']) > 0 ? 'true' : 'false' }}">
     <div class="flex justify-between mb-3">
         <h3 class="font-medium text-gray-700">Group #{{ $index }}</h3>
         <div class="flex space-x-2">
