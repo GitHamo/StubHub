@@ -232,6 +232,11 @@
             
             updateFormStructure();
         });
+
+        // make key input selectable on double click
+        group.querySelector('.key-input').addEventListener('dblclick', function(e) {
+            this.select();
+        });
         
         // Remove group button
         group.querySelector('.remove-group-btn').addEventListener('click', function() {
