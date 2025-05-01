@@ -1,6 +1,6 @@
 {{-- Form group template (for JavaScript cloning) --}}
 <template id="formGroupTemplate">
-    <div class="form-group bg-gray-50 p-4 rounded-lg border border-gray-200 relative" data-level="__LEVEL__" data-group-id="__GROUP_ID__" data-has-nested="false">
+    <div class="form-group bg-gray-50 p-4 rounded-lg border border-gray-200 cursor-grab active:cursor-grabbing relative" data-level="__LEVEL__" data-group-id="__GROUP_ID__" data-has-nested="false">
         <div class="flex justify-between mb-3">
             <h3 class="font-medium text-gray-700">Field #__INDEX__</h3>
             <div class="flex space-x-2">
