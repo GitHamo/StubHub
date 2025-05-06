@@ -64,4 +64,21 @@ class TrafficControlTest extends TestCase
 
         $this->service->serve($this->createMock(Endpoint::class), 'foo');
     }
+
+    public function testGetsResponseOfEndpoint(): void
+    {
+        $endpointMock = $this->createConfiguredMock(Endpoint::class, [
+            'path' => $path = 'baz',
+        ]);
+        $expected = 'foobarbaz';
+
+        $this->storageRepository->expects(static::once())
+            ->method('fetchById')
+            ->with(static::identicalTo($path))
+            ->willReturn($expected);
+
+        $actual = $this->service->getResponse($endpointMock);
+
+        static::assertSame($expected, $actual);
+    }
 }

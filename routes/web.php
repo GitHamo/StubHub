@@ -27,8 +27,9 @@ Route::middleware('throttle:30,1')->group([function () {
 Route::middleware('auth')->group(function () {
     Route::get('/endpoints/create', [EndpointController::class, 'create'])->name('endpoints.create');
     Route::post('/endpoints', [EndpointController::class, 'store'])->name('endpoints.store');
-
     Route::delete('/endpoints/{endpoint}', [EndpointController::class, 'delete'])->name('endpoints.destroy');
+    Route::get('/endpoints/{endpoint}/download', [EndpointController::class, 'download'])->name('endpoints.download');
+
 });
 
 require __DIR__.'/auth.php';

@@ -19,4 +19,9 @@ class EndpointPolicy
     {
         return $model->user_id === $user->id;
     }
+
+    public function download(User $user, Endpoint $model): bool
+    {
+        return $model->user_id === $user->id;
+    }
 }

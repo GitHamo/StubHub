@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\SubscriptionType;
+use App\Enums\UserRole;
 use App\Http\Requests\CreateEndpointRequest;
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint as EloquentEndpoint;
 use App\Services\EndpointsManager;
@@ -17,6 +19,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class EndpointController extends Controller
 {
@@ -53,8 +56,27 @@ class EndpointController extends Controller
         return response($response, HttpFoundationResponse::HTTP_OK)->header('Content-Type', 'application/json');
     }
 
+    public function download(EloquentEndpoint $endpoint): Response
+    {
+        try {
+            $this->authorize('download', $endpoint);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            abort(404);
+        }
+
+        $json = $this->trafficControlService->getResponse($endpoint->toEntity());
+        $filename = "stub-{$endpoint->id}.json";
+
+        return response($json, HttpFoundationResponse::HTTP_OK, [
+            'Content-Type' => 'application/json',
+            'Content-Disposition' => (new ResponseHeaderBag())
+                ->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename),
+        ]);
+    }
+
     public function create(): View
     {
+        // auth()->user()->update(['subscription_type' => SubscriptionType::FREE]);
         $categories = StubFieldContextMapper::categoryMap();
 
         return view('endpoints.create', ['categories' => $categories]);
@@ -67,7 +89,7 @@ class EndpointController extends Controller
          * @var \App\Models\User
          */
         $user = $request->user();
-     
+
         /** @var string */
         $name = $request->validated('name');
         /** @var list<array<string, mixed>> */
