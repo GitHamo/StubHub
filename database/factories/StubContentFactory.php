@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContent>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\StubContent>
  */
 class StubContentFactory extends Factory
 {

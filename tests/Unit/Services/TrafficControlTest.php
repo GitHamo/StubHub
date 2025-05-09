@@ -6,8 +6,8 @@ namespace Tests\Unit\Services;
 
 use App\Modules\Endpoints\Domain\Endpoint;
 use App\Modules\Hits\Domain\HitDto as EndpointHitDto;
-use App\Modules\Hits\Domain\HitRepository;
 use App\Modules\StubStorage\StorageRepository;
+use App\Repositories\EndpointHitRepository;
 use App\Services\TrafficControl;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -17,7 +17,7 @@ class TrafficControlTest extends TestCase
 {
     private TrafficControl $service;
     private StorageRepository&MockObject $storageRepository;
-    private HitRepository&MockObject $hitRepository;
+    private EndpointHitRepository&MockObject $hitRepository;
 
     protected function setUp(): void
     {
@@ -25,7 +25,7 @@ class TrafficControlTest extends TestCase
 
         $this->service = new TrafficControl(
             $this->storageRepository = $this->createMock(StorageRepository::class),
-            $this->hitRepository = $this->createMock(HitRepository::class),
+            $this->hitRepository = $this->createMock(EndpointHitRepository::class),
         );
     }
 

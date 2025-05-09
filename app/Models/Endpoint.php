@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Endpoints\Infrastructure\Persistence\Eloquent;
+namespace App\Models;
 
+use App\Models\Hit as EndpointHitModel;
 use App\Models\User;
 use App\Modules\Endpoints\Domain\Endpoint as EndpointEntity;
-use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit as HitModel;
 use Database\Factories\EndpointFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -76,11 +76,11 @@ class Endpoint extends Model
     }
 
     /**
-     * @return HasMany<HitModel, $this>
+     * @return HasMany<EndpointHitModel, $this>
      */
     public function hits(): HasMany
     {
-        return $this->hasMany(HitModel::class);
+        return $this->hasMany(EndpointHitModel::class);
     }
 
     public function toEntity(): EndpointEntity

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Hits\Infrastructure\Persistence\Eloquent;
+namespace App\Models;
 
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
-use Database\Factories\HitFactory;
+use Database\Factories\EndpointHitFactory;
 use DateTimeImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Hit extends Model
 {
-    /** @use HasFactory<\Database\Factories\HitFactory> */
+    /** @use HasFactory<\Database\Factories\EndpointHitFactory> */
     use HasFactory;
     public $timestamps = false; // disables both created_at and updated_at
     /**
@@ -55,9 +55,9 @@ class Hit extends Model
     /**
      * Create a new factory instance for the model.
      */
-    protected static function newFactory(): HitFactory
+    protected static function newFactory(): EndpointHitFactory
     {
-        return HitFactory::new();
+        return EndpointHitFactory::new();
     }
 
     /**

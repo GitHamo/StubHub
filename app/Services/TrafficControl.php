@@ -6,14 +6,14 @@ namespace App\Services;
 
 use App\Modules\Endpoints\Domain\Endpoint;
 use App\Modules\Hits\Domain\HitDto;
-use App\Modules\Hits\Domain\HitRepository;
 use App\Modules\StubStorage\StorageRepository;
+use App\Repositories\EndpointHitRepository;
 
 final readonly class TrafficControl
 {
     public function __construct(
         private StorageRepository $storageRepository,
-        private HitRepository $hitRepository,
+        private EndpointHitRepository $hitRepository,
     ) {
     }
 

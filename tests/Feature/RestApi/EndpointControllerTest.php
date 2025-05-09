@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\RestApi;
 
+use App\Models\Endpoint;
+use App\Models\StubContent;
 use App\Models\User;
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
-use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;

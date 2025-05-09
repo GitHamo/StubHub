@@ -7,7 +7,7 @@ namespace App\Modules\StubStorage\Infrastructure;
 use App\Models\Data\Stub;
 use App\Modules\StubStorage\Domain\StubContentDto;
 use App\Modules\StubStorage\StorageRepository;
-use App\Repositories\Eloquent\StubContentRepository;
+use App\Repositories\StubContentRepository;
 use App\Support\JsonParser;
 
 readonly class EloquentStorageRepository implements StorageRepository

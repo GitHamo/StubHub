@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\Endpoint;
 use App\Models\User;
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
 
 class EndpointPolicy
 {

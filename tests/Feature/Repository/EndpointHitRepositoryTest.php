@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Repository;
 
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint as EndpointModel;
+use App\Models\Endpoint as EndpointModel;
 use App\Modules\Hits\Domain\HitDto as EndpointHitDto;
-use App\Modules\Hits\Infrastructure\Persistence\Eloquent\HitEloquentRepository;
+use App\Repositories\EndpointHitRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class HitEloquentRepositoryTest extends TestCase
+class EndpointHitRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private HitEloquentRepository $repository;
+    private EndpointHitRepository $repository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->repository = new HitEloquentRepository();
+        $this->repository = $this->app->make(EndpointHitRepository::class);
     }
 
     public function testItCreatesEndpointHit(): void

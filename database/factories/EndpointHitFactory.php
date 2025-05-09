@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
-use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit;
+use App\Models\Endpoint;
+use App\Models\Hit as EndpointHit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Hit>
  */
-class HitFactory extends Factory
+class EndpointHitFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var class-string<\Illuminate\Database\Eloquent\Model>
      */
-    protected $model = Hit::class;
+    protected $model = EndpointHit::class;
     /**
      * Define the model's default state.
      *

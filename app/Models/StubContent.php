@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\StubStorage\Infrastructure\Persistence\Eloquent;
+namespace App\Models;
 
 use Database\Factories\StubContentFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

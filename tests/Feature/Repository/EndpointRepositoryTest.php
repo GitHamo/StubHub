@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Repositories;
 
+use App\Models\Endpoint as EndpointModel;
 use App\Models\User;
 use App\Modules\Endpoints\Domain\EndpointDto;
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint as EndpointModel;
-use App\Repositories\Eloquent\EndpointRepository;
+use App\Repositories\EndpointRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -23,7 +23,7 @@ class EndpointRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->repository = new EndpointRepository();
+        $this->repository = $this->app->make(EndpointRepository::class);
         $this->user = User::factory()->create();
     }
 

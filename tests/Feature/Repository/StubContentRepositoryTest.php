@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Repository;
 
+use App\Models\StubContent as StubContentModel;
 use App\Modules\StubStorage\Domain\StubContentDto;
-use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContent as StubContentModel;
-use App\Repositories\Eloquent\StubContentRepository;
+use App\Repositories\StubContentRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -20,7 +20,7 @@ class StubContentRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->repository = new StubContentRepository();
+        $this->repository = $this->app->make(StubContentRepository::class);
     }
 
     public function testItCreatesStubContent(): void

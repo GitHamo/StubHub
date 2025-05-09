@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\StubContent as StubContentModel;
 use App\Modules\StubStorage\Domain\StubContent as StubContentEntity;
 use App\Modules\StubStorage\Domain\StubContentDto;
-use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContent as StubContentModel;
+use App\Repositories\StubContentRepository as StubContentRepositoryInterface;
 
-class StubContentRepository
+class StubContentRepository implements StubContentRepositoryInterface
 {
+    #[\Override]
     public function find(string $filename): StubContentEntity
     {
         return $this->mapToEntity(
@@ -17,6 +19,7 @@ class StubContentRepository
         );
     }
 
+    #[\Override]
     public function create(StubContentDto $dto): StubContentEntity
     {
         $model = StubContentModel::create([
@@ -27,6 +30,7 @@ class StubContentRepository
         return $this->mapToEntity($model);
     }
 
+    #[\Override]
     public function delete(string $filename): void
     {
         $this->findByName($filename)->delete();
@@ -42,6 +46,6 @@ class StubContentRepository
 
     private function findByName(string $filename): StubContentModel
     {
-        return StubContent::where('filename', $filename)->firstOrFail();
+        return StubContentModel::where('filename', $filename)->firstOrFail();
     }
 }

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\Hit as EndpointHitModel;
 use App\Modules\Hits\Domain\HitDto;
-use App\Modules\Hits\Domain\HitRepository as HitRepositoryInterface;
-use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit as HitModel;
+use App\Repositories\EndpointHitRepository as EndpointHitRepositoryInterface;
 
-class HitRepository implements HitRepositoryInterface
+class EndpointHitRepository implements EndpointHitRepositoryInterface
 {
     #[\Override]
     public function create(HitDto $hitDto): void
     {
-        HitModel::create([
+        EndpointHitModel::create([
             'endpoint_id' => $hitDto->endpointId,
             'signature' => $hitDto->signature,
         ]);

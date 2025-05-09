@@ -8,9 +8,9 @@ use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Endpoints\Domain\EndpointDto;
 use App\Modules\Endpoints\Domain\Endpoint;
-use App\Modules\Endpoints\Domain\EndpointRepository;
 use App\Modules\StubGenerate\StubGenerator;
 use App\Modules\StubStorage\StorageRepository;
+use App\Repositories\EndpointRepository;
 use App\Support\InputMapper;
 
 final readonly class EndpointsManager

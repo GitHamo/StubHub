@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\SubscriptionType;
-use App\Enums\UserRole;
 use App\Http\Requests\CreateEndpointRequest;
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint as EloquentEndpoint;
+use App\Models\Endpoint as EloquentEndpoint;
 use App\Services\EndpointsManager;
 use App\Services\TrafficControl;
 use App\Support\StubFieldContextMapper;
@@ -76,7 +74,6 @@ class EndpointController extends Controller
 
     public function create(): View
     {
-        // auth()->user()->update(['subscription_type' => SubscriptionType::FREE]);
         $categories = StubFieldContextMapper::categoryMap();
 
         return view('endpoints.create', ['categories' => $categories]);

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint as EndpointModel;
+use App\Models\Endpoint as EndpointModel;
 use App\Modules\Endpoints\Domain\Endpoint as EndpointEntity;
 use App\Modules\Endpoints\Domain\EndpointDto;
-use App\Modules\Endpoints\Domain\EndpointRepository as EndpointRepositoryInterface;
+use App\Repositories\EndpointRepository as EndpointRepositoryInterface;
 
 class EndpointRepository implements EndpointRepositoryInterface
 {
