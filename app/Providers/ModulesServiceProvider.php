@@ -6,15 +6,17 @@ namespace App\Providers;
 
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Constraints\Infrastructure\ConstraintsCheckService;
-use App\Modules\Endpoints\Domain\EndpointRepository;
-use App\Modules\Hits\Domain\HitRepository;
-use App\Modules\Hits\Infrastructure\Persistence\Eloquent\HitEloquentRepository;
 use App\Modules\StubGenerate\Infrastructure\FakerStubMapper;
 use App\Modules\StubGenerate\Infrastructure\StubGenerateService;
 use App\Modules\StubGenerate\StubGenerator;
 use App\Modules\StubStorage\Infrastructure\EloquentStorageRepository;
 use App\Modules\StubStorage\StorageRepository;
-use App\Repositories\Eloquent\StubContentRepository;
+use App\Repositories\EndpointHitRepository;
+use App\Repositories\EndpointRepository;
+use App\Repositories\StubContentRepository;
+use App\Repositories\Eloquent\EndpointHitRepository as EloquentEndpointHitRepository;
+use App\Repositories\Eloquent\EndpointRepository as EloquentEndpointRepository;
+use App\Repositories\Eloquent\StubContentRepository as EloquentStubContentRepository;
 use App\Support\JsonParser;
 use App\Support\StubFieldContextMapper;
 use Illuminate\Contracts\Foundation\Application;
@@ -34,23 +36,28 @@ class ModulesServiceProvider extends ServiceProvider
          * Bindings
          */
         $this->app->bind(ConstraintsCheck::class, ConstraintsCheckService::class);
-        $this->app->bind(EndpointRepository::class, EndpointRepository::class);
-        $this->app->bind(HitRepository::class, HitEloquentRepository::class);
         $this->app->bind(StubGenerator::class, StubGenerateService::class);
         $this->app->bind(StorageRepository::class, EloquentStorageRepository::class);
         /**
          * class dependencies
          */
-        $this->app->bind(FakerStubMapper::class, fn(): FakerStubMapper => new FakerStubMapper(
+        $this->app->bind(FakerStubMapper::class, fn (): FakerStubMapper => new FakerStubMapper(
             \Faker\Factory::create(),
             StubFieldContextMapper::flatMap(),
         ));
 
-        $this->app->bind(EloquentStorageRepository::class, fn(Application $application): EloquentStorageRepository => new EloquentStorageRepository(
+        $this->app->bind(EloquentStorageRepository::class, fn (Application $application): EloquentStorageRepository => new EloquentStorageRepository(
             $application->make(StubContentRepository::class),
             $application->make(JsonParser::class),
             $this->getAppSecretKey(),
         ));
+
+        /**
+         * Repositories
+         */
+        $this->app->bind(EndpointHitRepository::class, EloquentEndpointHitRepository::class);
+        $this->app->bind(EndpointRepository::class, EloquentEndpointRepository::class);
+        $this->app->bind(StubContentRepository::class, EloquentStubContentRepository::class);
     }
 
     private function getAppSecretKey(): string
