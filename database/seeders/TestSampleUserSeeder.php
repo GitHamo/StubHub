@@ -6,10 +6,10 @@ namespace Database\Seeders;
 
 use App\Enums\SubscriptionType;
 use App\Enums\UserRole;
+use App\Models\Endpoint;
+use App\Models\EndpointHit;
+use App\Models\StubContent;
 use App\Models\User;
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
-use App\Modules\Hits\Infrastructure\Persistence\Eloquent\Hit;
-use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContent;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -74,7 +74,7 @@ class TestSampleUserSeeder extends Seeder
         $signatures = array_map(fn () => fake()->md5(), range(1, self::SIGNATURES_COUNT));
 
         foreach (range(self::HITS_COUNT_MIN, self::HITS_COUNT_MAX) as $i) {
-            Hit::create([
+            EndpointHit::create([
                 'endpoint_id' => fake()->randomElement($endpointIds),
                 'signature' => fake()->randomElement($signatures),
                 'created_at'  => now()->subMinutes(rand(0, 1000)),

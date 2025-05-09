@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $signature
  * @property DateTimeImmutable $created_at
  */
-class Hit extends Model
+class EndpointHit extends Model
 {
     /** @use HasFactory<\Database\Factories\EndpointHitFactory> */
     use HasFactory;

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Endpoint;
-use App\Models\Hit as EndpointHit;
+use App\Models\EndpointHit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Hit>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EndpointHit>
  */
 class EndpointHitFactory extends Factory
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Hit as EndpointHitModel;
+use App\Models\EndpointHit as EndpointHitModel;
 use App\Models\User;
 use App\Modules\Endpoints\Domain\Endpoint as EndpointEntity;
 use Database\Factories\EndpointFactory;

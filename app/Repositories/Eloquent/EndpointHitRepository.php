@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Hit as EndpointHitModel;
+use App\Models\EndpointHit as EndpointHitModel;
 use App\Modules\Hits\Domain\HitDto;
 use App\Repositories\EndpointHitRepository as EndpointHitRepositoryInterface;
 
