@@ -7,15 +7,14 @@ namespace App\Providers;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Constraints\Infrastructure\ConstraintsCheckService;
 use App\Modules\Endpoints\Domain\EndpointRepository;
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\EndpointEloquentRepository;
 use App\Modules\Hits\Domain\HitRepository;
 use App\Modules\Hits\Infrastructure\Persistence\Eloquent\HitEloquentRepository;
 use App\Modules\StubGenerate\Infrastructure\FakerStubMapper;
 use App\Modules\StubGenerate\Infrastructure\StubGenerateService;
 use App\Modules\StubGenerate\StubGenerator;
 use App\Modules\StubStorage\Infrastructure\EloquentStorageRepository;
-use App\Modules\StubStorage\Infrastructure\Persistence\Eloquent\StubContentEloquentRepository;
 use App\Modules\StubStorage\StorageRepository;
+use App\Repositories\Eloquent\StubContentRepository;
 use App\Support\JsonParser;
 use App\Support\StubFieldContextMapper;
 use Illuminate\Contracts\Foundation\Application;
@@ -35,7 +34,7 @@ class ModulesServiceProvider extends ServiceProvider
          * Bindings
          */
         $this->app->bind(ConstraintsCheck::class, ConstraintsCheckService::class);
-        $this->app->bind(EndpointRepository::class, EndpointEloquentRepository::class);
+        $this->app->bind(EndpointRepository::class, EndpointRepository::class);
         $this->app->bind(HitRepository::class, HitEloquentRepository::class);
         $this->app->bind(StubGenerator::class, StubGenerateService::class);
         $this->app->bind(StorageRepository::class, EloquentStorageRepository::class);
@@ -48,7 +47,7 @@ class ModulesServiceProvider extends ServiceProvider
         ));
 
         $this->app->bind(EloquentStorageRepository::class, fn(Application $application): EloquentStorageRepository => new EloquentStorageRepository(
-            $application->make(StubContentEloquentRepository::class),
+            $application->make(StubContentRepository::class),
             $application->make(JsonParser::class),
             $this->getAppSecretKey(),
         ));

@@ -7,23 +7,23 @@ namespace Tests\Feature\Repositories;
 use App\Models\User;
 use App\Modules\Endpoints\Domain\EndpointDto;
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint as EndpointModel;
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\EndpointEloquentRepository;
+use App\Repositories\Eloquent\EndpointRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class EndpointEloquentRepositoryTest extends TestCase
+class EndpointRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    private EndpointEloquentRepository $repository;
+    private EndpointRepository $repository;
     private User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->repository = new EndpointEloquentRepository();
+        $this->repository = new EndpointRepository();
         $this->user = User::factory()->create();
     }
 

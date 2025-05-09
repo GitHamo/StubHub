@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Endpoints\Infrastructure\Persistence\Eloquent;
+namespace App\Repositories\Eloquent;
 
 use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint as EndpointModel;
 use App\Modules\Endpoints\Domain\Endpoint as EndpointEntity;
 use App\Modules\Endpoints\Domain\EndpointDto;
-use App\Modules\Endpoints\Domain\EndpointRepository;
+use App\Modules\Endpoints\Domain\EndpointRepository as EndpointRepositoryInterface;
 
-class EndpointEloquentRepository implements EndpointRepository
+class EndpointRepository implements EndpointRepositoryInterface
 {
     #[\Override]
     public function findByUserId(int $userId, int $limit): array
