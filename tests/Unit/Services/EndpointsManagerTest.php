@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use App\Models\Data\Inputs\Input;
+use App\Models\Data\Input;
 use App\Models\Data\Stub;
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
-use App\Services\EndpointsManager;
+use App\Modules\Content\Domain\Generator as ContentGenerator;
+use App\Modules\Content\Domain\Storage as ContentStorage;
 use App\Modules\Endpoints\Domain\Endpoint;
-use App\Modules\StubGenerate\StubGenerator;
-use App\Modules\StubStorage\StorageRepository;
+use App\Modules\Endpoints\Domain\EndpointDto;
+use App\Modules\Structure\Domain\InputMapper;
+use App\Modules\Structure\Domain\Structure;
 use App\Repositories\EndpointRepository;
-use App\Support\InputMapper;
+use App\Services\EndpointsManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
@@ -21,27 +23,21 @@ final class EndpointsManagerTest extends TestCase
 {
     private InputMapper&MockObject $inputMapper;
     private ConstraintsCheck&MockObject $constraintsCheck;
-    private StubGenerator&MockObject $stubGenerator;
+    private ContentGenerator&MockObject $contentGenerator;
+    private ContentStorage&MockObject $contentStorage;
     private EndpointRepository&MockObject $endpointRepository;
-    private StorageRepository&MockObject $storageRepository;
-    private EndpointsManager $manager;
+    private EndpointsManager $service;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->inputMapper = $this->createMock(InputMapper::class);
-        $this->constraintsCheck = $this->createMock(ConstraintsCheck::class);
-        $this->stubGenerator = $this->createMock(StubGenerator::class);
-        $this->endpointRepository = $this->createMock(EndpointRepository::class);
-        $this->storageRepository = $this->createMock(StorageRepository::class);
-
-        $this->manager = new EndpointsManager(
-            stubGenerator: $this->stubGenerator,
-            endpointRepository: $this->endpointRepository,
-            storageRepository: $this->storageRepository,
-            constraintsCheck: $this->constraintsCheck,
-            inputMapper: $this->inputMapper,
+        $this->service = new EndpointsManager(
+            $this->inputMapper = $this->createMock(InputMapper::class),
+            $this->constraintsCheck = $this->createMock(ConstraintsCheck::class),
+            $this->contentGenerator = $this->createMock(ContentGenerator::class),
+            $this->contentStorage = $this->createMock(ContentStorage::class),
+            $this->endpointRepository = $this->createMock(EndpointRepository::class),
         );
     }
 
@@ -51,20 +47,16 @@ final class EndpointsManagerTest extends TestCase
         $user = User::factory()->make(['id' => $userId = 123]);
         $name = 'Test Endpoint';
         $inputsData = [
-            ['foo' => 'bar'],
-            ['foo' => 'baz'],
-        ];
-        $inputs = [
+            $this->createMock(Input::class),
             $this->createMock(Input::class),
         ];
-
-        // $capturedPath = null;
+        $inputs = Structure::create(...$inputsData);
 
         $stubMock = $this->createMock(Stub::class);
         $expected = $this->createMock(Endpoint::class);
 
         $this->inputMapper->expects(self::once())
-            ->method('mapInputs')
+            ->method('map')
             ->with(static::identicalTo($inputsData))
             ->willReturn($inputs);
 
@@ -79,7 +71,7 @@ final class EndpointsManagerTest extends TestCase
                 ...$inputs,
             );
 
-        $this->stubGenerator
+        $this->contentGenerator
             ->expects(self::once())
             ->method('generate')
             ->with(...$inputs)
@@ -89,33 +81,31 @@ final class EndpointsManagerTest extends TestCase
             ->method('ensureStubSizeWithinLimits')
             ->with(static::identicalTo($user), static::identicalTo($stubMock));
 
-        $this->storageRepository
+        $this->contentStorage
             ->expects(self::once())
             ->method('create')
             ->with(
-                static::callback(function ($path) use (&$capturedPath): bool {
-                    $capturedPath = $path; // set generated path for later usage and validate it
-
-                    return is_string($path) && preg_match('/^[a-zA-Z0-9]{40}$/', $path); // Ensures 40-character alphanumeric string
-                }),
                 static::identicalTo($stubMock),
-            );
+            )
+            ->willReturn($path = 'bar');
 
         $this->endpointRepository
             ->expects(self::once())
             ->method('create')
-            // ->with(static::callback(
-            //     fn ($dto): bool =>
-            //     $dto instanceof EndpointDto
-            //         && $dto->id === $uuid
-            //         && $dto->userId === $userId
-            //         && $dto->name === $name
-            //         && $dto->path === $capturedPath
-            //         && $dto->inputs === json_encode($inputs, JSON_THROW_ON_ERROR)
-            // ))
+            ->with(
+                static::equalTo(
+                    new EndpointDto(
+                        id: $uuid,
+                        userId: $userId,
+                        path: $path,
+                        name: $name,
+                        inputs: json_encode($inputs, JSON_THROW_ON_ERROR),
+                    ),
+                ),
+            )
             ->willReturn($expected);
 
-        $actual = $this->manager->createEndpoint($uuid, $user, $name, $inputsData);
+        $actual = $this->service->createEndpoint($uuid, $user, $name, $inputsData);
 
         static::assertSame($expected, $actual);
     }
@@ -136,7 +126,7 @@ final class EndpointsManagerTest extends TestCase
             ->with(static::equalTo($userId), static::equalTo($limit))
             ->willReturn($expected);
 
-        $actual = $this->manager->getEndpointList($userId, $limit);
+        $actual = $this->service->getEndpointList($userId, $limit);
 
         static::assertSame($expected, $actual);
         static::assertCount(3, $actual);
@@ -151,11 +141,11 @@ final class EndpointsManagerTest extends TestCase
             ->expects(self::once())
             ->method('deleteById')
             ->with(static::identicalTo($id));
-        $this->storageRepository
+        $this->contentStorage
             ->expects(self::once())
             ->method('delete')
             ->with(static::identicalTo($path));
 
-        $this->manager->deleteEndpoint($id, $path);
+        $this->service->deleteEndpoint($id, $path);
     }
 }

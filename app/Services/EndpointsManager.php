@@ -6,23 +6,21 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
+use App\Modules\Content\Domain\Generator as ContentGenerator;
+use App\Modules\Content\Domain\Storage as ContentStorage;
 use App\Modules\Endpoints\Domain\EndpointDto;
 use App\Modules\Endpoints\Domain\Endpoint;
-use App\Modules\StubGenerate\StubGenerator;
-use App\Modules\StubStorage\StorageRepository;
+use App\Modules\Structure\Domain\InputMapper;
 use App\Repositories\EndpointRepository;
-use App\Support\InputMapper;
 
 final readonly class EndpointsManager
 {
-    private const int PATH_LENGTH = 20;
-
     public function __construct(
         private InputMapper $inputMapper,
         private ConstraintsCheck $constraintsCheck,
-        private StubGenerator $stubGenerator,
+        private ContentGenerator $contentGenerator,
+        private ContentStorage $contentStorage,
         private EndpointRepository $endpointRepository,
-        private StorageRepository $storageRepository,
     ) {
     }
 
@@ -31,21 +29,19 @@ final readonly class EndpointsManager
      */
     public function createEndpoint(string $uuid, User $user, string $name, array $inputsData): Endpoint
     {
-        $inputs = $this->inputMapper->mapInputs($inputsData);
+        $inputs = $this->inputMapper->map($inputsData);
 
         $this->constraintsCheck->ensureUserCanCreateEndpoint($user);
 
         $this->constraintsCheck->ensureInputRepeatWithinLimit($user, ...$inputs);
 
-        $stub = $this->stubGenerator->generate(...$inputs);
+        $stub = $this->contentGenerator->generate(...$inputs);
 
         $this->constraintsCheck->ensureStubSizeWithinLimits($user, $stub);
 
-        $path = $this->generatePath();
+        $path = $this->contentStorage->create($stub);
 
-        $this->storageRepository->create($path, $stub);
-
-        $dto = new EndpointDto($uuid, $user->id, $name, $path, json_encode($inputs, JSON_THROW_ON_ERROR));
+        $dto = new EndpointDto($uuid, $user->id, $name, $path, $inputs->toJson());
 
         return $this->endpointRepository->create($dto);
     }
@@ -61,11 +57,6 @@ final readonly class EndpointsManager
     public function deleteEndpoint(string $uuid, string $path): void
     {
         $this->endpointRepository->deleteById($uuid);
-        $this->storageRepository->delete($path);
-    }
-
-    private function generatePath(): string
-    {
-        return bin2hex(random_bytes(self::PATH_LENGTH));
+        $this->contentStorage->delete($path);
     }
 }

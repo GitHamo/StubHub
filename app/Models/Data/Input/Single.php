@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Data\Inputs;
+namespace App\Models\Data\Input;
 
 use App\Enums\StubFieldContext;
+use App\Models\Data\Input;
 
 class Single extends Input
 {

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Data\Inputs;
+namespace App\Models\Data\Input;
+
+use App\Models\Data\Input;
 
 class Nested extends Input
 {
