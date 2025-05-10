@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Modules\Content\Domain\Storage as ContentStorage;
 use App\Modules\Endpoints\Domain\Endpoint;
 use App\Modules\Hits\Domain\HitDto;
-use App\Modules\StubStorage\StorageRepository;
 use App\Repositories\EndpointHitRepository;
 
 final readonly class TrafficControl
 {
     public function __construct(
-        private StorageRepository $storageRepository,
+        private ContentStorage $contentStorage,
         private EndpointHitRepository $hitRepository,
     ) {
     }
@@ -30,6 +30,6 @@ final readonly class TrafficControl
 
     public function getResponse(Endpoint $endpoint): string
     {
-        return $this->storageRepository->fetchById($endpoint->path());
+        return $this->contentStorage->get($endpoint->path());
     }
 }

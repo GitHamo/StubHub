@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Support;
 
-use App\Models\Data\Inputs\Input;
-use App\Models\Data\Inputs\Nested;
+use App\Models\Data\Input;
+use App\Models\Data\Input\Nested;
 
 class InputRepeatMapper
 {

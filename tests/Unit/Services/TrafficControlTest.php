@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
+use App\Modules\Content\Domain\Storage as ContentStorage;
 use App\Modules\Endpoints\Domain\Endpoint;
 use App\Modules\Hits\Domain\HitDto as EndpointHitDto;
-use App\Modules\StubStorage\StorageRepository;
 use App\Repositories\EndpointHitRepository;
 use App\Services\TrafficControl;
 use Exception;
@@ -16,7 +16,7 @@ use Tests\TestCase;
 class TrafficControlTest extends TestCase
 {
     private TrafficControl $service;
-    private StorageRepository&MockObject $storageRepository;
+    private ContentStorage&MockObject $contentStorage;
     private EndpointHitRepository&MockObject $hitRepository;
 
     protected function setUp(): void
@@ -24,7 +24,7 @@ class TrafficControlTest extends TestCase
         parent::setUp();
 
         $this->service = new TrafficControl(
-            $this->storageRepository = $this->createMock(StorageRepository::class),
+            $this->contentStorage = $this->createMock(ContentStorage::class),
             $this->hitRepository = $this->createMock(EndpointHitRepository::class),
         );
     }
@@ -39,8 +39,8 @@ class TrafficControlTest extends TestCase
         $endpointHitDto = new EndpointHitDto($id, $signature);
         $expected = 'foobarbaz';
 
-        $this->storageRepository->expects(static::once())
-            ->method('fetchById')
+        $this->contentStorage->expects(static::once())
+            ->method('get')
             ->with(static::identicalTo($path))
             ->willReturn($expected);
         $this->hitRepository->expects(static::once())
@@ -56,8 +56,8 @@ class TrafficControlTest extends TestCase
     {
         static::expectException(Exception::class);
 
-        $this->storageRepository->expects(static::once())
-            ->method('fetchById')
+        $this->contentStorage->expects(static::once())
+            ->method('get')
             ->willThrowException(new Exception());
         $this->hitRepository->expects(static::never())
             ->method('create');
@@ -72,8 +72,8 @@ class TrafficControlTest extends TestCase
         ]);
         $expected = 'foobarbaz';
 
-        $this->storageRepository->expects(static::once())
-            ->method('fetchById')
+        $this->contentStorage->expects(static::once())
+            ->method('get')
             ->with(static::identicalTo($path))
             ->willReturn($expected);
 

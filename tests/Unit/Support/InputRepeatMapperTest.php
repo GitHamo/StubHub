@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Support;
 
 use App\Enums\StubFieldContext;
-use App\Models\Data\Inputs\Nested;
-use App\Models\Data\Inputs\Single;
+use App\Models\Data\Input\Nested;
+use App\Models\Data\Input\Single;
 use App\Support\InputRepeatMapper;
 use PHPUnit\Framework\TestCase;
 
