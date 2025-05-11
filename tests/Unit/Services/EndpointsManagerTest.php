@@ -100,7 +100,7 @@ final class EndpointsManagerTest extends TestCase
                         userId: $userId,
                         path: $path,
                         name: $name,
-                        inputs: json_encode($inputs, JSON_THROW_ON_ERROR),
+                        inputs: json_encode($structure, JSON_THROW_ON_ERROR),
                     ),
                 ),
             )

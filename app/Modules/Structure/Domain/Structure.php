@@ -28,14 +28,14 @@ class Structure implements IteratorAggregate, JsonSerializable
         return new self($inputs);
     }
 
+    #[\Override]
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->inputs);
     }
 
-    /**
-     * @return array<string, mixed>
-     */
+    /** @psalm-suppress MixedReturnTypeCoercion */
+    #[\Override]
     public function jsonSerialize(): array
     {
         return array_map('get_object_vars', $this->inputs);

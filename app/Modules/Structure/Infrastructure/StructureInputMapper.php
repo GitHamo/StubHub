@@ -21,10 +21,10 @@ final readonly class StructureInputMapper implements InputMapper
     private const string INPUT_REPEAT = "repeat";
 
     #[\Override]
-    public function map(array $inputData): Structure
+    public function map(array $rawData): Structure
     {
         return Structure::create(
-            ...array_map([$this, 'mapInput'], $inputData)
+            ...array_map([$this, 'mapInput'], $rawData)
         );
     }
 
@@ -39,6 +39,7 @@ final readonly class StructureInputMapper implements InputMapper
             return $this->mapSingleInput($inputData);
         }
 
+        /** @var mixed */
         $nested = $inputData[self::INPUT_NESTED];
 
         /** @var string */
@@ -56,6 +57,7 @@ final readonly class StructureInputMapper implements InputMapper
             throw new InvalidArgumentException('Input nested data must be an array');
         }
 
+        /** @var list<array<string, mixed>> $nested */
         return $this->mapNestedInput($key, $nested, $repeat);
     }
 

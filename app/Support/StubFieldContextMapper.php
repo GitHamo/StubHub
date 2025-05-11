@@ -9,7 +9,7 @@ use App\Enums\StubFieldContext;
 final readonly class StubFieldContextMapper
 {
     /**
-     * @return string[][]
+     * @return array<string, string[]>
      */
     public static function flatMap(): array
     {
@@ -50,7 +50,7 @@ final readonly class StubFieldContextMapper
     }
 
     /**
-     * @return string[][]
+     * @return array<string, string[]>
      */
     private static function metadataMap(string ...$constants): array
     {

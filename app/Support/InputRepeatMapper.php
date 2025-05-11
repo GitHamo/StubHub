@@ -7,7 +7,7 @@ namespace App\Support;
 use App\Models\Data\Input;
 use App\Models\Data\Input\Nested;
 
-class InputRepeatMapper
+final class InputRepeatMapper
 {
     public function max(Input ...$inputs): int
     {

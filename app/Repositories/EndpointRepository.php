@@ -14,8 +14,6 @@ interface EndpointRepository
      */
     public function findByUserId(int $userId, int $limit): array;
 
-    public function findById(string $id): ?Endpoint;
-
     public function create(EndpointDto $endpointDto): Endpoint;
 
     public function deleteById(string $id): void;

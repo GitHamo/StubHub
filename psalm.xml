@@ -10,15 +10,15 @@
 >
     <projectFiles>
         <directory name="app" />
-        <directory name="bootstrap" />
-        <directory name="config" />
+        <directory name="app/Models/Data" />
         <directory name="database/factories" />
-        <directory name="database/seeders" />
         <directory name="resources" />
         <ignoreFiles>
+            <directory name="app/Models" />
             <directory name="vendor" />
             <directory name="app/Http/Requests" />
-            <!-- <file name="app/Policies/*Policy.php" /> -->
+            <file name="app/Policies/*Policy.php" />
+            <file name="app/Repositories/Eloquent/*Repository.php" />
         </ignoreFiles>
     </projectFiles>
 

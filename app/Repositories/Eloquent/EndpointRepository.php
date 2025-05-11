@@ -37,18 +37,6 @@ class EndpointRepository implements EndpointRepositoryInterface
     }
 
     #[\Override]
-    public function findById(string $id): ?EndpointEntity
-    {
-        $model = EndpointModel::where('id', $id)->first();
-
-        if ($model === null) {
-            return null;
-        }
-
-        return $this->mapToEntity($model);
-    }
-
-    #[\Override]
     public function create(EndpointDto $endpointDto): EndpointEntity
     {
         $model = EndpointModel::create([

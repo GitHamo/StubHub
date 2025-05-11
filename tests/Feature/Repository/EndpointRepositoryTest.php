@@ -104,26 +104,6 @@ class EndpointRepositoryTest extends TestCase
         static::assertSame($dto->name, $entity->name());
     }
 
-    public function testItFindsEndpointById(): void
-    {
-        $model = EndpointModel::factory()->create();
-
-        $entity = $this->repository->findById($model->id);
-
-        static::assertNotNull($entity);
-        static::assertSame($model->id, $entity->id());
-        static::assertSame($model->user_id, $entity->userId());
-        static::assertSame($model->path, $entity->path());
-        static::assertSame($model->name, $entity->name());
-    }
-
-    public function testItReturnsNullIfEndpointNotFound(): void
-    {
-        $entity = $this->repository->findById(Str::uuid()->toString());
-
-        static::assertNull($entity);
-    }
-
     public function testItDeletesEndpointById(): void
     {
         $model = EndpointModel::factory()->create();

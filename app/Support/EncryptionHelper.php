@@ -6,7 +6,7 @@ namespace App\Support;
 
 use App\Exceptions\EncryptionException;
 
-readonly class EncryptionHelper
+final readonly class EncryptionHelper
 {
     private const string CIPHER_ALGO = 'AES-256-CBC';
 

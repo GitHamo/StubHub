@@ -18,6 +18,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
     {
     }
 
+    #[\Override]
     public function ensureUserCanCreateEndpoint(Authorizable $user): void
     {
         if (! $user->can('createEndpoint', User::class)) {
@@ -25,6 +26,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
         }
     }
 
+    #[\Override]
     public function ensureStubSizeWithinLimits(Authorizable $user, Stub $stub): void
     {
         $size = mb_strlen($stub->toJson(), '8bit');
@@ -34,6 +36,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
         }
     }
 
+    #[\Override]
     public function ensureInputRepeatWithinLimit(Authorizable $user, Input ...$inputs): void
     {
         $maxRepeat = $this->calculateMaxRepeat(...$inputs);

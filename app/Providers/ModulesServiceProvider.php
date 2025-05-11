@@ -6,11 +6,14 @@ namespace App\Providers;
 
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Constraints\Infrastructure\ConstraintsCheckService;
+use App\Modules\Content\Domain\Generator;
 use App\Modules\Content\Domain\Storage;
 use App\Modules\Content\Infrastructure\ContentFaker;
 use App\Modules\Content\Infrastructure\ContentGeneratorService;
 use App\Modules\Content\Infrastructure\ContentStorageService;
 use App\Modules\Content\Infrastructure\EncryptionHelper;
+use App\Modules\Structure\Domain\InputMapper;
+use App\Modules\Structure\Infrastructure\StructureInputMapper;
 use App\Repositories\EndpointHitRepository;
 use App\Repositories\EndpointRepository;
 use App\Repositories\StubContentRepository;
@@ -18,7 +21,6 @@ use App\Repositories\Eloquent\EndpointHitRepository as EloquentEndpointHitReposi
 use App\Repositories\Eloquent\EndpointRepository as EloquentEndpointRepository;
 use App\Repositories\Eloquent\StubContentRepository as EloquentStubContentRepository;
 use App\Support\StubFieldContextMapper;
-use Generator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -38,6 +40,7 @@ class ModulesServiceProvider extends ServiceProvider
         $this->app->bind(ConstraintsCheck::class, ConstraintsCheckService::class);
         $this->app->bind(Generator::class, ContentGeneratorService::class);
         $this->app->bind(Storage::class, ContentStorageService::class);
+        $this->app->bind(InputMapper::class, StructureInputMapper::class);
         /**
          * class dependencies
          */

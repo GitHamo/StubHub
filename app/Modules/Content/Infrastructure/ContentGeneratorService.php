@@ -48,6 +48,7 @@ final readonly class ContentGeneratorService implements Generator
 
     private function mapSingleField(Single $input): StubField
     {
+        /** @var null|bool|int|float|string|mixed[] $value */
         $value = $this->faker->parse($input->context);
 
         return $this->createField($input->key, $value);
@@ -75,10 +76,7 @@ final readonly class ContentGeneratorService implements Generator
      */
     private function mapNestedFieldAsArray(Nested $nested): array
     {
-        return array_map(
-            fn (): Stub => $this->mapStub(...$nested->inputs),
-            range(1, $nested->repeat)
-        );
+        return array_fill(0, $nested->repeat, $this->mapStub(...$nested->inputs));
     }
 
     private function createField(string $key, mixed $value): StubField
