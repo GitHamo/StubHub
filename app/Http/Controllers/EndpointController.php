@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
-class EndpointController extends Controller
+final class EndpointController extends Controller
 {
     use AuthorizesRequests;
 
