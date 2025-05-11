@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Data\CreateEndpointData;
+use App\Models\Domain\Endpoint;
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Content\Domain\Generator as ContentGenerator;
 use App\Modules\Content\Domain\Storage as ContentStorage;
-use App\Modules\Endpoints\Domain\EndpointDto;
-use App\Modules\Endpoints\Domain\Endpoint;
 use App\Modules\Structure\Domain\InputMapper;
 use App\Repositories\EndpointRepository;
 
@@ -41,7 +41,7 @@ final readonly class EndpointsManager
 
         $path = $this->contentStorage->create($stub);
 
-        $dto = new EndpointDto($uuid, $user->id, $name, $path, $inputs->toJson());
+        $dto = new CreateEndpointData($uuid, $user->id, $name, $path, $inputs->toJson());
 
         return $this->endpointRepository->create($dto);
     }

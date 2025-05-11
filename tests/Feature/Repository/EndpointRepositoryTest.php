@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Repositories;
 
+use App\Models\Data\CreateEndpointData;
 use App\Models\Endpoint as EndpointModel;
 use App\Models\User;
-use App\Modules\Endpoints\Domain\EndpointDto;
 use App\Repositories\EndpointRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -81,7 +81,7 @@ class EndpointRepositoryTest extends TestCase
 
     public function testItCreatesAnEndpoint(): void
     {
-        $dto = new EndpointDto(
+        $dto = new CreateEndpointData(
             id: Str::uuid()->toString(),
             userId: $this->user->id,
             path: '/api/test',

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Endpoints\Domain;
+namespace App\Models\Domain;
 
 use DateTimeImmutable;
 

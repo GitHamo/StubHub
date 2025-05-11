@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
+use App\Models\Domain\Endpoint;
 use App\Modules\Content\Domain\Storage as ContentStorage;
-use App\Modules\Endpoints\Domain\Endpoint;
 use App\Modules\Hits\Domain\HitDto as EndpointHitDto;
 use App\Repositories\EndpointHitRepository;
 use App\Services\TrafficControl;

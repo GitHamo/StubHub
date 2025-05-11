@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
+use App\Models\Data\CreateEndpointData;
 use App\Models\Data\Input;
 use App\Models\Data\Stub;
+use App\Models\Domain\Endpoint;
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Content\Domain\Generator as ContentGenerator;
 use App\Modules\Content\Domain\Storage as ContentStorage;
-use App\Modules\Endpoints\Domain\Endpoint;
-use App\Modules\Endpoints\Domain\EndpointDto;
 use App\Modules\Structure\Domain\InputMapper;
 use App\Modules\Structure\Domain\Structure;
 use App\Repositories\EndpointRepository;
@@ -95,7 +95,7 @@ final class EndpointsManagerTest extends TestCase
             ->method('create')
             ->with(
                 static::equalTo(
-                    new EndpointDto(
+                    new CreateEndpointData(
                         id: $uuid,
                         userId: $userId,
                         path: $path,

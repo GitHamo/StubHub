@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\Data\CreateEndpointData;
+use App\Models\Domain\Endpoint as EndpointEntity;
 use App\Models\Endpoint as EndpointModel;
-use App\Modules\Endpoints\Domain\Endpoint as EndpointEntity;
-use App\Modules\Endpoints\Domain\EndpointDto;
 use App\Repositories\EndpointRepository as EndpointRepositoryInterface;
 
 class EndpointRepository implements EndpointRepositoryInterface
@@ -37,7 +37,7 @@ class EndpointRepository implements EndpointRepositoryInterface
     }
 
     #[\Override]
-    public function create(EndpointDto $endpointDto): EndpointEntity
+    public function create(CreateEndpointData $endpointDto): EndpointEntity
     {
         $model = EndpointModel::create([
             'id' => $endpointDto->id,

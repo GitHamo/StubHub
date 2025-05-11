@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Endpoints\Domain;
+namespace App\Models\Data;
 
-readonly class EndpointDto
+readonly class CreateEndpointData
 {
     public function __construct(
         public string $id,

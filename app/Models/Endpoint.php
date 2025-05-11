@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Domain\Endpoint as EndpointEntity;
 use App\Models\EndpointHit as EndpointHitModel;
 use App\Models\User;
-use App\Modules\Endpoints\Domain\Endpoint as EndpointEntity;
 use Database\Factories\EndpointFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

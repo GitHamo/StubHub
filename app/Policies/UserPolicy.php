@@ -6,8 +6,8 @@ namespace App\Policies;
 
 use App\Enums\UserRole;
 use App\Models\Data\SystemConstraints;
+use App\Models\Domain\Endpoint;
 use App\Models\User as UserModel;
-use App\Modules\Endpoints\Domain\Endpoint;
 
 class UserPolicy
 {
