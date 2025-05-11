@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\Data\CreateStubContentData;
+use App\Models\Domain\StubContent as StubContentEntity;
 use App\Models\StubContent as StubContentModel;
-use App\Modules\StubStorage\Domain\StubContent as StubContentEntity;
-use App\Modules\StubStorage\Domain\StubContentDto;
 use App\Repositories\StubContentRepository as StubContentRepositoryInterface;
 
 class StubContentRepository implements StubContentRepositoryInterface
@@ -20,7 +20,7 @@ class StubContentRepository implements StubContentRepositoryInterface
     }
 
     #[\Override]
-    public function create(StubContentDto $dto): StubContentEntity
+    public function create(CreateStubContentData $dto): StubContentEntity
     {
         $model = StubContentModel::create([
             'filename' => $dto->name,

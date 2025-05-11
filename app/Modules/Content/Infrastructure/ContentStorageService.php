@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Content\Infrastructure;
 
+use App\Models\Data\CreateStubContentData;
 use App\Models\Data\Stub;
 use App\Modules\Content\Domain\Storage;
-use App\Modules\StubStorage\Domain\StubContentDto;
 use App\Repositories\Eloquent\StubContentRepository;
 
 final readonly class ContentStorageService implements Storage
@@ -31,7 +31,7 @@ final readonly class ContentStorageService implements Storage
         $path = $this->encryptionHelper->random(self::PATH_LENGTH);
         $stubName = $this->getStubName($path);
 
-        $this->repository->create(new StubContentDto($stubName, $stub->toJson()));
+        $this->repository->create(new CreateStubContentData($stubName, $stub->toJson()));
 
         return $path;
     }

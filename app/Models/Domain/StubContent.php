@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\StubStorage\Domain;
+namespace App\Models\Domain;
 
 readonly class StubContent
 {

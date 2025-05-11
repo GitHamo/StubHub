@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Repository;
 
+use App\Models\Data\CreateStubContentData;
 use App\Models\StubContent as StubContentModel;
-use App\Modules\StubStorage\Domain\StubContentDto;
 use App\Repositories\StubContentRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -25,7 +25,7 @@ class StubContentRepositoryTest extends TestCase
 
     public function testItCreatesStubContent(): void
     {
-        $dto = new StubContentDto(
+        $dto = new CreateStubContentData(
             name: $filename = 'example.json',
             content: $content = '{"key":"value"}'
         );

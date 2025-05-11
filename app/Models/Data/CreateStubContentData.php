@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\StubStorage\Domain;
+namespace App\Models\Data;
 
-readonly class StubContentDto
+readonly class CreateStubContentData
 {
     public function __construct(
         public string $name,

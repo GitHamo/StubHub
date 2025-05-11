@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\Content\Infrastructure;
 
+use App\Models\Data\CreateStubContentData;
 use App\Models\Data\Stub;
+use App\Models\Domain\StubContent;
 use App\Modules\Content\Infrastructure\ContentStorageService;
 use App\Modules\Content\Infrastructure\EncryptionHelper;
-use App\Modules\StubStorage\Domain\StubContent;
-use App\Modules\StubStorage\Domain\StubContentDto;
 use App\Repositories\Eloquent\StubContentRepository;
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -43,7 +43,7 @@ final class ContentStorageServiceTest extends TestCase
 
         $this->repository->expects($this->once())
             ->method('create')
-            ->with(new StubContentDto($stubName, '{"foo":"bar"}'));
+            ->with(new CreateStubContentData($stubName, '{"foo":"bar"}'));
 
         $expected = $path;
         $actual = $this->service->create($stub);
