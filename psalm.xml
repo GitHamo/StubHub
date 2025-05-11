@@ -28,7 +28,7 @@
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="App\\Models\\*::__construct" />
-                <referencedMethod name="App\\Modules\\*\\Infrastructure\\*\\Persistence\\*\\Eloquent\\*::__construct" />
+                <referencedMethod name="App\\Services\\*::__construct" />
                 <directory name="app/Providers" />
                 <!-- <directory name="app/Services" /> -->
             </errorLevel>
@@ -37,6 +37,7 @@
         <UnusedClass>
             <errorLevel type="suppress">
                 <directory name="app/Http/Controllers" />
+                <directory name="app/Providers" />
             </errorLevel>
         </UnusedClass>
 
