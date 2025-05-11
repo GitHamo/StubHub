@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Data;
 
 use App\Enums\SubscriptionType;
-use App\Models\Data\SystemConstraints;
+use App\Models\Domain\SystemConstraints;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

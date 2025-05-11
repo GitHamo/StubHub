@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserRole;
-use App\Models\Data\SystemConstraints;
 use App\Models\Domain\Endpoint;
+use App\Models\Domain\SystemConstraints;
 use App\Models\User as UserModel;
 
 class UserPolicy
