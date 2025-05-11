@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Data\CreateEndpointHitData;
 use App\Models\Domain\Endpoint;
 use App\Modules\Content\Domain\Storage as ContentStorage;
-use App\Modules\Hits\Domain\HitDto;
 use App\Repositories\EndpointHitRepository;
 
 final readonly class TrafficControl
@@ -23,7 +23,7 @@ final readonly class TrafficControl
 
         $content = $this->getResponse($endpoint);
 
-        $this->hitRepository->create(new HitDto($endpointId, $signature));
+        $this->hitRepository->create(new CreateEndpointHitData($endpointId, $signature));
 
         return $content;
     }

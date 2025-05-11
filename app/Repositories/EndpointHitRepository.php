@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Modules\Hits\Domain\HitDto as EndpointHitDto;
+use App\Models\Data\CreateEndpointHitData;
 
 interface EndpointHitRepository
 {
-    public function create(EndpointHitDto $hitDto): void;
+    public function create(CreateEndpointHitData $hitDto): void;
 }

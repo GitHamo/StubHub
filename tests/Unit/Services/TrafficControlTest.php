@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
+use App\Models\Data\CreateEndpointHitData;
 use App\Models\Domain\Endpoint;
 use App\Modules\Content\Domain\Storage as ContentStorage;
-use App\Modules\Hits\Domain\HitDto as EndpointHitDto;
 use App\Repositories\EndpointHitRepository;
 use App\Services\TrafficControl;
 use Exception;
@@ -36,7 +36,7 @@ class TrafficControlTest extends TestCase
             'id' => $id = 'bar',
             'path' => $path = 'baz',
         ]);
-        $endpointHitDto = new EndpointHitDto($id, $signature);
+        $endpointHitDto = new CreateEndpointHitData($id, $signature);
         $expected = 'foobarbaz';
 
         $this->contentStorage->expects(static::once())

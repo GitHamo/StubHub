@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Hits\Domain;
+namespace App\Models\Data;
 
-readonly class HitDto
+readonly class CreateEndpointHitData
 {
     public function __construct(
         public string $endpointId,
