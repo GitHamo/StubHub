@@ -46,7 +46,7 @@ final class ContentGeneratorServiceTest extends TestCase
 
     public function testCreatesStubFromNestedInputWithNoRepeat(): void
     {
-        $this->faker->method('parse')->willReturn('value');
+        $this->faker->method('fake')->willReturn('value');
 
         $child = new Single('email', self::getRandomContext());
         $nested = new Nested('user', [$child], 0);
@@ -64,7 +64,7 @@ final class ContentGeneratorServiceTest extends TestCase
 
     public function testCreatesStubWithRepeatedNestedInput(): void
     {
-        $this->faker->method('parse')->willReturn('value');
+        $this->faker->method('fake')->willReturn('value');
 
         $child = new Single('email', self::getRandomContext());
         $nested = new Nested('contacts', [$child], 2);
