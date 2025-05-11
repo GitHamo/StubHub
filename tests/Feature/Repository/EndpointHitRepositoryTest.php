@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Repository;
 
 use App\Models\Data\CreateEndpointHitData;
-use App\Models\Endpoint as EndpointModel;
+use App\Models\Eloquent\Endpoint as EndpointModel;
 use App\Repositories\EndpointHitRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;

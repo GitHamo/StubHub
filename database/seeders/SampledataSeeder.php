@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Endpoint;
-use App\Models\EndpointHit;
-use App\Models\StubContent;
+use App\Models\Eloquent\Endpoint;
+use App\Models\Eloquent\EndpointHit;
+use App\Models\Eloquent\StubContent;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;

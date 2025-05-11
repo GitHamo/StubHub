@@ -6,7 +6,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Data\CreateStubContentData;
 use App\Models\Domain\StubContent as StubContentEntity;
-use App\Models\StubContent as StubContentModel;
+use App\Models\Eloquent\StubContent as StubContentModel;
 use App\Repositories\StubContentRepository as StubContentRepositoryInterface;
 
 class StubContentRepository implements StubContentRepositoryInterface

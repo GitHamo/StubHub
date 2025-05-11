@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Endpoint;
-use App\Models\EndpointHit;
+use App\Models\Eloquent\Endpoint;
+use App\Models\Eloquent\EndpointHit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EndpointHit>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Eloquent\EndpointHit>
  */
 final class EndpointHitFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\App\Models\EndpointHit>
+     * @var class-string<\App\Models\Eloquent\EndpointHit>
      */
     protected $model = EndpointHit::class;
 

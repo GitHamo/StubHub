@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Repositories;
 
 use App\Models\Data\CreateEndpointData;
-use App\Models\Endpoint as EndpointModel;
+use App\Models\Eloquent\Endpoint as EndpointModel;
 use App\Models\User;
 use App\Repositories\EndpointRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;

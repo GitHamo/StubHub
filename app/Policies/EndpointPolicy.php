@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Endpoint;
+use App\Models\Eloquent\Endpoint;
 use App\Models\User;
 
 class EndpointPolicy

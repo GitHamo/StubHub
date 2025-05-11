@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Eloquent;
 
 use App\Models\Domain\Endpoint as EndpointEntity;
-use App\Models\EndpointHit as EndpointHitModel;
+use App\Models\Eloquent\EndpointHit as EndpointHitModel;
 use App\Models\User;
 use Database\Factories\EndpointFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -68,7 +68,7 @@ class Endpoint extends Model
     /**
      * Get the user that owns the endpoint.
      *
-     * @return BelongsTo<User, $this>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\User, $this>
      */
     public function user(): BelongsTo
     {
@@ -76,7 +76,7 @@ class Endpoint extends Model
     }
 
     /**
-     * @return HasMany<EndpointHitModel, $this>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\Eloquent\EndpointHit, $this>
      */
     public function hits(): HasMany
     {

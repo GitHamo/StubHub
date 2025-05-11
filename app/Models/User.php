@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\SubscriptionType;
 use App\Enums\UserRole;
+use App\Models\Eloquent\Endpoint;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -89,7 +90,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Endpoint, $this>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\Eloquent\Endpoint, $this>
      */
     public function endpoints(): HasMany
     {

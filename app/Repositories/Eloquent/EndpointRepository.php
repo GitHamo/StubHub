@@ -6,7 +6,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Data\CreateEndpointData;
 use App\Models\Domain\Endpoint as EndpointEntity;
-use App\Models\Endpoint as EndpointModel;
+use App\Models\Eloquent\Endpoint as EndpointModel;
 use App\Repositories\EndpointRepository as EndpointRepositoryInterface;
 
 class EndpointRepository implements EndpointRepositoryInterface

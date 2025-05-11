@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Repository;
 
 use App\Models\Data\CreateStubContentData;
-use App\Models\StubContent as StubContentModel;
+use App\Models\Eloquent\StubContent as StubContentModel;
 use App\Repositories\StubContentRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

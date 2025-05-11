@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Endpoint;
+use App\Models\Eloquent\Endpoint;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Endpoint>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Eloquent\Endpoint>
  */
 final class EndpointFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\App\Models\Endpoint>
+     * @var class-string<\App\Models\Eloquent\Endpoint>
      */
     protected $model = Endpoint::class;
 

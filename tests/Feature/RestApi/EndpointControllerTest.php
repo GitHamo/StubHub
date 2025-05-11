@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\RestApi;
 
-use App\Models\Endpoint;
-use App\Models\StubContent;
+use App\Models\Eloquent\Endpoint;
+use App\Models\Eloquent\StubContent;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Endpoint;
+use App\Models\Eloquent\Endpoint;
 use App\Models\User;
 use App\Policies\EndpointPolicy;
 use App\Policies\UserPolicy;

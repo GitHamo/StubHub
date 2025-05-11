@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateEndpointRequest;
-use App\Models\Endpoint as EloquentEndpoint;
+use App\Models\Eloquent\Endpoint as EloquentEndpoint;
 use App\Services\EndpointsManager;
 use App\Services\TrafficControl;
 use App\Support\StubFieldContextMapper;

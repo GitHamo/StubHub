@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Eloquent;
 
+use App\Models\Eloquent\Endpoint;
 use Database\Factories\EndpointHitFactory;
 use DateTimeImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,7 +62,7 @@ class EndpointHit extends Model
 
     /**
      * Get the endpoint that owns the hit
-     * @return BelongsTo<Endpoint, $this>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\Eloquent\Endpoint, $this>
      */
     public function endpoint(): BelongsTo
     {
