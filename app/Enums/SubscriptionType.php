@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use App\Models\Domain\SystemConstraints;
+use App\Models\Domain\SubscriptionConstraints;
 
 enum SubscriptionType: string
 {
     case FREE = 'free';
     case UNLIMITED = 'unlimited';
 
-    public function constraints(): SystemConstraints
+    public function constraints(): SubscriptionConstraints
     {
-        return SystemConstraints::fromSubscription($this);
+        return SubscriptionConstraints::fromSubscription($this);
     }
 }

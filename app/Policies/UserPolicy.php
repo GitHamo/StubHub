@@ -6,7 +6,7 @@ namespace App\Policies;
 
 use App\Enums\UserRole;
 use App\Models\Domain\Endpoint;
-use App\Models\Domain\SystemConstraints;
+use App\Models\Domain\SubscriptionConstraints;
 use App\Models\User as UserModel;
 
 class UserPolicy
@@ -54,7 +54,7 @@ class UserPolicy
         return $repeat <= $maxRepeat;
     }
 
-    private function getConstraints(UserModel $user): SystemConstraints
+    private function getConstraints(UserModel $user): SubscriptionConstraints
     {
         return $user->getSubscriptionType()->constraints();
     }

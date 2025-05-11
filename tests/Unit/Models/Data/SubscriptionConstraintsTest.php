@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Data;
 
 use App\Enums\SubscriptionType;
-use App\Models\Domain\SystemConstraints;
+use App\Models\Domain\SubscriptionConstraints;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-class SystemConstraintsTest extends TestCase
+class SubscriptionConstraintsTest extends TestCase
 {
     #[DataProvider('subscriptionTypeDataProvider')]
     public function testCreatesInstanceFromSubscriptionType(
@@ -18,9 +18,9 @@ class SystemConstraintsTest extends TestCase
         int $maxStubSize,
         int $maxObjectRepeat,
     ): void {
-        $constraints = SystemConstraints::fromSubscription($subscriptionType);
+        $constraints = SubscriptionConstraints::fromSubscription($subscriptionType);
 
-        static::assertInstanceOf(SystemConstraints::class, $constraints);
+        static::assertInstanceOf(SubscriptionConstraints::class, $constraints);
         static::assertSame($maxEndpointsTotal, $constraints->maxEndpointsTotal());
         static::assertSame($maxStubSize, $constraints->maxStubSize());
         static::assertSame($maxObjectRepeat, $constraints->maxObjectRepeat());

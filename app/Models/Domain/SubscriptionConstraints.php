@@ -6,7 +6,7 @@ namespace App\Models\Domain;
 
 use App\Enums\SubscriptionType;
 
-readonly class SystemConstraints
+readonly class SubscriptionConstraints
 {
     private const string MAX_ENDPOINTS = 'maxEndpoints';
     private const string MAX_STUB_SIZE = 'maxStubSize';
