@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Content\Infrastructure;
 
 use App\Models\Data\CreateStubContentData;
-use App\Models\Data\Stub;
+use App\Models\Domain\Stub;
 use App\Modules\Content\Domain\Storage;
 use App\Repositories\Eloquent\StubContentRepository;
 

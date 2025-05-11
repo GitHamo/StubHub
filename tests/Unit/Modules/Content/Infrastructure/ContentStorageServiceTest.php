@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\Content\Infrastructure;
 
 use App\Models\Data\CreateStubContentData;
-use App\Models\Data\Stub;
+use App\Models\Domain\Stub;
 use App\Models\Domain\StubContent;
 use App\Modules\Content\Infrastructure\ContentStorageService;
 use App\Modules\Content\Infrastructure\EncryptionHelper;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Data;
+namespace Tests\Unit\Models\Domain;
 
 use App\Models\Data\StubField;
-use App\Models\Data\Stub;
+use App\Models\Domain\Stub;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

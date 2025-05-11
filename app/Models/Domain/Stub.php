@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Data;
+namespace App\Models\Domain;
 
 use App\Models\Data\StubField;
 use InvalidArgumentException;

@@ -7,8 +7,8 @@ namespace App\Modules\Content\Infrastructure;
 use App\Models\Data\Input;
 use App\Models\Data\Input\Nested;
 use App\Models\Data\Input\Single;
-use App\Models\Data\Stub;
 use App\Models\Data\StubField;
+use App\Models\Domain\Stub;
 use App\Modules\Content\Domain\Generator;
 use InvalidArgumentException;
 

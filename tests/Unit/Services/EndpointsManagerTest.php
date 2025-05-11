@@ -6,8 +6,8 @@ namespace Tests\Unit\Services;
 
 use App\Models\Data\CreateEndpointData;
 use App\Models\Data\Input;
-use App\Models\Data\Stub;
 use App\Models\Domain\Endpoint;
+use App\Models\Domain\Stub;
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Content\Domain\Generator as ContentGenerator;
