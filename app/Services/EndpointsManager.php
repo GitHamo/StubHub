@@ -8,8 +8,8 @@ use App\Models\Data\CreateEndpointData;
 use App\Models\Domain\Endpoint;
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
-use App\Modules\Content\Domain\Generator as ContentGenerator;
-use App\Modules\Content\Domain\Storage as ContentStorage;
+use App\Modules\Content\Domain\StubGenerator as ContentGenerator;
+use App\Modules\Content\Domain\StubStorage as ContentStorage;
 use App\Modules\Structure\Domain\InputMapper;
 use App\Repositories\EndpointRepository;
 

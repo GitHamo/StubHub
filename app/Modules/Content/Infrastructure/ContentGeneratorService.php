@@ -9,10 +9,10 @@ use App\Models\Data\Input\Nested;
 use App\Models\Data\Input\Single;
 use App\Models\Data\StubField;
 use App\Models\Domain\Stub;
-use App\Modules\Content\Domain\Generator;
+use App\Modules\Content\Domain\StubGenerator;
 use InvalidArgumentException;
 
-final readonly class ContentGeneratorService implements Generator
+final readonly class ContentGeneratorService implements StubGenerator
 {
     public function __construct(
         private ContentFaker $faker,

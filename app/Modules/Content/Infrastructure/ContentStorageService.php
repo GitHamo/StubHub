@@ -6,10 +6,10 @@ namespace App\Modules\Content\Infrastructure;
 
 use App\Models\Data\CreateStubContentData;
 use App\Models\Domain\Stub;
-use App\Modules\Content\Domain\Storage;
+use App\Modules\Content\Domain\StubStorage;
 use App\Repositories\Eloquent\StubContentRepository;
 
-final readonly class ContentStorageService implements Storage
+final readonly class ContentStorageService implements StubStorage
 {
     private const int PATH_LENGTH = 20;
 

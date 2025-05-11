@@ -6,7 +6,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\Data\CreateEndpointHitData;
 use App\Models\Domain\Endpoint;
-use App\Modules\Content\Domain\Storage as ContentStorage;
+use App\Modules\Content\Domain\StubStorage as ContentStorage;
 use App\Repositories\EndpointHitRepository;
 use App\Services\TrafficControl;
 use Exception;

@@ -6,8 +6,8 @@ namespace App\Providers;
 
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Constraints\Infrastructure\ConstraintsCheckService;
-use App\Modules\Content\Domain\Generator;
-use App\Modules\Content\Domain\Storage;
+use App\Modules\Content\Domain\StubGenerator;
+use App\Modules\Content\Domain\StubStorage;
 use App\Modules\Content\Infrastructure\ContentFaker;
 use App\Modules\Content\Infrastructure\ContentGeneratorService;
 use App\Modules\Content\Infrastructure\ContentStorageService;
@@ -38,8 +38,8 @@ class ModulesServiceProvider extends ServiceProvider
          * Bindings
          */
         $this->app->bind(ConstraintsCheck::class, ConstraintsCheckService::class);
-        $this->app->bind(Generator::class, ContentGeneratorService::class);
-        $this->app->bind(Storage::class, ContentStorageService::class);
+        $this->app->bind(StubGenerator::class, ContentGeneratorService::class);
+        $this->app->bind(StubStorage::class, ContentStorageService::class);
         $this->app->bind(InputMapper::class, StructureInputMapper::class);
         /**
          * class dependencies

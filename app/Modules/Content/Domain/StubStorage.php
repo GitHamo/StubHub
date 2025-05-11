@@ -6,7 +6,7 @@ namespace App\Modules\Content\Domain;
 
 use App\Models\Domain\Stub;
 
-interface Storage
+interface StubStorage
 {
     public function get(string $path): string;
 

@@ -6,7 +6,7 @@ namespace App\Services;
 
 use App\Models\Data\CreateEndpointHitData;
 use App\Models\Domain\Endpoint;
-use App\Modules\Content\Domain\Storage as ContentStorage;
+use App\Modules\Content\Domain\StubStorage as ContentStorage;
 use App\Repositories\EndpointHitRepository;
 
 final readonly class TrafficControl
