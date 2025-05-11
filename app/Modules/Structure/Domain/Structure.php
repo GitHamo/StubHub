@@ -34,15 +34,18 @@ class Structure implements IteratorAggregate, JsonSerializable
         return new ArrayIterator($this->inputs);
     }
 
-    /** @psalm-suppress MixedReturnTypeCoercion */
+    /**
+     * @psalm-suppress MixedReturnTypeCoercion
+     * @return array<string, mixed>[]
+     */
     #[\Override]
     public function jsonSerialize(): array
     {
-        return array_map('get_object_vars', $this->inputs);
+        return array_map(fn (Input $input): array => $input->jsonSerialize(), $this->inputs);
     }
 
     public function toJson(): string
     {
-        return json_encode($this, JSON_THROW_ON_ERROR);
+        return json_encode($this->jsonSerialize(), JSON_THROW_ON_ERROR);
     }
 }

@@ -18,4 +18,16 @@ class Nested extends Input
     ) {
         parent::__construct($key);
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    #[\Override]
+    public function jsonSerialize(): array
+    {
+        return parent::jsonSerialize() + [
+            'inputs' => array_map(fn (Input $input): array => $input->jsonSerialize(), $this->inputs),
+            'repeat' => $this->repeat,
+        ];
+    }
 }

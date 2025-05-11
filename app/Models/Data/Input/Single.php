@@ -13,4 +13,15 @@ class Single extends Input
     {
         parent::__construct($key);
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    #[\Override]
+    public function jsonSerialize(): array
+    {
+        return parent::jsonSerialize() + [
+            'context' => $this->context->value,
+        ];
+    }
 }

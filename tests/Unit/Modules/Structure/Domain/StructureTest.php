@@ -42,39 +42,30 @@ final class StructureTest extends TestCase
 
     public function testSerializesInputsToJson(): void
     {
-        $input = new class ('foo') extends Input {};
+        $input = new class ($key = 'foo') extends Input {};
         $structure = Structure::create($input);
+        $expected = json_encode([['key' => $key]], JSON_THROW_ON_ERROR);
 
         $actual = $structure->toJson();
 
         static::assertJson($actual);
-        static::assertJsonStringEqualsJsonString(
-            json_encode([['key' => 'foo']], JSON_THROW_ON_ERROR),
-            $actual
-        );
+        static::assertJsonStringEqualsJsonString($expected, $actual);
     }
 
     public function testExposesInputsAsArrayViaJsonSerialize(): void
     {
-        $createInput = fn (string $key, string $type): Input => new class ($key, $type, mt_rand()) extends Input {
-            /** @phpstan-ignore-next-line */
-            public function __construct(string $key, public string $type, private int $rand)
-            {
-                parent::__construct($key);
-            }
-        };
 
-        $structure = Structure::create(
-            $createInput('slug', 'string'),
-            $createInput('is_active', 'boolean'),
-        );
+        $input = $this->createConfiguredMock(Input::class, [
+            'jsonSerialize' => $inputData = ['key' => 'foo'],
+        ]);
+
+        $structure = Structure::create($input);
 
         $actual = $structure->jsonSerialize();
 
         static::assertSame(
             [
-                ['key' => 'slug', 'type' => 'string'],
-                ['key' => 'is_active', 'type' => 'boolean'],
+                $inputData,
             ],
             $actual
         );
