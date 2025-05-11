@@ -10,6 +10,9 @@ use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
 
+/**
+ * @implements \IteratorAggregate<int, \App\Models\Data\Input>
+ */
 class Structure implements IteratorAggregate, JsonSerializable
 {
     /**
@@ -30,6 +33,9 @@ class Structure implements IteratorAggregate, JsonSerializable
         return new ArrayIterator($this->inputs);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function jsonSerialize(): array
     {
         return array_map('get_object_vars', $this->inputs);

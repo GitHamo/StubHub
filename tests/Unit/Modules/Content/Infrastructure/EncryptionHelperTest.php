@@ -34,7 +34,6 @@ final class EncryptionHelperTest extends TestCase
         $length = mt_rand(3, 100);
         $actual = (new EncryptionHelper('foo'))->random($length);
 
-        static::assertIsString($actual);
         static::assertSame($length * 2, strlen($actual));
         static::assertMatchesRegularExpression('/^[a-f0-9]+$/i', $actual);
     }

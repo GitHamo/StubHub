@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enums\SubscriptionType;
 use App\Enums\UserRole;
-use App\Modules\Endpoints\Infrastructure\Persistence\Eloquent\Endpoint;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;

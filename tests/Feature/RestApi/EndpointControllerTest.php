@@ -28,7 +28,7 @@ class EndpointControllerTest extends TestCase
         $response->assertHeader('Content-Disposition');
 
         // Check Content-Disposition for file
-        $contentDisposition = $response->headers->get('Content-Disposition');
+        $contentDisposition = (string) $response->headers->get('Content-Disposition');
 
         // Check Content-Disposition contains "attachment"
         static::assertStringContainsString(
@@ -42,7 +42,7 @@ class EndpointControllerTest extends TestCase
         );
 
         // Check JSON response for file
-        $json = json_decode($response->getContent(), true);
+        $json = json_decode($response->getContent() ?: '', true);
 
         static::assertIsArray($json);
         static::assertArrayHasKey('created_at', $json);

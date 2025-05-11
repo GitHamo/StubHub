@@ -6,19 +6,19 @@ namespace App\Providers;
 
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Constraints\Infrastructure\ConstraintsCheckService;
-use App\Modules\StubGenerate\Infrastructure\FakerStubMapper;
-use App\Modules\StubGenerate\Infrastructure\StubGenerateService;
-use App\Modules\StubGenerate\StubGenerator;
-use App\Modules\StubStorage\Infrastructure\EloquentStorageRepository;
-use App\Modules\StubStorage\StorageRepository;
+use App\Modules\Content\Domain\Storage;
+use App\Modules\Content\Infrastructure\ContentFaker;
+use App\Modules\Content\Infrastructure\ContentGeneratorService;
+use App\Modules\Content\Infrastructure\ContentStorageService;
+use App\Modules\Content\Infrastructure\EncryptionHelper;
 use App\Repositories\EndpointHitRepository;
 use App\Repositories\EndpointRepository;
 use App\Repositories\StubContentRepository;
 use App\Repositories\Eloquent\EndpointHitRepository as EloquentEndpointHitRepository;
 use App\Repositories\Eloquent\EndpointRepository as EloquentEndpointRepository;
 use App\Repositories\Eloquent\StubContentRepository as EloquentStubContentRepository;
-use App\Support\JsonParser;
 use App\Support\StubFieldContextMapper;
+use Generator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -36,19 +36,17 @@ class ModulesServiceProvider extends ServiceProvider
          * Bindings
          */
         $this->app->bind(ConstraintsCheck::class, ConstraintsCheckService::class);
-        $this->app->bind(StubGenerator::class, StubGenerateService::class);
-        $this->app->bind(StorageRepository::class, EloquentStorageRepository::class);
+        $this->app->bind(Generator::class, ContentGeneratorService::class);
+        $this->app->bind(Storage::class, ContentStorageService::class);
         /**
          * class dependencies
          */
-        $this->app->bind(FakerStubMapper::class, fn (): FakerStubMapper => new FakerStubMapper(
+        $this->app->bind(ContentFaker::class, fn (): ContentFaker => new ContentFaker(
             \Faker\Factory::create(),
             StubFieldContextMapper::flatMap(),
         ));
 
-        $this->app->bind(EloquentStorageRepository::class, fn (Application $application): EloquentStorageRepository => new EloquentStorageRepository(
-            $application->make(StubContentRepository::class),
-            $application->make(JsonParser::class),
+        $this->app->bind(EncryptionHelper::class, fn (Application $application): EncryptionHelper => new EncryptionHelper(
             $this->getAppSecretKey(),
         ));
 

@@ -46,11 +46,12 @@ final class EndpointsManagerTest extends TestCase
         $uuid = 'foo';
         $user = User::factory()->make(['id' => $userId = 123]);
         $name = 'Test Endpoint';
-        $inputsData = [
+        $inputsData = [['foo' => 'bar']];
+        $inputs = [
             $this->createMock(Input::class),
             $this->createMock(Input::class),
         ];
-        $inputs = Structure::create(...$inputsData);
+        $structure = Structure::create(...$inputs);
 
         $stubMock = $this->createMock(Stub::class);
         $expected = $this->createMock(Endpoint::class);
@@ -58,7 +59,7 @@ final class EndpointsManagerTest extends TestCase
         $this->inputMapper->expects(self::once())
             ->method('map')
             ->with(static::identicalTo($inputsData))
-            ->willReturn($inputs);
+            ->willReturn($structure);
 
         $this->constraintsCheck->expects(self::once())
             ->method('ensureUserCanCreateEndpoint')

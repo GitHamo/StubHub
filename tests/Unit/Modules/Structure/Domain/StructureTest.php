@@ -57,6 +57,7 @@ final class StructureTest extends TestCase
     public function testExposesInputsAsArrayViaJsonSerialize(): void
     {
         $createInput = fn (string $key, string $type): Input => new class ($key, $type, mt_rand()) extends Input {
+            /** @phpstan-ignore-next-line */
             public function __construct(string $key, public string $type, private int $rand)
             {
                 parent::__construct($key);
