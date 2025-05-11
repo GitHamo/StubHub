@@ -17,6 +17,7 @@ class SubscriptionConstraintsTest extends TestCase
         int $maxEndpointsTotal,
         int $maxStubSize,
         int $maxObjectRepeat,
+        int $maxObjectDepth,
     ): void {
         $constraints = SubscriptionConstraints::fromSubscription($subscriptionType);
 
@@ -24,6 +25,7 @@ class SubscriptionConstraintsTest extends TestCase
         static::assertSame($maxEndpointsTotal, $constraints->maxEndpointsTotal());
         static::assertSame($maxStubSize, $constraints->maxStubSize());
         static::assertSame($maxObjectRepeat, $constraints->maxObjectRepeat());
+        static::assertSame($maxObjectDepth, $constraints->maxObjectDepth());
     }
 
     /**
@@ -37,12 +39,14 @@ class SubscriptionConstraintsTest extends TestCase
                 5,
                 2048,
                 10,
+                3,
             ],
             SubscriptionType::UNLIMITED->value => [
                 SubscriptionType::UNLIMITED,
                 100,
                 40960,
                 50,
+                10,
             ],
         ];
     }

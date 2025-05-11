@@ -35,6 +35,8 @@ final readonly class EndpointsManager
 
         $this->constraintsCheck->ensureInputRepeatWithinLimit($user, ...$inputs);
 
+        $this->constraintsCheck->ensureInputDepthWithinLimit($user, ...$inputs);
+
         $stub = $this->contentGenerator->generate(...$inputs);
 
         $this->constraintsCheck->ensureStubSizeWithinLimits($user, $stub);

@@ -15,4 +15,6 @@ interface ConstraintsCheck
     public function ensureStubSizeWithinLimits(User $user, Stub $stub): void;
 
     public function ensureInputRepeatWithinLimit(User $user, Input ...$inputs): void;
+
+    public function ensureInputDepthWithinLimit(User $user, Input ...$inputs): void;
 }

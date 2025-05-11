@@ -14,8 +14,10 @@ use Illuminate\Contracts\Auth\Access\Authorizable;
 
 readonly class ConstraintsCheckService implements ConstraintsCheck
 {
-    public function __construct(private InputRepeatMapper $inputRepeatMapper)
-    {
+    public function __construct(
+        private InputRepeatMapper $inputRepeatMapper,
+        private InputDepthMapper $inputDepthMapper,
+    ) {
     }
 
     #[\Override]
@@ -46,8 +48,23 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
         }
     }
 
+    #[\Override]
+    public function ensureInputDepthWithinLimit(User $user, Input ...$inputs): void
+    {
+        $maxDepth = $this->calculateMaxDepth(...$inputs);
+
+        if (! $user->can('createStubWithDepth', [User::class, $maxDepth])) {
+            throw new AuthorizationException('Stub object depth exceeds allowed limit');
+        }
+    }
+
     private function calculateMaxRepeat(Input ...$inputs): int
     {
         return $this->inputRepeatMapper->max(...$inputs);
+    }
+
+    private function calculateMaxDepth(Input ...$inputs): int
+    {
+        return $this->inputDepthMapper->highest(...$inputs);
     }
 }

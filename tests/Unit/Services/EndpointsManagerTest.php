@@ -72,6 +72,13 @@ final class EndpointsManagerTest extends TestCase
                 ...$inputs,
             );
 
+        $this->constraintsCheck->expects(self::once())
+            ->method('ensureInputDepthWithinLimit')
+            ->with(
+                static::identicalTo($user),
+                ...$inputs,
+            );
+
         $this->contentGenerator
             ->expects(self::once())
             ->method('generate')

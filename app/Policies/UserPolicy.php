@@ -54,6 +54,17 @@ class UserPolicy
         return $repeat <= $maxRepeat;
     }
 
+    public function createStubWithDepth(UserModel $user, int $depth): bool
+    {
+        if ($user->getRole() === UserRole::SUPER) {
+            return true;
+        }
+
+        $maxDepth = $this->getConstraints($user)->maxObjectRepeat();
+
+        return $depth <= $maxDepth;
+    }
+
     private function getConstraints(UserModel $user): SubscriptionConstraints
     {
         return $user->getSubscriptionType()->constraints();
