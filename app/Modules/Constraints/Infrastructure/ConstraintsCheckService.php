@@ -8,7 +8,7 @@ use App\Models\Data\Input;
 use App\Models\Domain\Stub;
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
-use App\Support\InputRepeatMapper;
+use App\Modules\Constraints\Infrastructure\InputRepeatMapper;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 

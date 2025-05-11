@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Support;
+namespace Tests\Unit\Modules\Constraints\Infrastructure;
 
 use App\Enums\StubFieldContext;
 use App\Models\Data\Input\Nested;
 use App\Models\Data\Input\Single;
-use App\Support\InputRepeatMapper;
+use App\Modules\Constraints\Infrastructure\InputRepeatMapper;
 use PHPUnit\Framework\TestCase;
 
 class InputRepeatMapperTest extends TestCase

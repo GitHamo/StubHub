@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Support;
+namespace App\Modules\Constraints\Infrastructure;
 
 use App\Models\Data\Input;
 use App\Models\Data\Input\Nested;
 
-final class InputRepeatMapper
+final readonly class InputRepeatMapper
 {
     public function max(Input ...$inputs): int
     {
