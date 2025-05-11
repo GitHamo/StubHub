@@ -46,14 +46,6 @@ final readonly class ContentGeneratorService implements StubGenerator
         };
     }
 
-    private function mapSingleField(Single $input): StubField
-    {
-        /** @var null|bool|int|float|string|mixed[] $value */
-        $value = $this->faker->parse($input->context);
-
-        return $this->createField($input->key, $value);
-    }
-
     private function mapNestedField(Nested $input): StubField
     {
         if (empty($input->inputs)) {
@@ -65,8 +57,16 @@ final readonly class ContentGeneratorService implements StubGenerator
         }
 
         $value = $input->repeat
-            ? $this->mapNestedFieldAsArray($input)
+            ? $this->mapNestedFieldWithRepeat($input)
             : $this->mapStub(...$input->inputs);
+
+        return $this->createField($input->key, $value);
+    }
+
+    private function mapSingleField(Single $input): StubField
+    {
+        /** @var null|bool|int|float|string|mixed[] $value */
+        $value = $this->faker->fake($input->context);
 
         return $this->createField($input->key, $value);
     }
@@ -74,7 +74,7 @@ final readonly class ContentGeneratorService implements StubGenerator
     /**
      * @return Stub[]
      */
-    private function mapNestedFieldAsArray(Nested $nested): array
+    private function mapNestedFieldWithRepeat(Nested $nested): array
     {
         return array_fill(0, $nested->repeat, $this->mapStub(...$nested->inputs));
     }

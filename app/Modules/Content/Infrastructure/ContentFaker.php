@@ -19,7 +19,7 @@ class ContentFaker
     ) {
     }
 
-    public function parse(StubFieldContext $context): mixed
+    public function fake(StubFieldContext $context): mixed
     {
         if (!isset($this->contextsMap[$context->value])) {
             throw new InvalidArgumentException(sprintf('Unknown context: %s', $context->value));

@@ -21,6 +21,6 @@ class ContentFakerTest extends TestCase
         static::expectException(\InvalidArgumentException::class);
         static::expectExceptionMessage('Unknown context: username');
 
-        $service->parse(StubFieldContext::from('username'));
+        $service->fake(StubFieldContext::from('username'));
     }
 }

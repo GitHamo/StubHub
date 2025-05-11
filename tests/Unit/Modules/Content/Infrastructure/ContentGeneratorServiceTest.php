@@ -32,7 +32,7 @@ final class ContentGeneratorServiceTest extends TestCase
 
     public function testCreatesStubWithSingleInput(): void
     {
-        $this->faker->method('parse')->willReturn('fake-value');
+        $this->faker->method('fake')->willReturn('fake-value');
 
         $input = new Single('username', self::getRandomContext());
         $stub = $this->service->generate($input);
