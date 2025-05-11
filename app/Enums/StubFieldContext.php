@@ -62,7 +62,7 @@ enum StubFieldContext: string
     {
         $normalized = strtolower(trim($name));
 
-        return self::tryFrom(strtolower($normalized))
+        return self::tryFrom($normalized)
         ?? throw new InvalidArgumentException("Invalid context: {$name}");
     }
 }
