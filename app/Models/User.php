@@ -89,9 +89,9 @@ class User extends Authenticatable
     }
 
     /**
-     * @return HasMany<Endpoint, $this>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Endpoint, $this>
      */
-    public function endpoints(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function endpoints(): HasMany
     {
         return $this->hasMany(Endpoint::class);
     }

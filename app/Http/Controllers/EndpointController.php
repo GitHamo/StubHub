@@ -31,9 +31,7 @@ final class EndpointController extends Controller
 
     public function index(Request $request): View
     {
-        /**
-         * @var \App\Models\User
-         */
+        /** @var \App\Models\User */
         $user = $request->user();
         $limit = $user->subscription_type->constraints()->maxEndpointsTotal();
         $endpoints = $this->endpointsManager->getEndpointList($user->id, $limit);
@@ -48,7 +46,14 @@ final class EndpointController extends Controller
 
     public function show(Request $request, EloquentEndpoint $endpoint): Response
     {
-        $signature = md5($request->ip() . $request->header('User-Agent') . $request->session()->getId());
+        $string = sprintf(
+            '%s%s%s',
+            (string) $request->ip(),
+            (string) $request->header('User-Agent'),
+            $request->session()->getId(),
+        );
+
+        $signature = md5($string);
         $response = $this->trafficControlService->serve($endpoint->toEntity(), $signature);
 
         return response($response, HttpFoundationResponse::HTTP_OK)->header('Content-Type', 'application/json');

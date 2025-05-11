@@ -36,11 +36,12 @@ final class RegisteredUserController extends Controller
         ]);
 
         /** @var string */
-        $password = $request->password;
-
+        $password = $request->input('password');
+        
+        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
             'password' => Hash::make($password),
         ]);
 
