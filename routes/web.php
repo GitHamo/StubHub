@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\EndpointController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TrafficController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,7 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/endpoints', [EndpointController::class, 'store'])->name('endpoints.store');
     Route::delete('/endpoints/{endpoint}', [EndpointController::class, 'delete'])->name('endpoints.destroy');
     Route::get('/endpoints/{endpoint}/download', [EndpointController::class, 'download'])->name('endpoints.download');
-
 });
 
 require __DIR__.'/auth.php';

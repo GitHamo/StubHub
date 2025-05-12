@@ -2,34 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Support;
+namespace App\Modules\Content\Infrastructure;
 
 use App\Enums\StubFieldContext;
+use App\Modules\Content\Domain\DataContext;
 
-final readonly class StubFieldContextMapper
+final readonly class DataContextService implements DataContext
 {
-    /**
-     * @return array<string, string[]>
-     */
-    public static function flatMap(): array
+    #[\Override]
+    public function flatMap(): array
     {
-        return self::metadataMap("method", "type");
+        return $this->metadataMap("method", "type");
     }
 
-    /**
-     * @return array<string, array{
-     *     label: string,
-     *     inputs: list<array{
-     *         label: string,
-     *         value: string,
-     *         input: string
-     *     }>
-     * }>
-     */
-    public static function categoryMap(): array
+    #[\Override]
+    public function categoryMap(): array
     {
         $map = [];
-        $metadata = self::metadataMap("label", "input");
+        $metadata = $this->metadataMap("label", "input");
 
         foreach (self::CATEGORY_MAP as $category => $cases) {
             $map[$category] = [
@@ -52,7 +42,7 @@ final readonly class StubFieldContextMapper
     /**
      * @return array<string, string[]>
      */
-    private static function metadataMap(string ...$constants): array
+    private function metadataMap(string ...$constants): array
     {
         $map = [];
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Facades\DataContextFacade;
 use App\Http\Requests\CreateEndpointRequest;
 use App\Models\Eloquent\Endpoint as EloquentEndpoint;
 use App\Services\EndpointsManager;
 use App\Services\TrafficControl;
-use App\Support\StubFieldContextMapper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -79,7 +79,7 @@ final class EndpointController extends Controller
 
     public function create(): View
     {
-        $categories = StubFieldContextMapper::categoryMap();
+        $categories = DataContextFacade::categoryMap();
 
         return view('endpoints.create', ['categories' => $categories]);
     }

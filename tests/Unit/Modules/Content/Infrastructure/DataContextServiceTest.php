@@ -2,18 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Support;
+namespace Tests\Unit\Modules\Content\Infrastructure;
 
 use App\Enums\StubFieldContext;
-use App\Support\StubFieldContextMapper;
+use App\Modules\Content\Infrastructure\DataContextService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-final class StubFieldContextMapperTest extends TestCase
+final class DataContextServiceTest extends TestCase
 {
+    private DataContextService $service;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->service = new DataContextService();
+    }
+
     public function testShouldCoverAllEnumCasesInFlatMap(): void
     {
-        $map = StubFieldContextMapper::flatMap();
+        $map = $this->service->flatMap();
         $enumCases = StubFieldContext::cases();
 
         static::assertCount(count($enumCases), $map, 'flatMap() should contain same number of entries as enum cases');
@@ -21,7 +30,7 @@ final class StubFieldContextMapperTest extends TestCase
 
     public function testShouldCoverAllEnumCasesInCategoryMapInputs(): void
     {
-        $map = StubFieldContextMapper::categoryMap();
+        $map = $this->service->categoryMap();
         $totalInputs = 0;
         foreach ($map as $category) {
             $totalInputs += count($category['inputs']);
@@ -34,7 +43,7 @@ final class StubFieldContextMapperTest extends TestCase
 
     public function testShouldReturnFlatMapWithAllEnumCases(): void
     {
-        $map = StubFieldContextMapper::flatMap();
+        $map = $this->service->flatMap();
         $expectedKeys = array_map(fn ($case) => $case->value, StubFieldContext::cases());
 
         static::assertEqualsCanonicalizing($expectedKeys, array_keys($map));
@@ -50,7 +59,7 @@ final class StubFieldContextMapperTest extends TestCase
 
     public function testShouldReturnCategoryMapWithValidStructure(): void
     {
-        $map = StubFieldContextMapper::categoryMap();
+        $map = $this->service->categoryMap();
 
         static::assertNotEmpty($map);
 
@@ -74,10 +83,12 @@ final class StubFieldContextMapperTest extends TestCase
     #[DataProvider('validMetadataTypesDataProvider')]
     public function testShouldReturnMetadataMapWithCorrectKeys(string $type1, string $type2): void
     {
+        $refClass = new \ReflectionClass(DataContextService::class);
+        $method = $refClass->getMethod('metadataMap');
+        $method->setAccessible(true);
+
         /** @var array<string, array{string, string}> $map */
-        $map = (new \ReflectionClass(StubFieldContextMapper::class))
-            ->getMethod('metadataMap')
-            ->invoke(null, $type1, $type2);
+        $map = $method->invoke($this->service, $type1, $type2);
 
         // @phpstan-ignore-next-line
         static::assertIsArray($map);
