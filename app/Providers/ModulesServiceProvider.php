@@ -4,75 +4,49 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Modules\Constraints\Domain\ConstraintsCheck;
-use App\Modules\Constraints\Infrastructure\ConstraintsCheckService;
-use App\Modules\Content\Domain\StubGenerator;
-use App\Modules\Content\Domain\StubStorage;
-use App\Modules\Content\Infrastructure\ContentFaker;
-use App\Modules\Content\Infrastructure\ContentGeneratorService;
-use App\Modules\Content\Infrastructure\ContentStorageService;
-use App\Modules\Content\Infrastructure\EncryptionHelper;
-use App\Modules\Structure\Domain\InputMapper;
-use App\Modules\Structure\Infrastructure\StructureInputMapper;
 use App\Repositories\EndpointHitRepository;
 use App\Repositories\EndpointRepository;
 use App\Repositories\StubContentRepository;
 use App\Repositories\Eloquent\EndpointHitRepository as EloquentEndpointHitRepository;
 use App\Repositories\Eloquent\EndpointRepository as EloquentEndpointRepository;
 use App\Repositories\Eloquent\StubContentRepository as EloquentStubContentRepository;
-use App\Support\StubFieldContextMapper;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use RuntimeException;
 
 class ModulesServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     #[\Override]
     public function register(): void
     {
-        /**
-         * Bindings
-         */
-        $this->app->bind(ConstraintsCheck::class, ConstraintsCheckService::class);
-        $this->app->bind(StubGenerator::class, ContentGeneratorService::class);
-        $this->app->bind(StubStorage::class, ContentStorageService::class);
-        $this->app->bind(InputMapper::class, StructureInputMapper::class);
-        /**
-         * class dependencies
-         */
-        $this->app->bind(ContentFaker::class, fn (): ContentFaker => new ContentFaker(
-            \Faker\Factory::create(),
-            StubFieldContextMapper::flatMap(),
-        ));
+        $this->registerModules();
+        $this->registerRepositories();
+    }
 
-        $this->app->bind(EncryptionHelper::class, fn (Application $application): EncryptionHelper => new EncryptionHelper(
-            $this->getAppSecretKey(),
-        ));
-
-        /**
-         * Repositories
-         */
+    private function registerRepositories(): void
+    {
         $this->app->bind(EndpointHitRepository::class, EloquentEndpointHitRepository::class);
         $this->app->bind(EndpointRepository::class, EloquentEndpointRepository::class);
         $this->app->bind(StubContentRepository::class, EloquentStubContentRepository::class);
     }
 
-    private function getAppSecretKey(): string
+    /**
+     * Auto-loads module service providers named exactly "ModuleServiceProvider.php".
+     * Each must extend Illuminate\Support\ServiceProvider and live in its module root.
+     * Example: app/Modules/Blog/ModuleServiceProvider.php => App\Modules\Blog\ModuleServiceProvider
+     */
+    private function registerModules(): void
     {
-        /**
-         * @var string
-         */
-        $secretKey = Config::get('app.key', '');
-        $decodedKey = base64_decode(explode(':', $secretKey)[1] ?? $secretKey);
-
-        if (empty($decodedKey)) {
-            throw new RuntimeException('APP_KEY is missing for encryption');
+        $modulesPath = implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'Modules', '']);
+        $modules     = array_slice(scandir($modulesPath) ?: [], 2);
+        foreach ($modules as $moduleName) {
+            $moduleServiceProviderPath = $modulesPath . implode(
+                DIRECTORY_SEPARATOR,
+                [$moduleName, "ModuleServiceProvider.php"]
+            );
+            if (file_exists($moduleServiceProviderPath)) {
+                $moduleNamespace = str_replace([$modulesPath, '.php', '/'], ['', '', '\\'], $moduleServiceProviderPath);
+                $serviceProvider = "App\\Modules\\$moduleNamespace";
+                $this->app->register($serviceProvider);
+            }
         }
-
-        return $decodedKey;
     }
 }
