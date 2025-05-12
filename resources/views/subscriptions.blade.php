@@ -51,7 +51,7 @@
                                         </thead>
                                         <tbody class="text-sm text-gray-800">
                                             <tr class="border-t">
-                                                <td class="p-4 font-medium">{{ __('Maximum Endpoints') }}</td>
+                                                <td class="p-4 font-medium">{{ __('Endpoints') }}</td>
                                                 <td class="p-4 text-center">5</td>
                                                 <td class="p-4 text-center">100</td>
                                             </tr>
@@ -61,12 +61,17 @@
                                                 <td class="p-4 text-center">40 Kbs</td>
                                             </tr>
                                             <tr class="border-t">
-                                                <td class="p-4 font-medium">{{ __('Maximum Repeat') }}</td>
+                                                <td class="p-4 font-medium">{{ __('Field repeat') }}</td>
                                                 <td class="p-4 text-center">10</td>
                                                 <td class="p-4 text-center">50</td>
                                             </tr>
                                             <tr class="border-t">
-                                                <td class="p-4 font-medium">{{ __('Data Retention') }}</td>
+                                                <td class="p-4 font-medium">{{ __('Nesting depth') }}</td>
+                                                <td class="p-4 text-center">3</td>
+                                                <td class="p-4 text-center">10</td>
+                                            </tr>
+                                            <tr class="border-t">
+                                                <td class="p-4 font-medium">{{ __('Data retention') }}</td>
                                                 <td class="p-4 text-center">365 {{ __('days') }}</td>
                                                 <td class="p-4 text-center">1825 {{ __('days') }}</td>
                                             </tr>
