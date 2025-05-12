@@ -23,7 +23,7 @@ class ModuleServiceProvider extends ServiceProvider
     #[\Override]
     public function register(): void
     {
-        $this->app->singleton(DataContext::class, fn (): DataContextService => new DataContextService());
+        $this->app->singleton(DataContext::class, DataContextService::class);
         $this->app->bind(StubGenerator::class, ContentGeneratorService::class);
         $this->app->bind(StubStorage::class, ContentStorageService::class);
 
