@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Data;
 
 use App\Models\Data\StubField;
+use App\Support\StrictJson;
 use JsonException;
 use JsonSerializable;
 use PHPUnit\Framework\TestCase;
@@ -68,7 +69,7 @@ class StubFieldTest extends TestCase
                         return ['x' => '🚀', 'n' => '123'];
                     }
                 },
-                json_encode(['x' => '🚀', 'n' => '123'], JSON_THROW_ON_ERROR | JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE)
+                StrictJson::encode(['x' => '🚀', 'n' => '123'])
             ],
             'nested_self' => [
                 new StubField('inner', 'value'),

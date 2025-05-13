@@ -8,6 +8,7 @@ use App\Models\Data\CreateEndpointData;
 use App\Models\Domain\Endpoint as EndpointEntity;
 use App\Models\Eloquent\Endpoint as EndpointModel;
 use App\Repositories\EndpointRepository as EndpointRepositoryInterface;
+use App\Support\StrictJson;
 use JsonSerializable;
 
 class EndpointRepository implements EndpointRepositoryInterface
@@ -72,6 +73,6 @@ class EndpointRepository implements EndpointRepositoryInterface
 
     private function json(JsonSerializable $data): string
     {
-        return json_encode($data, JSON_THROW_ON_ERROR | JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE);
+        return StrictJson::encode($data);
     }
 }

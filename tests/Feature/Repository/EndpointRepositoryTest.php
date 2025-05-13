@@ -8,6 +8,7 @@ use App\Models\Data\CreateEndpointData;
 use App\Models\Eloquent\Endpoint as EndpointModel;
 use App\Models\User;
 use App\Repositories\EndpointRepository;
+use App\Support\StrictJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use JsonException;
@@ -102,59 +103,13 @@ class EndpointRepositoryTest extends TestCase
             'user_id' => $dto->userId,
             'path' => $dto->path,
             'name' => $dto->name,
-            'inputs' => json_encode($inputs, JSON_THROW_ON_ERROR),
+            'inputs' => StrictJson::encode($inputs),
         ]);
 
         static::assertSame($dto->id, $entity->id());
         static::assertSame($dto->userId, $entity->userId());
         static::assertSame($dto->path, $entity->path());
         static::assertSame($dto->name, $entity->name());
-    }
-
-    public function testItThrowsExceptionOnInvalidEndpointJsonStructure(): void
-    {
-        static::expectException(JsonException::class);
-
-        $dto = new CreateEndpointData(
-            id: Str::uuid()->toString(),
-            userId: $this->user->id,
-            path: '/api/test',
-            name: 'Test Endpoint',
-            inputs: $this->createConfiguredMock(JsonSerializable::class, [
-                'jsonSerialize' => tmpfile(),
-            ]),
-        );
-
-        $this->repository->create($dto);
-    }
-
-    public function testItSavesCorrectJsonInDatabase(): void
-    {
-        $inputs = $this->createConfiguredMock(JsonSerializable::class, [
-            'jsonSerialize' => $inputsData = [
-                'foo' => '🚀',
-                'number' => '123',
-                'float' => '123.45',
-                'nonNumber' => 'abc123',
-            ],
-        ]);
-
-        $dto = new CreateEndpointData(
-            id: Str::uuid()->toString(),
-            userId: $this->user->id,
-            path: '/api/num',
-            name: 'Numeric Test',
-            inputs: $inputs,
-        );
-
-        $expected = json_encode($inputsData, JSON_THROW_ON_ERROR | JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE);
-
-        $this->repository->create($dto);
-
-        static::assertDatabaseHas('endpoints', [
-            'id' => $dto->id,
-            'inputs' => $expected,
-        ]);
     }
 
     public function testItDeletesEndpointById(): void

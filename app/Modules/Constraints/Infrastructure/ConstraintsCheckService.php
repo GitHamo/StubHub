@@ -9,6 +9,7 @@ use App\Models\Domain\Stub;
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
 use App\Modules\Constraints\Infrastructure\InputRepeatMapper;
+use App\Support\StrictJson;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 
@@ -31,7 +32,8 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
     #[\Override]
     public function ensureStubSizeWithinLimits(Authorizable $user, Stub $stub): void
     {
-        $size = mb_strlen($stub->toJson(), '8bit');
+        $content = StrictJson::encode($stub);
+        $size = mb_strlen($content, '8bit');
 
         if (! $user->can('createStubOfSize', [User::class, $size])) {
             throw new AuthorizationException('Stub size exceeds allowed limit');

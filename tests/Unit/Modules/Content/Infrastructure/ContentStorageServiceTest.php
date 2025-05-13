@@ -33,7 +33,7 @@ final class ContentStorageServiceTest extends TestCase
     public function testCreatesContentAndReturnsPath(): void
     {
         $stub = $this->createMock(Stub::class);
-        $stub->method('toJson')->willReturn('{"foo":"bar"}');
+        $stub->method('jsonSerialize')->willReturn(["foo" => "bar"]);
 
         $path = 'abcdef';
         $stubName = 'hashed-abcdef';

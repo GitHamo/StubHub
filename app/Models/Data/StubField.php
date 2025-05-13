@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Data;
 
 use App\Api\Data\Serializable\Arrayable;
+use App\Support\StrictJson;
 use JsonSerializable;
 
 readonly class StubField implements Arrayable
@@ -27,7 +28,7 @@ readonly class StubField implements Arrayable
     private function getValue(mixed $value): mixed
     {
         return match(true) {
-            $value instanceof JsonSerializable => json_encode($value, JSON_THROW_ON_ERROR | JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE),
+            $value instanceof JsonSerializable => StrictJson::encode($value),
             $value instanceof StubField => $value->toArray(),
             is_array($value) && array_is_list($value) => array_map([$this, 'getValue'], $value),
             is_object($value) && method_exists($value, 'toArray') => $value->toArray(),
