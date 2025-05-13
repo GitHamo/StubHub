@@ -8,6 +8,7 @@ use App\Models\Data\CreateEndpointData;
 use App\Models\Domain\Endpoint as EndpointEntity;
 use App\Models\Eloquent\Endpoint as EndpointModel;
 use App\Repositories\EndpointRepository as EndpointRepositoryInterface;
+use JsonSerializable;
 
 class EndpointRepository implements EndpointRepositoryInterface
 {
@@ -44,7 +45,7 @@ class EndpointRepository implements EndpointRepositoryInterface
             'user_id' => $endpointDto->userId,
             'path' => $endpointDto->path,
             'name' => $endpointDto->name,
-            'inputs' => $endpointDto->inputs,
+            'inputs' => $this->json($endpointDto->inputs),
         ]);
 
         return $this->mapToEntity($model);
@@ -67,5 +68,10 @@ class EndpointRepository implements EndpointRepositoryInterface
             $model->total_hits ?? 0,
             $model->created_at,
         );
+    }
+
+    private function json(JsonSerializable $data): string
+    {
+        return json_encode($data, JSON_THROW_ON_ERROR | JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE);
     }
 }

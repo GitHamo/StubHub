@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class SingleTest extends TestCase
 {
-    public function testIsSerializable(): void
+    public function testIsSerializableIntoArray(): void
     {
         $context = StubFieldContext::cases()[mt_rand(0, count(StubFieldContext::cases()) - 1)];
 
@@ -18,6 +18,6 @@ class SingleTest extends TestCase
 
         $actual = new Single($key, $context);
 
-        static::assertSame($expected, $actual->jsonSerialize());
+        static::assertSame($expected, $actual->toArray());
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Data;
 
+use JsonSerializable;
+
 readonly class CreateEndpointData
 {
     public function __construct(
@@ -11,7 +13,7 @@ readonly class CreateEndpointData
         public int $userId,
         public string $name,
         public string $path,
-        public string $inputs,
+        public JsonSerializable $inputs,
     ) {
     }
 }

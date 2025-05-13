@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class NestedTest extends TestCase
 {
-    public function testIsSerializable(): void
+    public function testIsSerializableIntoArray(): void
     {
         $context = StubFieldContext::cases()[mt_rand(0, count(StubFieldContext::cases()) - 1)];
 
@@ -34,6 +34,6 @@ class NestedTest extends TestCase
             $repeat,
         );
 
-        static::assertSame($expected, $actual->jsonSerialize());
+        static::assertSame($expected, $actual->toArray());
     }
 }

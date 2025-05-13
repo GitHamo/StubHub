@@ -13,7 +13,7 @@ use Traversable;
 /**
  * @implements \IteratorAggregate<int, \App\Models\Data\Input>
  */
-class Structure implements IteratorAggregate, JsonSerializable
+readonly class Structure implements IteratorAggregate, JsonSerializable
 {
     /**
      * @param \App\Models\Data\Input[] $inputs
@@ -41,11 +41,6 @@ class Structure implements IteratorAggregate, JsonSerializable
     #[\Override]
     public function jsonSerialize(): array
     {
-        return array_map(fn (Input $input): array => $input->jsonSerialize(), $this->inputs);
-    }
-
-    public function toJson(): string
-    {
-        return json_encode($this->jsonSerialize(), JSON_THROW_ON_ERROR);
+        return array_map(fn (Input $input): array => $input->toArray(), $this->inputs);
     }
 }

@@ -43,7 +43,7 @@ final readonly class EndpointsManager
 
         $path = $this->contentStorage->create($stub);
 
-        $dto = new CreateEndpointData($uuid, $user->id, $name, $path, $inputs->toJson());
+        $dto = new CreateEndpointData($uuid, $user->id, $name, $path, $inputs);
 
         return $this->endpointRepository->create($dto);
     }

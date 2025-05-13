@@ -9,12 +9,12 @@ use PHPUnit\Framework\TestCase;
 
 class InputTest extends TestCase
 {
-    public function testIsSerializable(): void
+    public function testIsSerializableIntoArray(): void
     {
         $expected = ['key' => $key = 'foo'];
 
         $actual = new class ($key) extends Input {};
 
-        static::assertSame($expected, $actual->jsonSerialize());
+        static::assertSame($expected, $actual->toArray());
     }
 }

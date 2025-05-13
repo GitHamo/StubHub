@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Data\Input;
 
-use App\Models\Data\Input;
+use App\Models\Data\Input as StructureInput;
 
-class Nested extends Input
+class Nested extends StructureInput
 {
     /**
-     * @param Input[] $inputs
+     * @param StructureInput[] $inputs
      */
     public function __construct(
         string $key,
@@ -19,14 +19,11 @@ class Nested extends Input
         parent::__construct($key);
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     #[\Override]
-    public function jsonSerialize(): array
+    public function toArray(): array
     {
-        return parent::jsonSerialize() + [
-            'inputs' => array_map(fn (Input $input): array => $input->jsonSerialize(), $this->inputs),
+        return parent::toArray() + [
+            'inputs' => array_map(fn (StructureInput $input): array => $input->toArray(), $this->inputs),
             'repeat' => $this->repeat,
         ];
     }

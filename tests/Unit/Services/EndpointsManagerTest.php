@@ -16,6 +16,7 @@ use App\Modules\Structure\Domain\InputMapper;
 use App\Modules\Structure\Domain\Structure;
 use App\Repositories\EndpointRepository;
 use App\Services\EndpointsManager;
+use ArrayIterator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
@@ -47,19 +48,19 @@ final class EndpointsManagerTest extends TestCase
         $user = User::factory()->make(['id' => $userId = 123]);
         $name = 'Test Endpoint';
         $inputsData = [['foo' => 'bar']];
-        $inputs = [
-            $this->createMock(Input::class),
-            $this->createMock(Input::class),
-        ];
-        $structure = Structure::create(...$inputs);
-
+        $structureMock = $this->createConfiguredMock(Structure::class, [
+            'getIterator' => new ArrayIterator($inputs = [
+                $this->createMock(Input::class),
+                $this->createMock(Input::class),
+            ]),
+        ]);
         $stubMock = $this->createMock(Stub::class);
         $expected = $this->createMock(Endpoint::class);
 
         $this->inputMapper->expects(self::once())
             ->method('map')
             ->with(static::identicalTo($inputsData))
-            ->willReturn($structure);
+            ->willReturn($structureMock);
 
         $this->constraintsCheck->expects(self::once())
             ->method('ensureUserCanCreateEndpoint')
@@ -107,7 +108,7 @@ final class EndpointsManagerTest extends TestCase
                         userId: $userId,
                         path: $path,
                         name: $name,
-                        inputs: json_encode($structure, JSON_THROW_ON_ERROR),
+                        inputs: $structureMock,
                     ),
                 ),
             )
