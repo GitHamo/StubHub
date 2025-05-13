@@ -37,9 +37,9 @@ final class ContentGeneratorServiceTest extends TestCase
         $input = new Single('username', self::getRandomContext());
         $stub = $this->service->generate($input);
 
-        $expected = new Stub([
+        $expected = Stub::create(
             new StubField('username', 'fake-value')
-        ]);
+        );
 
         static::assertEquals($expected, $stub);
     }
@@ -53,11 +53,11 @@ final class ContentGeneratorServiceTest extends TestCase
 
         $stub = $this->service->generate($nested);
 
-        $expected = new Stub([
-            new StubField('user', new Stub([
+        $expected = Stub::create(
+            new StubField('user', Stub::create(
                 new StubField('email', 'value')
-            ]))
-        ]);
+            ))
+        );
 
         static::assertEquals($expected, $stub);
     }
@@ -71,16 +71,16 @@ final class ContentGeneratorServiceTest extends TestCase
 
         $stub = $this->service->generate($nested);
 
-        $expected = new Stub([
+        $expected = Stub::create(
             new StubField('contacts', [
-                new Stub([
+                Stub::create(
                     new StubField('email', 'value')
-                ]),
-                new Stub([
+                ),
+                Stub::create(
                     new StubField('email', 'value')
-                ]),
+                ),
             ])
-        ]);
+        );
 
         static::assertEquals($expected, $stub);
     }

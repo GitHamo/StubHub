@@ -27,8 +27,8 @@ final readonly class ContentGeneratorService implements StubGenerator
 
     private function mapStub(Input ...$inputs): Stub
     {
-        return new Stub(
-            array_map(
+        return Stub::create(
+            ...array_map(
                 fn (Input $input): StubField => $this->mapField($input),
                 $inputs
             )
