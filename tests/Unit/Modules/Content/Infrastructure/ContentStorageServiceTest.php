@@ -43,7 +43,9 @@ final class ContentStorageServiceTest extends TestCase
 
         $this->repository->expects($this->once())
             ->method('create')
-            ->with(new CreateStubContentData($stubName, '{"foo":"bar"}'));
+            ->with(
+                static::equalTo(new CreateStubContentData($stubName, $stub)),
+            );
 
         $expected = $path;
         $actual = $this->service->create($stub);

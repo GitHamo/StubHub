@@ -8,7 +8,6 @@ use App\Models\Data\CreateStubContentData;
 use App\Models\Domain\Stub;
 use App\Modules\Content\Domain\StubStorage;
 use App\Repositories\Eloquent\StubContentRepository;
-use App\Support\StrictJson;
 
 final readonly class ContentStorageService implements StubStorage
 {
@@ -31,9 +30,8 @@ final readonly class ContentStorageService implements StubStorage
     {
         $path = $this->encryptionHelper->random(self::PATH_LENGTH);
         $stubName = $this->getStubName($path);
-        $content = StrictJson::encode($stub);
 
-        $this->repository->create(new CreateStubContentData($stubName, $content));
+        $this->repository->create(new CreateStubContentData($stubName, $stub));
 
         return $path;
     }

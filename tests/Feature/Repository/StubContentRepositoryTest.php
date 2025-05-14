@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Repository;
 
 use App\Models\Data\CreateStubContentData;
+use App\Models\Domain\Stub;
 use App\Models\Eloquent\StubContent as StubContentModel;
 use App\Repositories\StubContentRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,9 +26,15 @@ class StubContentRepositoryTest extends TestCase
 
     public function testItCreatesStubContent(): void
     {
+        $stub = $this->createConfiguredMock(Stub::class, [
+            'jsonSerialize' => ['foo' => 'bar'],
+        ]);
+
+        $content = '{"foo":"bar"}';
+
         $dto = new CreateStubContentData(
             name: $filename = 'example.json',
-            content: $content = '{"key":"value"}'
+            stub: $stub,
         );
 
         $entity = $this->repository->create($dto);

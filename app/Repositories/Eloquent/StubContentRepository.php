@@ -8,6 +8,7 @@ use App\Models\Data\CreateStubContentData;
 use App\Models\Domain\StubContent as StubContentEntity;
 use App\Models\Eloquent\StubContent as StubContentModel;
 use App\Repositories\StubContentRepository as StubContentRepositoryInterface;
+use App\Support\StrictJson;
 
 class StubContentRepository implements StubContentRepositoryInterface
 {
@@ -24,7 +25,7 @@ class StubContentRepository implements StubContentRepositoryInterface
     {
         $model = StubContentModel::create([
             'filename' => $dto->name,
-            'content' => $dto->content,
+            'content' => StrictJson::encode($dto->stub),
         ]);
 
         return $this->mapToEntity($model);
