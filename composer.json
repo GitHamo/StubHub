@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.75",
         "larastan/larastan": "^3.3",
         "laravel/breeze": "^2.3",
         "laravel/pail": "^1.2.2",
@@ -68,6 +69,12 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
+        ],
+        "sniff": [
+            "./vendor/bin/php-cs-fixer fix -vvv --dry-run --show-progress=dots"
+        ],
+        "lint": [
+            "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots"
         ]
     },
     "extra": {
