@@ -21,7 +21,7 @@
                 </button>
             </div>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             {{-- Key input --}}
             <div>
@@ -32,16 +32,16 @@
             {{-- Repeat input - Only show if has nested groups --}}
             <div class="repeat-container mb-4" style="display:none;">
                 <label class="block text-gray-700 mb-1">Repeat</label>
-                <input 
-                    type="number" 
-                    name="__PREFIX__[repeat]" 
+                <input
+                    type="number"
+                    name="__PREFIX__[repeat]"
                     class="repeat-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value="0"
                     min="0"
                     disabled
                 >
             </div>
-            
+
             {{-- Category select --}}
             <div class="category-container">
                 <label class="block text-gray-700 mb-1">Category</label>
@@ -51,7 +51,7 @@
                 </select>
             </div>
         </div>
-        
+
         {{-- Context select --}}
         <div class="context-container mb-4">
             <label class="block text-gray-700 mb-1">Context</label>
@@ -59,12 +59,12 @@
                 <option value="">Select category first</option>
             </select>
         </div>
-        
+
         {{-- Nested groups container --}}
         <div class="nested-groups-container mt-4 pl-4 border-l-2 border-gray-300 space-y-3">
             {{-- Nested groups will be added here --}}
         </div>
-        
+
         {{-- Add nested group button --}}
         <div class="mt-3">
             <button type="button" class="add-nested-btn px-3 py-1 bg-indigo-500 text-white text-sm rounded hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">

@@ -13,6 +13,13 @@ StubHub is a Laravel application designed to streamline the process of generatin
 
 ---
 
+## Requirements
+
+- PHP: 8.3+
+- [pre-commit](https://pre-commit.com/)
+
+---
+
 ## Installation
 
 1. Clone the repository:

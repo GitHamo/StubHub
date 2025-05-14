@@ -39,7 +39,7 @@
                                         {{ __('Subscriptions') }}
                                     </h2>
                                 </div>
-                            
+
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full table-auto border border-gray-200">
                                         <thead>

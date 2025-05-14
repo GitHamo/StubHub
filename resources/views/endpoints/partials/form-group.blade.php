@@ -19,36 +19,36 @@
             </button>
         </div>
     </div>
-    
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {{-- Key input --}}
         <div>
             <label class="block text-gray-700 mb-1">Key</label>
-            <input 
-                type="text" 
-                name="{{ $fieldPrefix ?? "inputs[$index]" }}[key]" 
+            <input
+                type="text"
+                name="{{ $fieldPrefix ?? "inputs[$index]" }}[key]"
                 class="key-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value="{{ $input['key'] ?? '' }}"
             >
         </div>
-    
+
         {{-- Repeat input - Only show if has nested groups --}}
         <div class="repeat-container mb-4" style="{{ isset($input['nested']) && count($input['nested']) > 0 ? '' : 'display:none;' }}">
             <label class="block text-gray-700 mb-1">Repeat</label>
-            <input 
-                type="number" 
-                name="{{ $fieldPrefix ?? "inputs[$index]" }}[repeat]" 
+            <input
+                type="number"
+                name="{{ $fieldPrefix ?? "inputs[$index]" }}[repeat]"
                 class="repeat-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value="{{ $input['repeat'] ?? 0 }}"
                 min="0"
                 {{ isset($input['nested']) && count($input['nested']) > 0 ? '' : 'disabled' }}
             >
         </div>
-        
+
         {{-- Category select - Only show if no nested groups --}}
         <div class="category-container" style="{{ isset($input['nested']) && count($input['nested']) > 0 ? 'display:none;' : '' }}">
             <label class="block text-gray-700 mb-1">Category</label>
-            <select 
+            <select
                 name="{{ $fieldPrefix ?? "inputs[$index]" }}[category]"
                 class="category-select w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 {{ isset($input['nested']) && count($input['nested']) > 0 ? 'disabled' : '' }}
@@ -66,8 +66,8 @@
     {{-- Context select - Only show if no nested groups --}}
     <div class="context-container mb-4" style="{{ isset($input['nested']) && count($input['nested']) > 0 ? 'display:none;' : '' }}">
         <label class="block text-gray-700 mb-1">Context</label>
-        <select 
-            name="{{ $fieldPrefix ?? "inputs[$index]" }}[context]" 
+        <select
+            name="{{ $fieldPrefix ?? "inputs[$index]" }}[context]"
             class="context-select w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             {{ isset($input['nested']) && count($input['nested']) > 0 ? 'disabled' : '' }}
         >
@@ -81,7 +81,7 @@
             @endif
         </select>
     </div>
-    
+
     {{-- Nested groups container --}}
     <div class="nested-groups-container mt-4 pl-4 border-l-2 border-gray-300 space-y-3">
         @if(isset($input['nested']))
@@ -97,7 +97,7 @@
             @endforeach
         @endif
     </div>
-    
+
     {{-- Add nested group button --}}
     <div class="mt-3">
         <button type="button" class="add-nested-btn px-3 py-1 bg-indigo-500 text-white text-sm rounded hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">

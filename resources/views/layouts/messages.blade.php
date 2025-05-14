@@ -1,5 +1,5 @@
 @if($errors->any())
-    <div class="p-6">    
+    <div class="p-6">
         <x-messages.errors :message="Session::get('success')" :errors="$errors" />
     </div>
 @endif
