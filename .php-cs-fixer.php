@@ -14,6 +14,7 @@ $rules = [
     'blank_line_before_statement' => [
         'statements' => ['return']
     ],
+    'blank_lines_before_namespace' => true,
     'single_space_around_construct' => true,
     'control_structure_braces' => true,
     'braces_position' => true,
@@ -111,7 +112,6 @@ $rules = [
     'short_scalar_cast' => true,
     'simplified_null_return' => false,
     'single_blank_line_at_eof' => true,
-    'single_blank_line_before_namespace' => true,
     'single_class_element_per_statement' => true,
     'single_import_per_statement' => true,
     'single_line_after_imports' => true,

@@ -16,7 +16,7 @@ final class EndpointFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\App\Models\Eloquent\Endpoint>
+     * @var class-string<Endpoint>
      */
     protected $model = Endpoint::class;
 

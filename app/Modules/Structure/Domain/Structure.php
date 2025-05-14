@@ -16,7 +16,7 @@ use Traversable;
 readonly class Structure implements IteratorAggregate, JsonSerializable
 {
     /**
-     * @param \App\Models\Data\StructureInput[] $inputs
+     * @param StructureInput[] $inputs
      */
     private function __construct(
         private array $inputs,

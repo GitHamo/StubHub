@@ -16,7 +16,7 @@ final class EndpointHitFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\App\Models\Eloquent\EndpointHit>
+     * @var class-string<EndpointHit>
      */
     protected $model = EndpointHit::class;
 

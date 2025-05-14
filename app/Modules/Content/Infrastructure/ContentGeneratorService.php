@@ -37,7 +37,7 @@ final readonly class ContentGeneratorService implements StubGenerator
 
     private function mapField(StructureInput $input): StubField
     {
-        return match(true) {
+        return match (true) {
             $input instanceof Nested => $this->mapNestedField($input),
             $input instanceof Single => $this->mapSingleField($input),
             default => throw new InvalidArgumentException(

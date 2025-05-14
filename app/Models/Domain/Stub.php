@@ -16,7 +16,7 @@ use Traversable;
 readonly class Stub implements IteratorAggregate, JsonSerializable
 {
     /**
-     * @param \App\Models\Data\StubField[] $fields
+     * @param StubField[] $fields
      */
     private function __construct(
         private array $fields,

@@ -69,7 +69,7 @@ class Endpoint extends Model
     /**
      * Get the user that owns the endpoint.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\User, $this>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -77,7 +77,7 @@ class Endpoint extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\Eloquent\EndpointHit, $this>
+     * @return HasMany<EndpointHitModel, $this>
      */
     public function hits(): HasMany
     {

@@ -27,9 +27,9 @@ readonly class StubField implements Arrayable
 
     private function getValue(mixed $value): mixed
     {
-        return match(true) {
+        return match (true) {
             $value instanceof JsonSerializable => StrictJson::encode($value),
-            $value instanceof StubField => $value->toArray(),
+            $value instanceof self => $value->toArray(),
             is_array($value) && array_is_list($value) => array_map([$this, 'getValue'], $value),
             is_object($value) && method_exists($value, 'toArray') => $value->toArray(),
             default => $value,
