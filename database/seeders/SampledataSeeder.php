@@ -21,6 +21,7 @@ class SampledataSeeder extends Seeder
     private const int SIGNATURES_COUNT = 10;
     private const int HITS_COUNT_MIN = 1;
     private const int HITS_COUNT_MAX = 100;
+
     /**
      * Seed the application's database.
      */
@@ -28,6 +29,7 @@ class SampledataSeeder extends Seeder
     {
         if (App::isProduction()) {
             $this->command->info('SampledataSeeder skipped: not in local environment.');
+
             return;
         }
 
@@ -50,8 +52,8 @@ class SampledataSeeder extends Seeder
             foreach ($paths as $path) {
                 $stubName = hash_hmac('sha256', $path, Config::get('app.key'));
                 $stubContent = [
-                    "message" => "This is stub file $path.",
-                    "created_at" => now(),
+                    'message' => "This is stub file $path.",
+                    'created_at' => now(),
                 ];
                 StubContent::create([
                     'name' => $stubName,

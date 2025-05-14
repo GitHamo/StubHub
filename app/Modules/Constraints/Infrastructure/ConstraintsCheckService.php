@@ -24,7 +24,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
     #[\Override]
     public function ensureUserCanCreateEndpoint(Authorizable $user): void
     {
-        if (! $user->can('createEndpoint', User::class)) {
+        if (!$user->can('createEndpoint', User::class)) {
             throw new AuthorizationException('User cannot create more endpoints');
         }
     }
@@ -35,7 +35,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
         $content = StrictJson::encode($stub);
         $size = mb_strlen($content, '8bit');
 
-        if (! $user->can('createStubOfSize', [User::class, $size])) {
+        if (!$user->can('createStubOfSize', [User::class, $size])) {
             throw new AuthorizationException('Stub size exceeds allowed limit');
         }
     }
@@ -45,7 +45,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
     {
         $maxRepeat = $this->calculateMaxRepeat(...$inputs);
 
-        if (! $user->can('createStubWithRepeat', [User::class, $maxRepeat])) {
+        if (!$user->can('createStubWithRepeat', [User::class, $maxRepeat])) {
             throw new AuthorizationException('Stub object repeat exceeds allowed limit');
         }
     }
@@ -55,7 +55,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
     {
         $maxDepth = $this->calculateMaxDepth(...$inputs);
 
-        if (! $user->can('createStubWithDepth', [User::class, $maxDepth])) {
+        if (!$user->can('createStubWithDepth', [User::class, $maxDepth])) {
             throw new AuthorizationException('Stub object depth exceeds allowed limit');
         }
     }

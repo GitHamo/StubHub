@@ -25,8 +25,10 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+
     use Notifiable;
 
     /**
@@ -90,7 +92,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\Eloquent\Endpoint, $this>
+     * @return HasMany<Endpoint, $this>
      */
     public function endpoints(): HasMany
     {

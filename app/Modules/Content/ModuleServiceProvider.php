@@ -27,7 +27,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->bind(StubGenerator::class, ContentGeneratorService::class);
         $this->app->bind(StubStorage::class, ContentStorageService::class);
 
-        /**
+        /*
          * class dependencies
          */
         $this->app->bind(ContentFaker::class, fn (): ContentFaker => new ContentFaker(

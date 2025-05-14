@@ -13,7 +13,7 @@ class InputTest extends TestCase
     {
         $expected = ['key' => $key = 'foo'];
 
-        $actual = new class ($key) extends StructureInput {};
+        $actual = new class($key) extends StructureInput {};
 
         static::assertSame($expected, $actual->toArray());
     }

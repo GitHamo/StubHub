@@ -57,7 +57,6 @@ class InputDepthMapperTest extends TestCase
         static::assertSame(9, $actual);
     }
 
-
     private static function getRandomContext(): StubFieldContext
     {
         return StubFieldContext::cases()[random_int(0, count(StubFieldContext::cases()) - 1)];

@@ -59,8 +59,8 @@ class TestSampleUserSeeder extends Seeder
         foreach ($paths as $path) {
             $stubName = hash_hmac('sha256', $path, Config::get('app.key'));
             $stubContent = [
-                "message" => "This is stub file $path.",
-                "created_at" => now(),
+                'message' => "This is stub file $path.",
+                'created_at' => now(),
             ];
             StubContent::create([
                 'name' => $stubName,

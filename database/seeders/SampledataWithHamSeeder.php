@@ -18,10 +18,11 @@ class SampledataWithHamSeeder extends Seeder
     private const int USERS_COUNT = 10;
     private const int ENDPOINTS_PER_USER_COUNT_MIN = 1;
     private const int ENDPOINTS_PER_USER_COUNT_MAX = 3;
-    private const string STUB_EXTENSION = "ham";
+    private const string STUB_EXTENSION = 'ham';
     private const int SIGNATURES_COUNT = 10;
     private const int HITS_COUNT_MIN = 1;
     private const int HITS_COUNT_MAX = 100;
+
     /**
      * Seed the application's database.
      */
@@ -29,6 +30,7 @@ class SampledataWithHamSeeder extends Seeder
     {
         if (!App::environment('local')) {
             $this->command->info('SampledataSeeder skipped: not in local environment.');
+
             return;
         }
 
@@ -60,8 +62,8 @@ class SampledataWithHamSeeder extends Seeder
                 $stubName = hash_hmac('sha256', $path, Config::get('app.key'));
                 $stubPath = storage_path("app/private/stubs/$stubName." . self::STUB_EXTENSION);
                 $stubContent = [
-                    "message" => "This is stub file $path.",
-                    "created_at" => now(),
+                    'message' => "This is stub file $path.",
+                    'created_at' => now(),
                 ];
                 if (!File::exists($stubPath)) {
                     File::put($stubPath, json_encode($stubContent, JSON_PRETTY_PRINT));

@@ -30,4 +30,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/endpoints/{endpoint}/download', [EndpointController::class, 'download'])->name('endpoints.download');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

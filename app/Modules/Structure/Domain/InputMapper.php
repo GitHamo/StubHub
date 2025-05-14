@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Structure\Domain;
 
-use App\Modules\Structure\Domain\Structure;
-
 interface InputMapper
 {
     /**

@@ -97,7 +97,7 @@ final class ContentGeneratorServiceTest extends TestCase
     public function testCreatesThrowsForNegativeRepeat(): void
     {
         static::expectException(InvalidArgumentException::class);
-        static::expectExceptionMessage("Repeat must be 0 or greater.");
+        static::expectExceptionMessage('Repeat must be 0 or greater.');
 
         $child = new Single('foo', self::getRandomContext());
         $badNested = new Nested('bad', [$child], -2);
@@ -110,7 +110,7 @@ final class ContentGeneratorServiceTest extends TestCase
         static::expectException(InvalidArgumentException::class);
         static::expectExceptionMessageMatches('/Unsupported input class:/');
 
-        $unknownInput = new class ('test') extends StructureInput {};
+        $unknownInput = new class('test') extends StructureInput {};
 
         $this->service->generate($unknownInput);
     }

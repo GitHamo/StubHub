@@ -51,7 +51,7 @@ class CreateEndpointRequest extends FormRequest
                         return $fail('The key must be a string at each level.');
                     }
 
-                    /** @var array<string, array<string, mixed>> $nestedValue */
+                    /* @var array<string, array<string, mixed>> $nestedValue */
 
                     // Recursive validation
                     $this->validateNestedLevel($nestedValue);
@@ -72,7 +72,7 @@ class CreateEndpointRequest extends FormRequest
     }
 
     /**
-     * Recursive function to handle deep nested levels
+     * Recursive function to handle deep nested levels.
      *
      * @param array<string, array<string, mixed>> $nestedValue
      */
@@ -85,8 +85,8 @@ class CreateEndpointRequest extends FormRequest
             if (isset($value['context'])) {
                 // If context is present, ensure no nested is present at the same level
                 if (isset($value['nested'])) {
-                    /** @phpstan-ignore-next-line */
-                    throw new ValidationException("Context and nested cannot exist at the same level.");
+                    /* @phpstan-ignore-next-line */
+                    throw new ValidationException('Context and nested cannot exist at the same level.');
                 }
             } elseif (isset($value['nested'])) {
                 // If nested exists, context must not exist

@@ -12,14 +12,14 @@ final readonly class DataContextService implements DataContext
     #[\Override]
     public function flatMap(): array
     {
-        return $this->metadataMap("method", "type");
+        return $this->metadataMap('method', 'type');
     }
 
     #[\Override]
     public function categoryMap(): array
     {
         $map = [];
-        $metadata = $this->metadataMap("label", "input");
+        $metadata = $this->metadataMap('label', 'input');
 
         foreach (self::CATEGORY_MAP as $category => $cases) {
             $map[$category] = [
@@ -49,7 +49,7 @@ final readonly class DataContextService implements DataContext
         $constants = array_map(fn (string $key): string => 'CASE_' . strtoupper($key), $constants);
 
         foreach (StubFieldContext::cases() as $case) {
-            /** @phpstan-ignore-next-line */
+            /* @phpstan-ignore-next-line */
             $map[$case->value] = array_map(fn (string $key): string => constant(self::class . '::' . $key . '_' . $case->name), $constants);
         }
 
@@ -57,7 +57,7 @@ final readonly class DataContextService implements DataContext
     }
 
     /**
-     * TECHDOX
+     * TECHDOX.
      *
      * To add new context:
      * - Add new case to StubFieldContext enum

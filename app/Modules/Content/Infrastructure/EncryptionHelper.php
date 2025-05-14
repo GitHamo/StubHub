@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Content\Infrastructure;
 
-use Illuminate\Support\Facades\Config;
-use RuntimeException;
-
 class EncryptionHelper
 {
     public function __construct(

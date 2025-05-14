@@ -82,8 +82,8 @@ class EndpointControllerTest extends TestCase
         $decodedKey = base64_decode(explode(':', $secretKey)[1] ?? $secretKey);
         $stubName = hash_hmac('sha256', $endpointPath, $decodedKey);
         $stubContent = [
-            "message" => "This is stub file $endpointPath.",
-            "created_at" => now(),
+            'message' => "This is stub file $endpointPath.",
+            'created_at' => now(),
         ];
         StubContent::create([
             'filename' => $stubName,

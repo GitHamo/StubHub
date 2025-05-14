@@ -246,7 +246,7 @@ class StructureInputMapperTest extends TestCase
                 new Single('foo-field1', $contextOne),
                 new Nested('foo-field2', [
                     new Single('foo-field3', $contextTwo),
-                    ], 0)
+                    ], 0),
             ], 0),
             // barOutput
             new Nested('bar', [

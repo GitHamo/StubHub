@@ -31,32 +31,32 @@ class InputRepeatMapperTest extends TestCase
                 new Nested('bar', [
                     new Nested('baz', [
                         new Single('baz', $context),
-                    ], 123)
+                    ], 123),
                 ], 0),
                 new Nested('bar', [
                     new Nested('baz', [
                         new Single('baz', $context),
-                    ], 321)
+                    ], 321),
                 ], 456),
                 new Nested('bar', [
                     new Nested('baz', [
                         new Single('baz', $context),
-                    ], 654)
+                    ], 654),
                 ], 789),
                 new Nested('bar', [
                     new Nested('baz', [
                         new Single('baz', $context),
-                    ], 987)
+                    ], 987),
                 ], $expected),
                 new Nested('bar', [
                     new Nested('baz', [
                         new Single('baz', $context),
-                    ], 10)
+                    ], 10),
                 ], 20),
                 new Nested('bar', [
                     new Nested('baz', [
                         new Single('baz', $context),
-                    ], 15)
+                    ], 15),
                 ], 2),
             ], 0),
         ];

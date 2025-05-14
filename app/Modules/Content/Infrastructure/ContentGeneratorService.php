@@ -53,7 +53,7 @@ final readonly class ContentGeneratorService implements StubGenerator
         }
 
         if ($input->repeat < 0) {
-            throw new InvalidArgumentException("Repeat must be 0 or greater.");
+            throw new InvalidArgumentException('Repeat must be 0 or greater.');
         }
 
         $value = $input->repeat

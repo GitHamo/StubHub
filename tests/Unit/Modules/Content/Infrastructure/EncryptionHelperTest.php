@@ -19,6 +19,7 @@ final class EncryptionHelperTest extends TestCase
 
         $this->helper = new EncryptionHelper(self::ENCRYPTION_KEY);
     }
+
     public function testHashStringValue(): void
     {
         $value = 'bar';

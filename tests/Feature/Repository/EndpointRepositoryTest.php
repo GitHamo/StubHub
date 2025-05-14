@@ -11,7 +11,6 @@ use App\Repositories\EndpointRepository;
 use App\Support\StrictJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use JsonException;
 use JsonSerializable;
 use Tests\TestCase;
 

@@ -26,7 +26,7 @@ class StubFieldTest extends TestCase
 
     public function testThrowsExceptionIncaseOfInvalidJsonSerializableValue(): void
     {
-        $invalid = new class () implements JsonSerializable {
+        $invalid = new class() implements JsonSerializable {
             public function jsonSerialize(): mixed
             {
                 return tmpfile(); // resource is not serializable
@@ -63,17 +63,17 @@ class StubFieldTest extends TestCase
             'array_of_mixed' => [[null, 1, 'foo'], [null, 1, 'foo']],
 
             'json_serializable' => [
-                new class () implements JsonSerializable {
+                new class() implements JsonSerializable {
                     public function jsonSerialize(): mixed
                     {
                         return ['x' => '🚀', 'n' => '123'];
                     }
                 },
-                StrictJson::encode(['x' => '🚀', 'n' => '123'])
+                StrictJson::encode(['x' => '🚀', 'n' => '123']),
             ],
             'nested_self' => [
                 new StubField('inner', 'value'),
-                ['key' => 'inner', 'value' => 'value']
+                ['key' => 'inner', 'value' => 'value'],
             ],
             'nested_array_self' => [
                 [
@@ -86,7 +86,7 @@ class StubFieldTest extends TestCase
                 ],
             ],
             'object_arrayable' => [
-                new class () {
+                new class() {
                     public function toArray(): array
                     {
                         return ['foo' => 'bar'];

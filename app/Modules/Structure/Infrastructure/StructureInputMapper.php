@@ -8,17 +8,17 @@ use App\Enums\StubFieldContext;
 use App\Models\Data\Input\Nested;
 use App\Models\Data\Input\Single;
 use App\Models\Data\StructureInput;
-use App\Modules\Structure\Domain\Structure;
 use App\Modules\Structure\Domain\InputMapper;
+use App\Modules\Structure\Domain\Structure;
 use InvalidArgumentException;
 
 final readonly class StructureInputMapper implements InputMapper
 {
     private const string ERROR_MESSAGE_MISSING_MANDATORY_FIELD = 'Missing mandatory input field: "%s"';
-    private const string INPUT_KEY = "key";
-    private const string INPUT_CONTEXT = "context";
-    private const string INPUT_NESTED = "nested";
-    private const string INPUT_REPEAT = "repeat";
+    private const string INPUT_KEY = 'key';
+    private const string INPUT_CONTEXT = 'context';
+    private const string INPUT_NESTED = 'nested';
+    private const string INPUT_REPEAT = 'repeat';
 
     #[\Override]
     public function map(array $rawData): Structure
@@ -30,7 +30,7 @@ final readonly class StructureInputMapper implements InputMapper
 
     /**
      * @param array<string, mixed> $inputData
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return Single|Nested
      */
     private function mapInput(array $inputData): StructureInput
@@ -57,7 +57,7 @@ final readonly class StructureInputMapper implements InputMapper
             throw new InvalidArgumentException('Input nested data must be an array');
         }
 
-        /** @var list<array<string, mixed>> $nested */
+        /* @var list<array<string, mixed>> $nested */
         return $this->mapNestedInput($key, $nested, $repeat);
     }
 

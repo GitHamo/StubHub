@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Endpoint extends Model
 {
     use HasUuids;
+
     /** @use HasFactory<\Database\Factories\EndpointFactory> */
     use HasFactory;
     /**

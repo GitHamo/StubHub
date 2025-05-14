@@ -40,7 +40,6 @@ final class DataContextServiceTest extends TestCase
         static::assertCount($totalInputs, $enumCases, 'Sum of inputs in categoryMap() should match enum case count');
     }
 
-
     public function testShouldReturnFlatMapWithAllEnumCases(): void
     {
         $map = $this->service->flatMap();
@@ -49,7 +48,7 @@ final class DataContextServiceTest extends TestCase
         static::assertEqualsCanonicalizing($expectedKeys, array_keys($map));
 
         foreach ($map as $values) {
-            static::assertCount(2, $values, "Each flatMap entry must contain 2 values [method, type]");
+            static::assertCount(2, $values, 'Each flatMap entry must contain 2 values [method, type]');
             // @phpstan-ignore-next-line
             static::assertIsString($values[0]);
             // @phpstan-ignore-next-line

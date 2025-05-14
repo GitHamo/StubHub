@@ -48,7 +48,7 @@ class EndpointHit extends Model
         parent::boot();
 
         // Laravel to auto-manage only `created_at`
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         static::creating(fn (Model $model): DateTimeImmutable => ($model->created_at ??= now())->toDateTimeImmutable());
     }
 
