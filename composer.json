@@ -70,6 +70,9 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
+        "test-coverage": [
+            "@php -d xdebug.mode=coverage ./vendor/bin/phpunit -c phpunit.xml tests --coverage-html coverage_report/"
+        ],
         "sniff": [
             "./vendor/bin/php-cs-fixer fix -vvv --dry-run --show-progress=dots"
         ],
