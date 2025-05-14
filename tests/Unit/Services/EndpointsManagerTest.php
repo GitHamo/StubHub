@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Models\Data\CreateEndpointData;
-use App\Models\Data\Input;
+use App\Models\Data\StructureInput;
 use App\Models\Domain\Endpoint;
 use App\Models\Domain\Stub;
 use App\Models\User;
@@ -50,8 +50,8 @@ final class EndpointsManagerTest extends TestCase
         $inputsData = [['foo' => 'bar']];
         $structureMock = $this->createConfiguredMock(Structure::class, [
             'getIterator' => new ArrayIterator($inputs = [
-                $this->createMock(Input::class),
-                $this->createMock(Input::class),
+                $this->createMock(StructureInput::class),
+                $this->createMock(StructureInput::class),
             ]),
         ]);
         $stubMock = $this->createMock(Stub::class);

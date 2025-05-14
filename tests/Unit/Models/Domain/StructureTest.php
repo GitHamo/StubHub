@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Domain;
 
-use App\Models\Data\Input;
+use App\Models\Data\StructureInput;
 use App\Modules\Structure\Domain\Structure;
 use PHPUnit\Framework\TestCase;
 
@@ -12,8 +12,8 @@ final class StructureTest extends TestCase
 {
     public function testCreatesStructureFromInput(): void
     {
-        $input1 = $this->createMock(Input::class);
-        $input2 = $this->createMock(Input::class);
+        $input1 = $this->createMock(StructureInput::class);
+        $input2 = $this->createMock(StructureInput::class);
         $actual = Structure::create($input1, $input2);
 
         static::assertInstanceOf(Structure::class, $actual);
@@ -31,7 +31,7 @@ final class StructureTest extends TestCase
 
     public function testIsIterable(): void
     {
-        $input = $this->createMock(Input::class);
+        $input = $this->createMock(StructureInput::class);
         $structure = Structure::create($input);
         $actual = iterator_to_array($structure);
 
@@ -41,7 +41,7 @@ final class StructureTest extends TestCase
 
     public function testIsJsonSerializable(): void
     {
-        $input = $this->createConfiguredMock(Input::class, [
+        $input = $this->createConfiguredMock(StructureInput::class, [
             'toArray' => $inputData = ['key' => 'foo'],
         ]);
         $structure = Structure::create($input);

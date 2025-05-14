@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Data;
 
-use App\Models\Data\Input;
+use App\Models\Data\StructureInput;
 use PHPUnit\Framework\TestCase;
 
 class InputTest extends TestCase
@@ -13,7 +13,7 @@ class InputTest extends TestCase
     {
         $expected = ['key' => $key = 'foo'];
 
-        $actual = new class ($key) extends Input {};
+        $actual = new class ($key) extends StructureInput {};
 
         static::assertSame($expected, $actual->toArray());
     }

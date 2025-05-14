@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Modules\Constraints\Infrastructure;
 
-use App\Models\Data\Input;
 use App\Models\Data\Input\Nested;
+use App\Models\Data\StructureInput;
 
 readonly class InputDepthMapper
 {
-    public function highest(Input ...$inputs): int
+    public function highest(StructureInput ...$inputs): int
     {
         $max = 0;
 
@@ -23,7 +23,7 @@ readonly class InputDepthMapper
         return $max;
     }
 
-    private function calculateDepth(Input $input, int $current = 1): int
+    private function calculateDepth(StructureInput $input, int $current = 1): int
     {
         if (!$input instanceof Nested) {
             return $current;

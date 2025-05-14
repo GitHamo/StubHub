@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Constraints\Infrastructure;
 
-use App\Models\Data\Input;
+use App\Models\Data\StructureInput;
 use App\Models\Domain\Stub;
 use App\Models\User;
 use App\Modules\Constraints\Domain\ConstraintsCheck;
@@ -41,7 +41,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
     }
 
     #[\Override]
-    public function ensureInputRepeatWithinLimit(Authorizable $user, Input ...$inputs): void
+    public function ensureInputRepeatWithinLimit(Authorizable $user, StructureInput ...$inputs): void
     {
         $maxRepeat = $this->calculateMaxRepeat(...$inputs);
 
@@ -51,7 +51,7 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
     }
 
     #[\Override]
-    public function ensureInputDepthWithinLimit(User $user, Input ...$inputs): void
+    public function ensureInputDepthWithinLimit(User $user, StructureInput ...$inputs): void
     {
         $maxDepth = $this->calculateMaxDepth(...$inputs);
 
@@ -60,12 +60,12 @@ readonly class ConstraintsCheckService implements ConstraintsCheck
         }
     }
 
-    private function calculateMaxRepeat(Input ...$inputs): int
+    private function calculateMaxRepeat(StructureInput ...$inputs): int
     {
         return $this->inputRepeatMapper->max(...$inputs);
     }
 
-    private function calculateMaxDepth(Input ...$inputs): int
+    private function calculateMaxDepth(StructureInput ...$inputs): int
     {
         return $this->inputDepthMapper->highest(...$inputs);
     }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\Content\Infrastructure;
 
 use App\Enums\StubFieldContext;
-use App\Models\Data\Input;
 use App\Models\Data\Input\Nested;
 use App\Models\Data\Input\Single;
+use App\Models\Data\StructureInput;
 use App\Models\Data\StubField;
 use App\Models\Domain\Stub;
 use App\Modules\Content\Infrastructure\ContentFaker;
@@ -110,7 +110,7 @@ final class ContentGeneratorServiceTest extends TestCase
         static::expectException(InvalidArgumentException::class);
         static::expectExceptionMessageMatches('/Unsupported input class:/');
 
-        $unknownInput = new class ('test') extends Input {};
+        $unknownInput = new class ('test') extends StructureInput {};
 
         $this->service->generate($unknownInput);
     }

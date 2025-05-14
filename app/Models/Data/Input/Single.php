@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Data\Input;
 
 use App\Enums\StubFieldContext;
-use App\Models\Data\Input as StructureInput;
+use App\Models\Data\StructureInput as StructureInput;
 
 class Single extends StructureInput
 {

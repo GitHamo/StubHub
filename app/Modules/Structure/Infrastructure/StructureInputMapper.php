@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Structure\Infrastructure;
 
 use App\Enums\StubFieldContext;
-use App\Models\Data\Input;
 use App\Models\Data\Input\Nested;
 use App\Models\Data\Input\Single;
+use App\Models\Data\StructureInput;
 use App\Modules\Structure\Domain\Structure;
 use App\Modules\Structure\Domain\InputMapper;
 use InvalidArgumentException;
@@ -33,7 +33,7 @@ final readonly class StructureInputMapper implements InputMapper
      * @throws \InvalidArgumentException
      * @return Single|Nested
      */
-    private function mapInput(array $inputData): Input
+    private function mapInput(array $inputData): StructureInput
     {
         if (false === $this->isNestedInput($inputData)) {
             return $this->mapSingleInput($inputData);

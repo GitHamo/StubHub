@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Modules\Structure\Domain;
 
-use App\Models\Data\Input;
+use App\Models\Data\StructureInput;
 use ArrayIterator;
 use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
 
 /**
- * @implements \IteratorAggregate<int, \App\Models\Data\Input>
+ * @implements \IteratorAggregate<int, \App\Models\Data\StructureInput>
  */
 readonly class Structure implements IteratorAggregate, JsonSerializable
 {
     /**
-     * @param \App\Models\Data\Input[] $inputs
+     * @param \App\Models\Data\StructureInput[] $inputs
      */
     private function __construct(
         private array $inputs,
     ) {
     }
 
-    public static function create(Input ...$inputs): self
+    public static function create(StructureInput ...$inputs): self
     {
         return new self($inputs);
     }
@@ -41,6 +41,6 @@ readonly class Structure implements IteratorAggregate, JsonSerializable
     #[\Override]
     public function jsonSerialize(): array
     {
-        return array_map(fn (Input $input): array => $input->toArray(), $this->inputs);
+        return array_map(fn (StructureInput $input): array => $input->toArray(), $this->inputs);
     }
 }

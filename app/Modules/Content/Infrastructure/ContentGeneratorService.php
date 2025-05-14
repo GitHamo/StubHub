@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Content\Infrastructure;
 
-use App\Models\Data\Input;
 use App\Models\Data\Input\Nested;
 use App\Models\Data\Input\Single;
+use App\Models\Data\StructureInput;
 use App\Models\Data\StubField;
 use App\Models\Domain\Stub;
 use App\Modules\Content\Domain\StubGenerator;
@@ -20,22 +20,22 @@ final readonly class ContentGeneratorService implements StubGenerator
     }
 
     #[\Override]
-    public function generate(Input ...$inputs): Stub
+    public function generate(StructureInput ...$inputs): Stub
     {
         return $this->mapStub(...$inputs);
     }
 
-    private function mapStub(Input ...$inputs): Stub
+    private function mapStub(StructureInput ...$inputs): Stub
     {
         return Stub::create(
             ...array_map(
-                fn (Input $input): StubField => $this->mapField($input),
+                fn (StructureInput $input): StubField => $this->mapField($input),
                 $inputs
             )
         );
     }
 
-    private function mapField(Input $input): StubField
+    private function mapField(StructureInput $input): StubField
     {
         return match(true) {
             $input instanceof Nested => $this->mapNestedField($input),

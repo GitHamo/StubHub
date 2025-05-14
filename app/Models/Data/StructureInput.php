@@ -6,7 +6,7 @@ namespace App\Models\Data;
 
 use App\Api\Data\Serializable\Arrayable;
 
-abstract class Input implements Arrayable
+abstract class StructureInput implements Arrayable
 {
     public function __construct(
         public string $key,
