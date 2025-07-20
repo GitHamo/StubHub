@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/endpoints', [EndpointController::class, 'store'])->name('endpoints.store');
     Route::delete('/endpoints/{endpoint}', [EndpointController::class, 'delete'])->name('endpoints.destroy');
     Route::get('/endpoints/{endpoint}/download', [EndpointController::class, 'download'])->name('endpoints.download');
+    Route::post('/endpoints/{endpoint}/regenerate', [EndpointController::class, 'regenerate'])
+        ->name('endpoints.regenerate')
+        ->middleware('throttle:2,1');
 });
 
 require __DIR__ . '/auth.php';

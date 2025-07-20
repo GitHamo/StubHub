@@ -77,6 +77,24 @@ final class EndpointController extends Controller
         ]);
     }
 
+    public function regenerate(EloquentEndpoint $endpoint): RedirectResponse
+    {
+        try {
+            $this->authorize('regenerate', $endpoint);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            abort(404);
+        }
+
+        $this->endpointsManager->regenerateEndpointContent($endpoint->toEntity());
+
+        $endpointUrl = route('traffic.serve', ['endpoint' => $endpoint->id]);
+        $successMessage = sprintf('Endpoint regenerated successfully. <a href="%s" class="bg-green-500 text-white text-xs py-1 px-3 uppercase font-semibold rounded" target="_blank">Visit</a>', $endpointUrl);
+
+        session()->flash('success', $successMessage);
+
+        return redirect()->route('dashboard');
+    }
+
     public function create(): View
     {
         $categories = DataContextFacade::categoryMap();
@@ -93,9 +111,9 @@ final class EndpointController extends Controller
         $user = $request->user();
 
         /** @var string */
-        $name = $request->validated('name');
+        $name = $request->input('name');
         /** @var list<array<string, mixed>> */
-        $inputs = $request->validated('inputs', []);
+        $inputs = $request->input('inputs');
 
         $this->endpointsManager->createEndpoint($uuid, $user, $name, $inputs);
 

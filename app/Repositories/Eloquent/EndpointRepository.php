@@ -65,6 +65,7 @@ class EndpointRepository implements EndpointRepositoryInterface
             $model->user_id,
             $model->path,
             $model->name,
+            $model->inputs,
             $model->unique_hits ?? 0,
             $model->total_hits ?? 0,
             $model->created_at,
