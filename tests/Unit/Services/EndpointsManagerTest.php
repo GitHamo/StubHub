@@ -157,4 +157,44 @@ final class EndpointsManagerTest extends TestCase
 
         $this->service->deleteEndpoint($id, $path);
     }
+
+    public function testUsesComponentsToRegenerateEndpointContent(): void
+    {
+        $inputsData = [['type' => 'string']];
+        $inputsJson = '[{"type":"string"}]';
+        $path = 'path/to/stub.json';
+
+        $endpointMock = $this->createConfiguredMock(Endpoint::class, [
+            'inputs' => $inputsJson,
+            'path' => $path,
+        ]);
+
+        $structureInputs = [
+            $this->createMock(StructureInput::class),
+        ];
+        $structureMock = $this->createConfiguredMock(Structure::class, [
+            'getIterator' => new ArrayIterator($structureInputs),
+        ]);
+
+        $stubMock = $this->createMock(Stub::class);
+
+        $this->inputMapper->expects(self::once())
+            ->method('map')
+            ->with(static::equalTo($inputsData))
+            ->willReturn($structureMock);
+
+        $this->contentGenerator->expects(self::once())
+            ->method('generate')
+            ->with(...$structureInputs)
+            ->willReturn($stubMock);
+
+        $this->contentStorage->expects(self::once())
+            ->method('update')
+            ->with(
+                static::identicalTo($path),
+                static::identicalTo($stubMock)
+            );
+
+        $this->service->regenerateEndpointContent($endpointMock);
+    }
 }

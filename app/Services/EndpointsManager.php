@@ -12,6 +12,7 @@ use App\Modules\Content\Domain\StubGenerator as ContentGenerator;
 use App\Modules\Content\Domain\StubStorage as ContentStorage;
 use App\Modules\Structure\Domain\InputMapper;
 use App\Repositories\EndpointRepository;
+use App\Support\StrictJson;
 
 final readonly class EndpointsManager
 {
@@ -60,5 +61,16 @@ final readonly class EndpointsManager
     {
         $this->endpointRepository->deleteById($uuid);
         $this->contentStorage->delete($path);
+    }
+
+    public function regenerateEndpointContent(Endpoint $endpoint): void
+    {
+        $inputs = StrictJson::decode($endpoint->inputs());
+        $structure = $this->inputMapper->map($inputs);
+
+        $path = $endpoint->path();
+        $stub = $this->contentGenerator->generate(...$structure);
+
+        $this->contentStorage->update($path, $stub);
     }
 }
