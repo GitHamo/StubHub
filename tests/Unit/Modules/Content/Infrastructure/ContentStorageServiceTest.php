@@ -9,7 +9,7 @@ use App\Models\Domain\Stub;
 use App\Models\Domain\StubContent;
 use App\Modules\Content\Infrastructure\ContentStorageService;
 use App\Modules\Content\Infrastructure\EncryptionHelper;
-use App\Repositories\Eloquent\StubContentRepository;
+use App\Repositories\StubContentRepository;
 use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

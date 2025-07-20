@@ -7,7 +7,7 @@ namespace App\Modules\Content\Infrastructure;
 use App\Models\Data\SaveStubContentData;
 use App\Models\Domain\Stub;
 use App\Modules\Content\Domain\StubStorage;
-use App\Repositories\Eloquent\StubContentRepository;
+use App\Repositories\StubContentRepository;
 
 final readonly class ContentStorageService implements StubStorage
 {
