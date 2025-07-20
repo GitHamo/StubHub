@@ -6,7 +6,7 @@ namespace App\Models\Data;
 
 use App\Models\Domain\Stub;
 
-readonly class CreateStubContentData
+readonly class SaveStubContentData
 {
     public function __construct(
         public string $name,

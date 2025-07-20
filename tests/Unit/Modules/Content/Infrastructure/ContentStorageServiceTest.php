@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\Content\Infrastructure;
 
-use App\Models\Data\CreateStubContentData;
+use App\Models\Data\SaveStubContentData;
 use App\Models\Domain\Stub;
 use App\Models\Domain\StubContent;
 use App\Modules\Content\Infrastructure\ContentStorageService;
@@ -44,7 +44,7 @@ final class ContentStorageServiceTest extends TestCase
         $this->repository->expects($this->once())
             ->method('create')
             ->with(
-                static::equalTo(new CreateStubContentData($stubName, $stub)),
+                static::equalTo(new SaveStubContentData($stubName, $stub)),
             );
 
         $expected = $path;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Content\Infrastructure;
 
-use App\Models\Data\CreateStubContentData;
+use App\Models\Data\SaveStubContentData;
 use App\Models\Domain\Stub;
 use App\Modules\Content\Domain\StubStorage;
 use App\Repositories\Eloquent\StubContentRepository;
@@ -31,7 +31,7 @@ final readonly class ContentStorageService implements StubStorage
         $path = $this->encryptionHelper->random(self::PATH_LENGTH);
         $stubName = $this->getStubName($path);
 
-        $this->repository->create(new CreateStubContentData($stubName, $stub));
+        $this->repository->create(new SaveStubContentData($stubName, $stub));
 
         return $path;
     }

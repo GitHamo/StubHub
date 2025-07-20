@@ -13,6 +13,7 @@ class Endpoint
         private readonly int $userId,
         private readonly string $path,
         private readonly string $name,
+        private readonly string $inputs,
         private readonly int $uniqueHits,
         private readonly int $totalHits,
         private readonly DateTimeImmutable $createdAt,
@@ -37,6 +38,11 @@ class Endpoint
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function inputs(): string
+    {
+        return $this->inputs;
     }
 
     public function uniqueHits(): int

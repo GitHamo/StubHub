@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Repository;
 
-use App\Models\Data\CreateStubContentData;
+use App\Models\Data\SaveStubContentData;
 use App\Models\Domain\Stub;
 use App\Models\Eloquent\StubContent as StubContentModel;
 use App\Repositories\StubContentRepository;
@@ -32,7 +32,7 @@ class StubContentRepositoryTest extends TestCase
 
         $content = '{"foo":"bar"}';
 
-        $dto = new CreateStubContentData(
+        $dto = new SaveStubContentData(
             name: $filename = 'example.json',
             stub: $stub,
         );
@@ -46,6 +46,39 @@ class StubContentRepositoryTest extends TestCase
 
         static::assertSame($filename, $entity->name());
         static::assertSame($content, $entity->content());
+    }
+
+    public function testItUpdatesStubContent(): void
+    {
+        $filename = 'toupdate.json';
+        $initialContent = '{"status":"initial"}';
+        $updatedContent = '{"status":"updated"}';
+
+        StubContentModel::create([
+            'filename' => $filename,
+            'content' => $initialContent,
+        ]);
+
+        $stub = $this->createConfiguredMock(Stub::class, [
+            'jsonSerialize' => ['status' => 'updated'],
+        ]);
+
+        $dto = new \App\Models\Data\SaveStubContentData(
+            name: $filename,
+            stub: $stub,
+        );
+
+        $this->repository->update($dto);
+
+        static::assertDatabaseHas('stub_contents', [
+            'filename' => $filename,
+            'content' => $updatedContent,
+        ]);
+
+        static::assertDatabaseMissing('stub_contents', [
+            'filename' => $filename,
+            'content' => $initialContent,
+        ]);
     }
 
     public function testItFindsStubContent(): void

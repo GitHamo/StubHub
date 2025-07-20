@@ -15,6 +15,7 @@ class EndpointTest extends TestCase
     private int $userId;
     private string $path;
     private string $name;
+    private string $inputs;
     private int $uniqueHits;
     private int $totalHits;
     private DateTimeImmutable $createdAt;
@@ -28,6 +29,7 @@ class EndpointTest extends TestCase
             $this->userId = 123,
             $this->path = '/path',
             $this->name = 'name',
+            $this->inputs = 'input',
             $this->uniqueHits = 1,
             $this->totalHits = 1,
             $this->createdAt = new DateTimeImmutable(),
@@ -52,6 +54,11 @@ class EndpointTest extends TestCase
     public function testHasAccessorToName(): void
     {
         static::assertSame($this->name, $this->endpoint->name());
+    }
+
+    public function testHasAccessorToInputs(): void
+    {
+        static::assertSame($this->inputs, $this->endpoint->inputs());
     }
 
     public function testHasAccessorToUniqueHits(): void

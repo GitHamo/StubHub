@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Data\CreateStubContentData;
+use App\Models\Data\SaveStubContentData;
 use App\Models\Domain\StubContent as StubContentEntity;
 use App\Models\Eloquent\StubContent as StubContentModel;
 use App\Repositories\StubContentRepository as StubContentRepositoryInterface;
@@ -21,11 +21,23 @@ class StubContentRepository implements StubContentRepositoryInterface
     }
 
     #[\Override]
-    public function create(CreateStubContentData $dto): StubContentEntity
+    public function create(SaveStubContentData $dto): StubContentEntity
     {
         $model = StubContentModel::create([
             'filename' => $dto->name,
-            'content' => StrictJson::encode($dto->stub),
+            'content' => StrictJson::encode($dto->stub->jsonSerialize()),
+        ]);
+
+        return $this->mapToEntity($model);
+    }
+
+    #[\Override]
+    public function update(SaveStubContentData $dto): StubContentEntity
+    {
+        $model = $this->findByName($dto->name);
+
+        $model->update([
+            'content' => StrictJson::encode($dto->stub->jsonSerialize()),
         ]);
 
         return $this->mapToEntity($model);

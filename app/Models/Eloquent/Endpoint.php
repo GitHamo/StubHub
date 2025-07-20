@@ -91,6 +91,7 @@ class Endpoint extends Model
             $this->user_id,
             $this->path,
             $this->name,
+            $this->inputs,
             $this->unique_hits ?? 0,
             $this->total_hits ?? 0,
             $this->created_at,
