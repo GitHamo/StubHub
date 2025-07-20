@@ -45,7 +45,7 @@ class StubTest extends TestCase
             'toArray' => $fieldData = ['key' => 'foo'],
         ]);
         $stub = Stub::create($field);
-        $expected = json_encode([$fieldData], JSON_THROW_ON_ERROR);
+        $expected = json_encode($fieldData, JSON_THROW_ON_ERROR);
         $actual = json_encode($stub, JSON_THROW_ON_ERROR);
 
         static::assertJson($actual);

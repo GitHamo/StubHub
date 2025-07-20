@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Data;
 
 use App\Models\Data\StubField;
-use App\Support\StrictJson;
 use JsonException;
 use JsonSerializable;
 use PHPUnit\Framework\TestCase;
@@ -15,8 +14,7 @@ class StubFieldTest extends TestCase
     public function testIsSerializableIntoArray(): void
     {
         $expected = [
-            'key' => $key = 'foo',
-            'value' => $value = 'bar',
+            $key = 'foo' => $value = 'bar',
         ];
 
         $actual = new StubField($key, $value);
@@ -24,14 +22,10 @@ class StubFieldTest extends TestCase
         static::assertSame($expected, $actual->toArray());
     }
 
-    public function testThrowsExceptionIncaseOfInvalidJsonSerializableValue(): void
+    public function testThrowsExceptionOnUnserializableObject(): void
     {
-        $invalid = new class() implements JsonSerializable {
-            public function jsonSerialize(): mixed
-            {
-                return tmpfile(); // resource is not serializable
-            }
-        };
+        $invalid = new \stdClass();
+        $invalid->file = tmpfile(); // resource is not serializable
 
         $field = new StubField('bad', $invalid);
 
@@ -48,20 +42,26 @@ class StubFieldTest extends TestCase
             $value
         );
 
-        static::assertEquals($expected, $actual->toArray()['value']);
+        static::assertEquals($expected, $actual->toArray()['foo']);
     }
 
     public static function valueDataProvider(): array
     {
         return [
             // primitives
-            'string' => ['foo', 'foo'],
+            'string' => ['bar', 'bar'],
             'int' => [1, 1],
             'float' => [1.2, 1.2],
             'bool' => [true, true],
             'null' => [null, null],
             'array_of_mixed' => [[null, 1, 'foo'], [null, 1, 'foo']],
-
+            'array_associative' => [[
+                'foo' => 'bar',
+                'baz' => 'qux',
+            ], [
+                'foo' => 'bar',
+                'baz' => 'qux',
+            ]],
             'json_serializable' => [
                 new class() implements JsonSerializable {
                     public function jsonSerialize(): mixed
@@ -69,11 +69,11 @@ class StubFieldTest extends TestCase
                         return ['x' => '🚀', 'n' => '123'];
                     }
                 },
-                StrictJson::encode(['x' => '🚀', 'n' => '123']),
+                ['x' => '🚀', 'n' => '123'],
             ],
             'nested_self' => [
                 new StubField('inner', 'value'),
-                ['key' => 'inner', 'value' => 'value'],
+                ['inner' => 'value'],
             ],
             'nested_array_self' => [
                 [
@@ -81,8 +81,8 @@ class StubFieldTest extends TestCase
                     new StubField('inner-two', 'value-two'),
                 ],
                 [
-                    ['key' => 'inner-one', 'value' => 'value-one'],
-                    ['key' => 'inner-two', 'value' => 'value-two'],
+                    ['inner-one' => 'value-one'],
+                    ['inner-two' => 'value-two'],
                 ],
             ],
             'object_arrayable' => [
@@ -96,7 +96,7 @@ class StubFieldTest extends TestCase
             ],
             'object_unknown' => [
                 new \stdClass(),
-                new \stdClass(),
+                '{}',
             ],
         ];
     }

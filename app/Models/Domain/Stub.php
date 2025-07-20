@@ -41,6 +41,12 @@ readonly class Stub implements IteratorAggregate, JsonSerializable
     #[\Override]
     public function jsonSerialize(): array
     {
-        return array_map(fn (StubField $field): array => $field->toArray(), $this->fields);
+        $results = [];
+
+        foreach ($this->fields as $field) {
+            $results += $field->toArray();
+        }
+
+        return $results;
     }
 }
