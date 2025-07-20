@@ -76,7 +76,10 @@ final readonly class ContentGeneratorService implements StubGenerator
      */
     private function mapNestedFieldWithRepeat(Nested $nested): array
     {
-        return array_fill(0, $nested->repeat, $this->mapStub(...$nested->inputs));
+        return array_map(
+            fn () => $this->mapStub(...$nested->inputs),
+            range(1, $nested->repeat)
+        );
     }
 
     private function createField(string $key, mixed $value): StubField

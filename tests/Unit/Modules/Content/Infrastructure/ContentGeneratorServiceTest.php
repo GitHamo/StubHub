@@ -64,20 +64,23 @@ final class ContentGeneratorServiceTest extends TestCase
 
     public function testCreatesStubWithRepeatedNestedInput(): void
     {
-        $this->faker->method('fake')->willReturn('value');
-
+        $count = 2;
         $child = new Single('email', self::getRandomContext());
-        $nested = new Nested('contacts', [$child], 2);
+        $nested = new Nested('contacts', [$child], $count);
+
+        $this->faker->expects(static::exactly($count))
+            ->method('fake')
+            ->willReturnOnConsecutiveCalls('value1', 'value2');
 
         $stub = $this->service->generate($nested);
 
         $expected = Stub::create(
             new StubField('contacts', [
                 Stub::create(
-                    new StubField('email', 'value')
+                    new StubField('email', 'value1')
                 ),
                 Stub::create(
-                    new StubField('email', 'value')
+                    new StubField('email', 'value2')
                 ),
             ])
         );
