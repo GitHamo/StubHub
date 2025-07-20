@@ -24,6 +24,16 @@
           <path d="M5 5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7H5V5z"/>
         </svg>
       </a>
+      <!-- Regenerate Button -->
+      <button
+        onclick="document.getElementById('regenerate-form-{{ $item->id() }}').submit();"
+        class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase text-white bg-gradient-to-t from-blue-600 to-blue-400 border border-blue-500 hover:border-blue-700 rounded"
+      >
+        Regenerate
+      </button>
+      <form id="regenerate-form-{{ $item->id() }}" action="{{ route('endpoints.regenerate', $item->id()) }}" method="POST" class="hidden">
+        @csrf
+      </form>
       <!-- View Button -->
       <a
         href="{{ route('traffic.serve', $item->id()) }}"
