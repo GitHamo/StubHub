@@ -29,17 +29,27 @@ final readonly class ContentStorageService implements StubStorage
     public function create(Stub $stub): string
     {
         $path = $this->encryptionHelper->random(self::PATH_LENGTH);
-        $stubName = $this->getStubName($path);
 
-        $this->repository->create(new SaveStubContentData($stubName, $stub));
+        $this->repository->create($this->createSaveStubContentData($path, $stub));
 
         return $path;
+    }
+
+    #[\Override]
+    public function update(string $path, Stub $stub): void
+    {
+        $this->repository->update($this->createSaveStubContentData($path, $stub));
     }
 
     #[\Override]
     public function delete(string $path): void
     {
         $this->repository->delete($this->getStubName($path));
+    }
+
+    private function createSaveStubContentData(string $path, Stub $stub): SaveStubContentData
+    {
+        return new SaveStubContentData($this->getStubName($path), $stub);
     }
 
     private function getStubName(string $path): string

@@ -15,5 +15,7 @@ interface StubStorage
      */
     public function create(Stub $stub): string;
 
+    public function update(string $path, Stub $stub): void;
+
     public function delete(string $path): void;
 }

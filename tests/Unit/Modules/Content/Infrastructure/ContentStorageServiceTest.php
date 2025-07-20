@@ -53,6 +53,25 @@ final class ContentStorageServiceTest extends TestCase
         static::assertSame($expected, $actual);
     }
 
+    public function testUpdatesContent(): void
+    {
+        $stub = $this->createMock(Stub::class);
+        $stub->method('jsonSerialize')->willReturn(['foo' => 'bar']);
+
+        $path = 'abcdef';
+        $stubName = 'hashed-abcdef';
+
+        $this->encryptionHelper->method('hash')->with($path)->willReturn($stubName);
+
+        $this->repository->expects($this->once())
+            ->method('update')
+            ->with(
+                static::equalTo(new SaveStubContentData($stubName, $stub)),
+            );
+
+        $this->service->update($path, $stub);
+    }
+
     public function testGetsContentByHashedPath(): void
     {
         $path = 'xyz123';
