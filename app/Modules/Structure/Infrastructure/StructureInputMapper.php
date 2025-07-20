@@ -17,7 +17,7 @@ final readonly class StructureInputMapper implements InputMapper
     private const string ERROR_MESSAGE_MISSING_MANDATORY_FIELD = 'Missing mandatory input field: "%s"';
     private const string INPUT_KEY = 'key';
     private const string INPUT_CONTEXT = 'context';
-    private const string INPUT_NESTED = 'nested';
+    private const string INPUT_NESTED = 'inputs';
     private const string INPUT_REPEAT = 'repeat';
 
     #[\Override]

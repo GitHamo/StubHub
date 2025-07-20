@@ -94,4 +94,31 @@ class CreateEndpointRequest extends FormRequest
             }
         }
     }
+
+    /**
+     * Handle a passed validation attempt.
+     */
+    protected function passedValidation(): void
+    {
+        $inputs = $this->input('inputs');
+
+        $recursivelyRename = function (array $items) use (&$recursivelyRename): array {
+            foreach ($items as &$item) {
+                if (is_array($item)) {
+                    $item = $recursivelyRename($item);
+                }
+            }
+
+            if (array_key_exists('nested', $items)) {
+                $items['inputs'] = $items['nested'];
+                unset($items['nested']);
+            }
+
+            return $items;
+        };
+
+        $this->merge([
+            'inputs' => array_map($recursivelyRename, $inputs),
+        ]);
+    }
 }
