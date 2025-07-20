@@ -46,7 +46,7 @@ class StructureInputMapperTest extends TestCase
         $input = [
             [
                 'key' => 'foo',
-                'nested' => 'not-an-array',
+                'inputs' => 'not-an-array',
             ],
         ];
 
@@ -61,7 +61,7 @@ class StructureInputMapperTest extends TestCase
         $input = [
             [
                 'key' => 'foo',
-                'nested' => [
+                'inputs' => [
                     [
                         'key' => 'bar',
                         'context' => StubFieldContext::cases()[0],
@@ -116,7 +116,7 @@ class StructureInputMapperTest extends TestCase
                 [
                     [
                         'key' => 'foo',
-                        'nested' => [
+                        'inputs' => [
                             [
                                 'key' => 'bar',
                                 'context' => $contextOne->value,
@@ -152,7 +152,7 @@ class StructureInputMapperTest extends TestCase
                 [
                     [
                         'key' => 'foo',
-                        'nested' => [
+                        'inputs' => [
                             [
                                 'key' => 'foo-field',
                                 'context' => $contextFour->value,
@@ -192,14 +192,14 @@ class StructureInputMapperTest extends TestCase
 
         $foo = [
             'key' => 'foo',
-            'nested' => [
+            'inputs' => [
                 [
                     'key' => 'foo-field1',
                     'context' => $contextOne->value,
                 ],
                 [
                     'key' => 'foo-field2',
-                    'nested' => [
+                    'inputs' => [
                         [
                             'key' => 'foo-field3',
                             'context' => $contextTwo->value,
@@ -210,21 +210,21 @@ class StructureInputMapperTest extends TestCase
         ];
         $bar = [
             'key' => 'bar',
-            'nested' => [
+            'inputs' => [
                 [
                     'key' => 'bar-field1',
                     'context' => $contextThree->value,
                 ],
                 [
                     'key' => 'bar-field2',
-                    'nested' => [
+                    'inputs' => [
                         [
                             'key' => 'bar-field3',
                             'context' => $contextFour->value,
                         ],
                         [
                             'key' => 'bar-field4',
-                            'nested' => [
+                            'inputs' => [
                                 [
                                     'key' => 'bar-field5',
                                     'context' => $contextFive->value,
